@@ -1,9 +1,9 @@
-package application;
+package bugtracker.application;
 	
 import java.io.IOException;
 import java.sql.SQLException;
 
-import model.*;
+import bugtracker.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
