@@ -3,6 +3,7 @@
  */
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.UserType;
@@ -13,9 +14,8 @@ import model.UserType;
  */
 public interface UserTypeDao {
 	public List<UserType> getAllUserTypes();
-	public UserType getUserType(int ut_id);
-	public String findUserType(int ut_id);
-	public void addUserType(UserType user_type);
-	public void updateUserType(UserType user_type);
-	public void deleteUserType(int ut_id);
+	public UserType findUserType(int ut_id);
+	public void addUserType(UserType user_type) throws SQLException;
+	public void updateUserType(int ut_id, String user_type) throws SQLException;
+	public void deleteUserType(int ut_id) throws SQLException;
 }

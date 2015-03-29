@@ -20,16 +20,20 @@ public class ProjectDaoFactory implements ProjectDao {
 	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
 	List<Project> projects;
 	
-	private static final String SQL_QUERY = "select * from projects";
-	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */	
 	public ProjectDaoFactory() throws SQLException {
 		projects = new ArrayList<Project>();
-		db.setResultSet(db.getStmt().executeQuery(SQL_QUERY));
+		db.setSelect_command("`projects`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			Project pro = new Project(rs.getInt("p_id"),rs.getString("project_name"));
 			projects.add(pro);
 		}
+		rs.close();
 	}
 	
 	/* (non-Javadoc)
@@ -41,45 +45,41 @@ public class ProjectDaoFactory implements ProjectDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.ProjectDao#getProject(int)
-	 */
-	@Override
-	public Project getProject(int p_id) {
-		return projects.get(p_id);
-	}
-
-	/* (non-Javadoc)
 	 * @see model.dao.ProjectDao#findProject(int)
 	 */
 	@Override
-	public String findProject(int p_id) {
-		return projects.get(p_id).getProject();
+	public Project findProject(int p_id) {
+		return projects.get(p_id);
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.ProjectDao#addProject(model.Project)
 	 */
 	@Override
-	public void addProject(Project project) {
+	public void addProject(Project project) throws SQLException {
 		projects.add(project);
-		// TODO create the SQL insert command
+		db.setInsert_command("`projects` (`project`) VALUES (" + project.getProjectName() + ");");
+		db.executeInsertCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.ProjectDao#updateProject(model.Project)
 	 */
 	@Override
-	public void updateProject(Project project) {
-		// TODO Auto-generated method stub
+	public void updateProject(int p_id, String project) throws SQLException{
+		findProject(p_id).setProjectName(project);
+		db.setUpdate_command("`projects` SET `project` = " + project + " WHERE `p_id` = " + p_id + ";");
+		db.executeUpdateCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.ProjectDao#deleteProject(model.Project)
 	 */
 	@Override
-	public void deleteProject(int p_id) {
+	public void deleteProject(int p_id) throws SQLException {
 		projects.remove(p_id);
-		// TODO create the SQL delete command
+		db.setDelete_command("`projects` WHERE p_id = " + p_id + ";");
+		db.executeDeleteCommand();
 	}
 
 }

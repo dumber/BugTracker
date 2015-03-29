@@ -3,6 +3,7 @@
  */
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Severity;
@@ -13,9 +14,8 @@ import model.Severity;
  */
 public interface SeverityDao {
 	public List<Severity> getAllSeverities();	
-	public Severity getSeverity(int s_id);
-	public String findSeverity(int s_id);
-	public void addSeverity(Severity severity);
-	public void updateSeverity(Severity severity);
-	public void deleteSeverity(int s_id);
+	public Severity findSeverity(int s_id);
+	public void addSeverity(Severity severity) throws SQLException;
+	public void updateSeverity(int s_id, String severity) throws SQLException;
+	public void deleteSeverity(int s_id) throws SQLException;
 }

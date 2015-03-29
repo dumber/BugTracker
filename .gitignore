@@ -1,2 +1,8 @@
 /bin/
 /help/
+/dumps/
+/database/delete_helper.sql
+/database/insert_helper.sql
+/database/select_helper.sql
+/database/update_helper.sql
+.gitignore

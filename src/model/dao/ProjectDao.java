@@ -3,6 +3,7 @@
  */
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Project;
@@ -13,9 +14,8 @@ import model.Project;
  */
 public interface ProjectDao {
 	public List<Project> getAllProjects();	
-	public Project getProject(int p_id);
-	public String findProject(int p_id);
-	public void addProject(Project project);
-	public void updateProject(Project project);
-	public void deleteProject(int p_id);
+	public Project findProject(int p_id);
+	public void addProject(Project project) throws SQLException;
+	public void updateProject(int p_id, String project) throws SQLException;
+	public void deleteProject(int p_id) throws SQLException;
 }

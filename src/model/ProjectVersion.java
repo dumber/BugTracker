@@ -7,27 +7,42 @@ package model;
 public class ProjectVersion {
 	private int project_version_id;
 	private String version;
-	
-	public ProjectVersion(int project_version_id, String version) {
-		super();
-		this.project_version_id = project_version_id;
+
+	/**
+	 * @param pv_id
+	 * @param version
+	 */
+	public ProjectVersion(int pv_id, String version) {
+		this.project_version_id = pv_id;
 		this.version = version;
 	}
 
-	public int getProject_version_id() {
+	/**
+	 * @return the project_version_id
+	 */
+	public int getProjectVersion_id() {
 		return project_version_id;
 	}
-	
-	public void setProject_version_id(int project_version_id) {
-		this.project_version_id = project_version_id;
+
+	/**
+	 * @param pv_id the project_version_id to set
+	 */
+	public void setProjectVersion_id(int pv_id) {
+		this.project_version_id = pv_id;
 	}
-	
+
+	/**
+	 * @return the version
+	 */
 	public String getVersion() {
 		return version;
 	}
-	
+
+	/**
+	 * @param version the version to set
+	 */
 	public void setVersion(String version) {
 		this.version = version;
-	}	
-
+	}
+	
 }

@@ -20,16 +20,20 @@ public class DetectionPhaseDaoFactory implements DetectionPhaseDao {
 	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
 	List<DetectionPhase> detection_phases;
 	
-	private static final String SQL_QUERY = "select * from detection_phases";
-	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
 	public DetectionPhaseDaoFactory() throws SQLException {
 		detection_phases = new ArrayList<DetectionPhase>();
-		db.setResultSet(db.getStmt().executeQuery(SQL_QUERY));
+		db.setSelect_command("`detection_phases`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
-			DetectionPhase dp = new DetectionPhase(rs.getInt("dp_id"),rs.getString("detection_phase"));
+			DetectionPhase dp = new DetectionPhase(rs.getInt("dp_id"),rs.getString("phase_name"));
 			detection_phases.add(dp);
 		}
+		rs.close();
 	}
 
 	/* (non-Javadoc)
@@ -41,45 +45,41 @@ public class DetectionPhaseDaoFactory implements DetectionPhaseDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#getDetectionPhase(int)
-	 */
-	@Override
-	public DetectionPhase getDetectionPhase(int dp_id) {
-		return detection_phases.get(dp_id);
-	}
-
-	/* (non-Javadoc)
 	 * @see model.dao.DetectionPhaseDao#findDetectionPhase(int)
 	 */
 	@Override
-	public String findDetectionPhase(int dp_id) {		
-		return detection_phases.get(dp_id).getPhase();
+	public DetectionPhase findDetectionPhase(int dp_id) {		
+		return detection_phases.get(dp_id);
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.DetectionPhaseDao#addDetectionPhase(model.DetectionPhase)
 	 */
 	@Override
-	public void addDetectionPhase(DetectionPhase detection_phase) {		
+	public void addDetectionPhase(DetectionPhase detection_phase) throws SQLException {		
 		detection_phases.add(detection_phase);
-		// TODO create the SQL insert command
+		db.setInsert_command("`detection_phases` (`detection_phases`) VALUES (" + detection_phase.getPhaseName() + ");");
+		db.executeInsertCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.DetectionPhaseDao#updateDetectionPhase(model.DetectionPhase)
 	 */
 	@Override
-	public void updateDetectionPhase(DetectionPhase detection_phase) {
-		// TODO Auto-generated method stub
+	public void updateDetectionPhase(int dp_id, String phase_name) throws SQLException {
+		findDetectionPhase(dp_id).setPhaseName(phase_name);
+		db.setUpdate_command("`detection_phases` SET `detection_phase` = " + phase_name + " WHERE `dp_id` = " + dp_id + ";");
+		db.executeUpdateCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.DetectionPhaseDao#deleteDetectionPhase(model.DetectionPhase)
 	 */
 	@Override
-	public void deleteDetectionPhase(int dp_id) {
+	public void deleteDetectionPhase(int dp_id) throws SQLException {
 		detection_phases.remove(dp_id);
-		// TODO create the SQL delete command
+		db.setDelete_command("`detection_phase` WHERE dp_id = " + dp_id + ";");
+		db.executeDeleteCommand();
 	}
 
 }

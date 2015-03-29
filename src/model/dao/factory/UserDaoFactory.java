@@ -20,17 +20,22 @@ public class UserDaoFactory implements UserDao {
 	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
 	List<User> users;
 	
-	private static final String SQL_QUERY = "select * from users";
-	
-	// TODO Password hashing
+	/**
+	 * TODO Password hashing
+	 * 
+	 * @throws SQLException 
+	 * 
+	 */
 	public UserDaoFactory() throws SQLException {
 		users = new ArrayList<User>();
-		db.setResultSet(db.getStmt().executeQuery(SQL_QUERY));
+		db.setSelect_command("`users`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
-			User usr = new User(rs.getInt("u_id"),rs.getString("username"),rs.getString("password"),rs.getString("type"));
+			User usr = new User(rs.getInt("u_id"),rs.getString("username"),rs.getString("password"),rs.getInt("user_type_id"));
 			users.add(usr);
 		}
+		rs.close();
 	}
 	
 	/* (non-Javadoc)
@@ -42,34 +47,18 @@ public class UserDaoFactory implements UserDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.UserDao#getUser(int)
-	 */
-	@Override
-	public User getUser(int u_id) {
-		return users.get(u_id);
-	}
-
-	/* (non-Javadoc)
 	 * @see model.dao.UserDao#findUsername(int)
 	 */
 	@Override
-	public String findUsername(int u_id) {
-		return users.get(u_id).getUsername();
+	public User findUser(int u_id) {
+		return users.get(u_id);
 	}
-	
-	/* (non-Javadoc)
-	 * @see model.dao.UserDao#findUsertype(int)
-	 */
-	@Override
-	public String findUserType(int u_id) {
-		return users.get(u_id).getType();
-	}	
 	
 	/* (non-Javadoc)
 	 * @see model.dao.UserDao#addUser(model.User)
 	 */
 	@Override
-	public void addUser(User user) {
+	public void addUser(User user) throws SQLException {
 		users.add(user);
 		// TODO create the SQL insert command
 	}
@@ -78,7 +67,7 @@ public class UserDaoFactory implements UserDao {
 	 * @see model.dao.UserDao#updateUser(model.User)
 	 */
 	@Override
-	public void updateUser(User user) {
+	public void updateUser(int u_id, String username, String password, int user_type_id) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
@@ -87,10 +76,9 @@ public class UserDaoFactory implements UserDao {
 	 * @see model.dao.UserDao#deleteUser(model.User)
 	 */
 	@Override
-	public void deleteUser(int u_id) {
+	public void deleteUser(int u_id) throws SQLException {
 		users.remove(u_id);
 		// TODO create the SQL delete command
 	}
-
-
+	
 }

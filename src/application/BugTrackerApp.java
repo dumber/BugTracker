@@ -6,7 +6,6 @@ package application;
 import java.io.IOException;
 import java.sql.SQLException;
 
-//import model.PasswordHash;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -14,7 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+
 import database.MySqlDataSourceSingleton;
+import model.dao.factory.ActionDaoFactory;
 
 /**
  * @author dumber
@@ -86,7 +87,10 @@ public class BugTrackerApp extends Application {
 		MySqlDataSourceSingleton my = MySqlDataSourceSingleton.getInstance();
 		try {
 			my.setupConnection("dumber", "asdfQq22");
-			my.executeQueryDemo();
+//			my.executeQueryDemo();
+			ActionDaoFactory adf = new ActionDaoFactory();
+			System.out.println("Success: " );
+			System.out.println(adf.findAction(1).getAction_id() + ", " + adf.findAction(1).getAction());
 			my.MySqlDataSourceCloseConections();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -100,47 +104,7 @@ public class BugTrackerApp extends Application {
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-//		PasswordHash p = new PasswordHash();		
-//        try
-//        {
-//            // Print out 10 hashes
-//            for(int i = 0; i < 10; i++)
-//                System.out.println(p.createHash("p\r\nassw0Rd!"));
-//
-//            // Test password validation
-//            boolean failure = false;
-//            System.out.println("Running tests...");
-//            for(int i = 0; i < 100; i++)
-//            {
-//                String password = ""+i;
-//                String hash = p.createHash(password);
-//                String secondHash = p.createHash(password);
-//                if(hash.equals(secondHash)) {
-//                    System.out.println("FAILURE: TWO HASHES ARE EQUAL!");
-//                    failure = true;
-//                }
-//                String wrongPassword = ""+(i+1);
-//                if(p.validatePassword(wrongPassword, hash)) {
-//                    System.out.println("FAILURE: WRONG PASSWORD ACCEPTED!");
-//                    failure = true;
-//                }
-//                if(!p.validatePassword(password, hash)) {
-//                    System.out.println("FAILURE: GOOD PASSWORD NOT ACCEPTED!");
-//                    failure = true;
-//                }
-//            }
-//            if(failure)
-//                System.out.println("TESTS FAILED!");
-//            else
-//                System.out.println("TESTS PASSED!");
-//        }
-//        catch(Exception ex)
-//        {
-//            System.out.println("ERROR: " + ex);
-//        }
-		
-		launch(args);
+		}		
+//		launch(args);
 	}
 }

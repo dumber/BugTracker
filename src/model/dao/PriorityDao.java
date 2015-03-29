@@ -3,6 +3,7 @@
  */
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Priority;
@@ -13,9 +14,8 @@ import model.Priority;
  */
 public interface PriorityDao {
 	public List<Priority> getAllPrioritys();	
-	public Priority getPriority(int p_id);
-	public String findPriority(int p_id);
-	public void addPriority(Priority priority);
-	public void updatePriority(Priority priority);
-	public void deletePriority(int p_id);
+	public Priority findPriority(int p_id);
+	public void addPriority(Priority priority) throws SQLException;
+	public void updatePriority(int p_id, String priority) throws SQLException;
+	public void deletePriority(int p_id) throws SQLException;
 }

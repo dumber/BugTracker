@@ -6,318 +6,164 @@ package model;
  */
 public class Ticket {
 	private int t_id;
-	private String ticket_id;
-	private int project_id;
-	private String submission_version;
+	private String ticket_name;
+	private int t_project_id;
 	private String headline;
 	private String description;
-	private String scheduled_version;
-	private int submitter_user_id;
-	private String submission_date;
-	private String detection_phase;
-	private String severity;
-	private String priority;
-	private int estimated_wl;
-	private int workload;
-	private String state;
-	private String linked_ticket;
-	private String linked_headline;
-	private int analyser_id;
-	private String proposed_change;
-	private String impacted_version;
-	private String analysis_date;
-	private int realiser_id;
-	private String realised_items;
-	private String realised_version;
-	private String realisation_date;
-	private int validator_id;
-	private String validator_comments;
-	private String validated_version;
-	private String validation_date;
-	private String closure_date;
+	private int t_severity_id;
+	private int t_priority_id;
+	private int t_state_id;
+	private int linked_ticket_id;
 	
-	public Ticket(int t_id, String ticket_id, int project_id,
-			String submission_version, String headline, String description,
-			String scheduled_version, int submitter_user_id,
-			String submission_date, String detection_phase, String severity,
-			String priority, int estimated_wl, int workload, String state,
-			String linked_ticket, String linked_headline, int analyser_id,
-			String proposed_change, String impacted_version,
-			String analysis_date, int realiser_id, String realised_items,
-			String realised_version, String realisation_date, int validator_id,
-			String validator_comments, String validated_version,
-			String validation_date, String closure_date) {
-		super();
+	/**
+	 * @param t_id
+	 * @param ticket_name
+	 * @param t_project_id
+	 * @param headline
+	 * @param description
+	 * @param t_severity_id
+	 * @param t_priority_id
+	 * @param t_state_id
+	 * @param linked_ticket_id
+	 */
+	public Ticket(int t_id, String ticket_name, int t_project_id,
+			String headline, String description, int t_severity_id,
+			int t_priority_id, int t_state_id, int linked_ticket_id) {
 		this.t_id = t_id;
-		this.ticket_id = ticket_id;
-		this.project_id = project_id;
-		this.submission_version = submission_version;
+		this.ticket_name = ticket_name;
+		this.t_project_id = t_project_id;
 		this.headline = headline;
 		this.description = description;
-		this.scheduled_version = scheduled_version;
-		this.submitter_user_id = submitter_user_id;
-		this.submission_date = submission_date;
-		this.detection_phase = detection_phase;
-		this.severity = severity;
-		this.priority = priority;
-		this.estimated_wl = estimated_wl;
-		this.workload = workload;
-		this.state = state;
-		this.linked_ticket = linked_ticket;
-		this.linked_headline = linked_headline;
-		this.analyser_id = analyser_id;
-		this.proposed_change = proposed_change;
-		this.impacted_version = impacted_version;
-		this.analysis_date = analysis_date;
-		this.realiser_id = realiser_id;
-		this.realised_items = realised_items;
-		this.realised_version = realised_version;
-		this.realisation_date = realisation_date;
-		this.validator_id = validator_id;
-		this.validator_comments = validator_comments;
-		this.validated_version = validated_version;
-		this.validation_date = validation_date;
-		this.closure_date = closure_date;
+		this.t_severity_id = t_severity_id;
+		this.t_priority_id = t_priority_id;
+		this.t_state_id = t_state_id;
+		this.linked_ticket_id = linked_ticket_id;
 	}
 
-	public int getT_id() {
+	/**
+	 * @return the t_id
+	 */
+	public int getTicket_id() {
 		return t_id;
 	}
-	
-	public void setT_id(int t_id) {
+
+	/**
+	 * @param t_id the t_id to set
+	 */
+	public void setTicket_id(int t_id) {
 		this.t_id = t_id;
 	}
-	
-	public String getTicket_id() {
-		return ticket_id;
+
+	/**
+	 * @return the ticket_name
+	 */
+	public String getTicketName() {
+		return ticket_name;
 	}
-	
-	public void setTicket_id(String ticket_id) {
-		this.ticket_id = ticket_id;
+
+	/**
+	 * @param ticket_name the ticket_name to set
+	 */
+	public void setTicketName(String ticket_name) {
+		this.ticket_name = ticket_name;
 	}
-	
-	public int getProject_id() {
-		return project_id;
+
+	/**
+	 * @return the t_project_id
+	 */
+	public int getT_Project_id() {
+		return t_project_id;
 	}
-	
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
+
+	/**
+	 * @param t_project_id the t_project_id to set
+	 */
+	public void setT_Project_id(int t_project_id) {
+		this.t_project_id = t_project_id;
 	}
-	
-	public String getSubmissionVersion() {
-		return submission_version;
-	}
-	
-	public void setSubmissionVersion(String submission_version) {
-		this.submission_version = submission_version;
-	}
-	
+
+	/**
+	 * @return the headline
+	 */
 	public String getHeadline() {
 		return headline;
 	}
-	
+
+	/**
+	 * @param headline the headline to set
+	 */
 	public void setHeadline(String headline) {
 		this.headline = headline;
 	}
-	
+
+	/**
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
-	
+
+	/**
+	 * @param description the description to set
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public String getScheduledVersion() {
-		return scheduled_version;
+
+	/**
+	 * @return the t_severity_id
+	 */
+	public int getT_Severity_id() {
+		return t_severity_id;
 	}
-	
-	public void setScheduledVersion(String scheduled_version) {
-		this.scheduled_version = scheduled_version;
+
+	/**
+	 * @param t_severity_id the t_severity_id to set
+	 */
+	public void setT_Severity_id(int t_severity_id) {
+		this.t_severity_id = t_severity_id;
 	}
-	
-	public int getSubmitterUser_id() {
-		return submitter_user_id;
+
+	/**
+	 * @return the t_priority_id
+	 */
+	public int getT_Priority_id() {
+		return t_priority_id;
 	}
-	
-	public void setSubmitterUser_id(int submitter_user_id) {
-		this.submitter_user_id = submitter_user_id;
+
+	/**
+	 * @param t_priority_id the t_priority_id to set
+	 */
+	public void setT_Priority_id(int t_priority_id) {
+		this.t_priority_id = t_priority_id;
 	}
-	
-	public String getSubmissionDate() {
-		return submission_date;
+
+	/**
+	 * @return the t_state_id
+	 */
+	public int getT_State_id() {
+		return t_state_id;
 	}
-	
-	public void setSubmissionDate(String submission_date) {
-		this.submission_date = submission_date;
+
+	/**
+	 * @param t_state_id the t_state_id to set
+	 */
+	public void setT_State_id(int t_state_id) {
+		this.t_state_id = t_state_id;
 	}
-	
-	public String getDetectionPhase() {
-		return detection_phase;
+
+	/**
+	 * @return the linked_ticket_id
+	 */
+	public int getLinked_Ticket_id() {
+		return linked_ticket_id;
 	}
-	
-	public void setDetectionPhase(String detection_phase) {
-		this.detection_phase = detection_phase;
-	}
-	
-	public String getSeverity() {
-		return severity;
-	}
-	
-	public void setSeverity(String severity) {
-		this.severity = severity;
-	}
-	
-	public String getPriority() {
-		return priority;
-	}
-	
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-	
-	public int getEstimatedWorkload() {
-		return estimated_wl;
-	}
-	
-	public void setEstimatedWorkload(int estimated_wl) {
-		this.estimated_wl = estimated_wl;
-	}
-	
-	public int getWorkload() {
-		return workload;
-	}
-	
-	public void setWorkload(int workload) {
-		this.workload = workload;
-	}
-	
-	public String getState() {
-		return state;
-	}
-	
-	public void setState(String state) {
-		this.state = state;
-	}
-	
-	public String getLinkedTicket() {
-		return linked_ticket;
-	}
-	
-	public void setLinkedTicket(String linked_ticket) {
-		this.linked_ticket = linked_ticket;
-	}
-	
-	public String getLinkedHeadline() {
-		return linked_headline;
-	}
-	
-	public void setLinkedHeadline(String linked_headline) {
-		this.linked_headline = linked_headline;
-	}
-	
-	public int getAnalyser_id() {
-		return analyser_id;
-	}
-	
-	public void setAnalyser_id(int analyser_id) {
-		this.analyser_id = analyser_id;
-	}
-	
-	public String getProposedChange() {
-		return proposed_change;
-	}
-	
-	public void setProposedChange(String proposed_change) {
-		this.proposed_change = proposed_change;
-	}
-	
-	public String getImpactedVersion() {
-		return impacted_version;
-	}
-	
-	public void setImpactedVersion(String impacted_version) {
-		this.impacted_version = impacted_version;
-	}
-	
-	public String getAnalysisDate() {
-		return analysis_date;
-	}
-	
-	public void setAnalysisDate(String analysis_date) {
-		this.analysis_date = analysis_date;
-	}
-	
-	public int getRealiser_id() {
-		return realiser_id;
-	}
-	
-	public void setRealiser_id(int realiser_id) {
-		this.realiser_id = realiser_id;
-	}
-	
-	public String getRealisedItems() {
-		return realised_items;
-	}
-	
-	public void setRealisedItems(String realised_items) {
-		this.realised_items = realised_items;
-	}
-	
-	public String getRealisedVersion() {
-		return realised_version;
-	}
-	
-	public void setRealisedVersion(String realised_version) {
-		this.realised_version = realised_version;
-	}
-	
-	public String getRealisationDate() {
-		return realisation_date;
-	}
-	
-	public void setRealisationDate(String realisation_date) {
-		this.realisation_date = realisation_date;
-	}
-	
-	public int getValidator_id() {
-		return validator_id;
-	}
-	
-	public void setValidator_id(int validator_id) {
-		this.validator_id = validator_id;
-	}
-	
-	public String getValidatorComments() {
-		return validator_comments;
-	}
-	
-	public void setValidatorComments(String validator_comments) {
-		this.validator_comments = validator_comments;
-	}
-	
-	public String getValidatedVersion() {
-		return validated_version;
-	}
-	
-	public void setValidatedVersion(String validated_version) {
-		this.validated_version = validated_version;
-	}
-	
-	public String getValidationDate() {
-		return validation_date;
-	}
-	
-	public void setValidatioDate(String validation_date) {
-		this.validation_date = validation_date;
-	}
-	
-	public String getClosureDate() {
-		return closure_date;
-	}
-	
-	public void setClosureDate(String closure_date) {
-		this.closure_date = closure_date;
+
+	/**
+	 * @param linked_ticket_id the linked_ticket_id to set
+	 */
+	public void setLinked_Ticket_id(int linked_ticket_id) {
+		this.linked_ticket_id = linked_ticket_id;
 	}
 		
 }

@@ -20,16 +20,20 @@ public class UserTypeDaoFactory implements UserTypeDao {
 	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
 	List<UserType> user_types;
 	
-	private static final String SQL_QUERY = "select * from user_types";
-	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
 	public UserTypeDaoFactory() throws SQLException {
 		user_types = new ArrayList<UserType>();
-		db.setResultSet(db.getStmt().executeQuery(SQL_QUERY));
+		db.setSelect_command("`user_types`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			UserType ut = new UserType(rs.getInt("ut_id"),rs.getString("user_type"));
 			user_types.add(ut);
 		}
+		rs.close();
 	}
 	
 	/* (non-Javadoc)
@@ -41,26 +45,18 @@ public class UserTypeDaoFactory implements UserTypeDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.UserTypeDao#getUserType(int)
-	 */
-	@Override
-	public UserType getUserType(int ut_id) {
-		return user_types.get(ut_id);
-	}
-
-	/* (non-Javadoc)
 	 * @see model.dao.UserTypeDao#findUserType(int)
 	 */
 	@Override
-	public String findUserType(int ut_id) {
-		return user_types.get(ut_id).getUserType();
+	public UserType findUserType(int ut_id) {
+		return user_types.get(ut_id);
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.UserTypeDao#addUserType(model.UserType)
 	 */
 	@Override
-	public void addUserType(UserType user_type) {
+	public void addUserType(UserType user_type) throws SQLException {
 		user_types.add(user_type);
 		// TODO create the SQL insert command
 	}
@@ -69,7 +65,7 @@ public class UserTypeDaoFactory implements UserTypeDao {
 	 * @see model.dao.UserTypeDao#updateUserType(model.UserType)
 	 */
 	@Override
-	public void updateUserType(UserType user_type) {
+	public void updateUserType(int ut_id, String user_type) throws SQLException {
 		// TODO Auto-generated method stub
 
 	}
@@ -78,7 +74,7 @@ public class UserTypeDaoFactory implements UserTypeDao {
 	 * @see model.dao.UserTypeDao#deleteUserType(model.UserType)
 	 */
 	@Override
-	public void deleteUserType(int ut_id) {
+	public void deleteUserType(int ut_id) throws SQLException {
 		user_types.remove(ut_id);
 		// TODO create the SQL delete command
 	}

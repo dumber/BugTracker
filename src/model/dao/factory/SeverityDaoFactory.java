@@ -20,16 +20,20 @@ public class SeverityDaoFactory implements SeverityDao {
 	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
 	List<Severity> severities;
 	
-	private static final String SQL_QUERY = "select * from severities";
-	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
 	public SeverityDaoFactory() throws SQLException {
 		severities = new ArrayList<Severity>();
-		db.setResultSet(db.getStmt().executeQuery(SQL_QUERY));
+		db.setSelect_command("`severities`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			Severity sev = new Severity(rs.getInt("s_id"),rs.getString("severity"));
 			severities.add(sev);
 		}
+		rs.close();
 	}
 	
 	/* (non-Javadoc)
@@ -41,45 +45,41 @@ public class SeverityDaoFactory implements SeverityDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.SeverityDao#getSeverity(int)
-	 */
-	@Override
-	public Severity getSeverity(int s_id) {
-		return severities.get(s_id);
-	}
-
-	/* (non-Javadoc)
 	 * @see model.dao.SeverityDao#findSeverity(int)
 	 */
 	@Override
-	public String findSeverity(int s_id) {
-		return severities.get(s_id).getSeverity();
+	public Severity findSeverity(int s_id) {
+		return severities.get(s_id);
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.SeverityDao#addSeverity(model.Severity)
 	 */
 	@Override
-	public void addSeverity(Severity severity) {
+	public void addSeverity(Severity severity) throws SQLException {
 		severities.add(severity);
-		// TODO create the SQL insert command
+		db.setInsert_command("`severities` (`severity`) VALUES (" + severity.getSeverity() + ");");
+		db.executeInsertCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.SeverityDao#updateSeverity(model.Severity)
 	 */
 	@Override
-	public void updateSeverity(Severity severity) {
-		// TODO Auto-generated method stub
+	public void updateSeverity(int s_id, String severity) throws SQLException {
+		findSeverity(s_id).setSeverity(severity);
+		db.setUpdate_command("`severities` SET `severity` = " + severity + " WHERE `s_id` = " + s_id + ";");
+		db.executeUpdateCommand();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.SeverityDao#deleteSeverity(model.Severity)
 	 */
 	@Override
-	public void deleteSeverity(int s_id) {
+	public void deleteSeverity(int s_id) throws SQLException {
 		severities.remove(s_id);
-		// TODO create the SQL delete command
+		db.setDelete_command("`severities` WHERE s_id = " + s_id + ";");
+		db.executeDeleteCommand();
 	}
 
 }

@@ -6,28 +6,43 @@ package model;
  */
 public class DetectionPhase {
 	private int detection_phase_id;
-	private String phase;
-		
-	public DetectionPhase(int detection_phase_id, String phase) {
-		super();
-		this.detection_phase_id = detection_phase_id;
-		this.phase = phase;
+	private String phase_name;
+
+	/**
+	 * @param dp_id
+	 * @param phase
+	 */
+	public DetectionPhase(int dp_id, String phase) {
+		this.detection_phase_id = dp_id;
+		this.phase_name = phase;
 	}
 
-	public int getDetection_phase_id() {
+	/**
+	 * @return the detection_phase_id
+	 */
+	public int getDetectionPhase_id() {
 		return detection_phase_id;
 	}
-	
-	public void setDetection_phase_id(int detection_phase_id) {
-		this.detection_phase_id = detection_phase_id;
+
+	/**
+	 * @param dp_id the detection_phase_id to set
+	 */
+	public void setDetectionPhase_id(int dp_id) {
+		this.detection_phase_id = dp_id;
 	}
-	
-	public String getPhase() {
-		return phase;
+
+	/**
+	 * @return the phase
+	 */
+	public String getPhaseName() {
+		return phase_name;
 	}
-	
-	public void setPhase(String phase) {
-		this.phase = phase;
-	}	
-	
+
+	/**
+	 * @param phase_name the detection_phase to set
+	 */
+	public void setPhaseName(String phase_name) {
+		this.phase_name = phase_name;
+	}
+		
 }
