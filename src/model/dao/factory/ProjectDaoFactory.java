@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.MySqlDataSourceSingleton;
 import model.Project;
 import model.dao.ProjectDao;
 
@@ -16,8 +15,7 @@ import model.dao.ProjectDao;
  * @author dumber
  *
  */
-public class ProjectDaoFactory implements ProjectDao {
-	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
+public class ProjectDaoFactory extends GenericDaoFactory implements ProjectDao {
 	List<Project> projects;
 	
 	/**
@@ -25,10 +23,11 @@ public class ProjectDaoFactory implements ProjectDao {
 	 * 
 	 */	
 	public ProjectDaoFactory() throws SQLException {
+		super();
 		projects = new ArrayList<Project>();
-		db.setSelect_command("`projects`");
-		db.executeSelectCommand();
-		ResultSet rs = db.getResultSet();
+		dataSource.setSelectQueryString("`projects`");
+		dataSource.executeSelectQuery();
+		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
 			Project pro = new Project(rs.getInt("p_id"),rs.getString("project_name"));
 			projects.add(pro);
@@ -58,8 +57,8 @@ public class ProjectDaoFactory implements ProjectDao {
 	@Override
 	public void addProject(Project project) throws SQLException {
 		projects.add(project);
-		db.setInsert_command("`projects` (`project`) VALUES (" + project.getProjectName() + ");");
-		db.executeInsertCommand();
+		dataSource.setInsertQueryString("`projects` (`project`) VALUES (" + project.getProjectName() + ");");
+		dataSource.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +67,8 @@ public class ProjectDaoFactory implements ProjectDao {
 	@Override
 	public void updateProject(int p_id, String project) throws SQLException{
 		findProject(p_id).setProjectName(project);
-		db.setUpdate_command("`projects` SET `project` = " + project + " WHERE `p_id` = " + p_id + ";");
-		db.executeUpdateCommand();
+		dataSource.setUpdateQueryString("`projects` SET `project` = " + project + " WHERE `p_id` = " + p_id + ";");
+		dataSource.executeUpdateQuery();
 	}
 
 	/* (non-Javadoc)
@@ -78,8 +77,8 @@ public class ProjectDaoFactory implements ProjectDao {
 	@Override
 	public void deleteProject(int p_id) throws SQLException {
 		projects.remove(p_id);
-		db.setDelete_command("`projects` WHERE p_id = " + p_id + ";");
-		db.executeDeleteCommand();
+		dataSource.setDeleteQueryString("`projects` WHERE p_id = " + p_id + ";");
+		dataSource.executeDeleteQuery();
 	}
 
 }

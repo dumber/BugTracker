@@ -26,8 +26,8 @@ public class UserTypeDaoFactory implements UserTypeDao {
 	 */
 	public UserTypeDaoFactory() throws SQLException {
 		user_types = new ArrayList<UserType>();
-		db.setSelect_command("`user_types`");
-		db.executeSelectCommand();
+		db.setSelectQueryString("`user_types`");
+		db.executeSelectQuery();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			UserType ut = new UserType(rs.getInt("ut_id"),rs.getString("user_type"));

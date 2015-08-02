@@ -26,8 +26,8 @@ public class TicketStateDaoFactory implements TicketStateDao {
 	 */
 	public TicketStateDaoFactory() throws SQLException {
 		ticket_states = new ArrayList<TicketState>();
-		db.setSelect_command("`ticket_states`");
-		db.executeSelectCommand();
+		db.setSelectQueryString("`ticket_states`");
+		db.executeSelectQuery();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			TicketState ts = new TicketState(rs.getInt("ts_id"),rs.getString("ticket_state"));
@@ -58,8 +58,8 @@ public class TicketStateDaoFactory implements TicketStateDao {
 	@Override
 	public void addTicketState(TicketState ticket_state) throws SQLException {
 		ticket_states.add(ticket_state);
-		db.setInsert_command("`actions` (`action`) VALUES (" + ticket_state.getTicketState() + ");");
-		db.executeInsertCommand();
+		db.setInsertQueryString("`actions` (`action`) VALUES (" + ticket_state.getTicketState() + ");");
+		db.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +68,8 @@ public class TicketStateDaoFactory implements TicketStateDao {
 	@Override
 	public void updateTicketState(int ts_id, String ticket_state) throws SQLException {		
 		findTicketState(ts_id).setTicketState(ticket_state);
-		db.setUpdate_command("`actions` SET `action` = " + ticket_state + " WHERE `ts_id` = " + ts_id + ";");
-		db.executeUpdateCommand();
+		db.setUpdateQueryString("`actions` SET `action` = " + ticket_state + " WHERE `ts_id` = " + ts_id + ";");
+		db.executeUpdateQuery();
 	}
 
 	/* (non-Javadoc)
@@ -78,8 +78,8 @@ public class TicketStateDaoFactory implements TicketStateDao {
 	@Override
 	public void deleteTicketState(int ts_id) throws SQLException {
 		ticket_states.remove(ts_id);
-		db.setDelete_command("`projects` WHERE ts_id = " + ts_id + ";");
-		db.executeDeleteCommand();
+		db.setDeleteQueryString("`projects` WHERE ts_id = " + ts_id + ";");
+		db.executeDeleteQuery();
 	}
 
 }

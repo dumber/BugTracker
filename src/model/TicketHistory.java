@@ -9,8 +9,7 @@ import java.sql.Timestamp;
  * @author dumber
  *
  */
-public class TicketHistory {
-	private int ticket_history_id;
+public class TicketHistory extends GenericTableElement {
 	private int th_ticket_id;
 	private int modifier_user_id;
 	private int old_state_id;
@@ -30,7 +29,7 @@ public class TicketHistory {
 	public TicketHistory(int ticket_history_id, int th_ticket_id,
 			int modifier_user_id, int old_state_id, int new_state_id,
 			int action_id, Timestamp modification_date) {
-		this.ticket_history_id = ticket_history_id;
+		super(ticket_history_id);
 		this.th_ticket_id = th_ticket_id;
 		this.modifier_user_id = modifier_user_id;
 		this.old_state_id = old_state_id;
@@ -40,19 +39,18 @@ public class TicketHistory {
 	}
 
 	/**
-	 * @return the ticket_history_id
+	 * @param th
 	 */
-	public int getTicketHistory_id() {
-		return ticket_history_id;
+	public TicketHistory(TicketHistory th) {
+		super(th.id);
+		this.th_ticket_id = th.th_ticket_id;
+		this.modifier_user_id = th.modifier_user_id;
+		this.old_state_id = th.old_state_id;
+		this.new_state_id = th.new_state_id;
+		this.action_id = th.action_id;
+		this.modification_date = th.modification_date;
 	}
-
-	/**
-	 * @param ticket_history_id the ticket_history_id to set
-	 */
-	public void setTicketHistory_id(int ticket_history_id) {
-		this.ticket_history_id = ticket_history_id;
-	}
-
+	
 	/**
 	 * @return the th_ticket_id
 	 */

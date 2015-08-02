@@ -26,8 +26,8 @@ public class SeverityDaoFactory implements SeverityDao {
 	 */
 	public SeverityDaoFactory() throws SQLException {
 		severities = new ArrayList<Severity>();
-		db.setSelect_command("`severities`");
-		db.executeSelectCommand();
+		db.setSelectQueryString("`severities`");
+		db.executeSelectQuery();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			Severity sev = new Severity(rs.getInt("s_id"),rs.getString("severity"));
@@ -58,8 +58,8 @@ public class SeverityDaoFactory implements SeverityDao {
 	@Override
 	public void addSeverity(Severity severity) throws SQLException {
 		severities.add(severity);
-		db.setInsert_command("`severities` (`severity`) VALUES (" + severity.getSeverity() + ");");
-		db.executeInsertCommand();
+		db.setInsertQueryString("`severities` (`severity`) VALUES (" + severity.getSeverity() + ");");
+		db.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +68,8 @@ public class SeverityDaoFactory implements SeverityDao {
 	@Override
 	public void updateSeverity(int s_id, String severity) throws SQLException {
 		findSeverity(s_id).setSeverity(severity);
-		db.setUpdate_command("`severities` SET `severity` = " + severity + " WHERE `s_id` = " + s_id + ";");
-		db.executeUpdateCommand();
+		db.setUpdateQueryString("`severities` SET `severity` = " + severity + " WHERE `s_id` = " + s_id + ";");
+		db.executeUpdateQuery();
 	}
 
 	/* (non-Javadoc)
@@ -78,8 +78,8 @@ public class SeverityDaoFactory implements SeverityDao {
 	@Override
 	public void deleteSeverity(int s_id) throws SQLException {
 		severities.remove(s_id);
-		db.setDelete_command("`severities` WHERE s_id = " + s_id + ";");
-		db.executeDeleteCommand();
+		db.setDeleteQueryString("`severities` WHERE s_id = " + s_id + ";");
+		db.executeDeleteQuery();
 	}
 
 }
