@@ -9,7 +9,8 @@ import java.sql.Timestamp;
  * @author dumber
  *
  */
-public class TicketSubmission extends GenericTableElement {
+public class TicketSubmission {
+	private int ticket_submission_id;
 	private int ts_ticket_id;
 	private int submission_version_id;
 	private int scheduled_version_id;
@@ -30,7 +31,7 @@ public class TicketSubmission extends GenericTableElement {
 			int submission_version_id, int scheduled_version_id,
 			int submitter_user_id, Timestamp submission_date,
 			int detection_phase_id) {
-		super(ticket_submission_id);
+		this.ticket_submission_id = ticket_submission_id;
 		this.ts_ticket_id = ts_ticket_id;
 		this.submission_version_id = submission_version_id;
 		this.scheduled_version_id = scheduled_version_id;
@@ -40,16 +41,17 @@ public class TicketSubmission extends GenericTableElement {
 	}
 
 	/**
-	 * @param ts
+	 * @return the ticket_submission_id
 	 */
-	public TicketSubmission(TicketSubmission ts) {
-		super(ts.id);
-		this.ts_ticket_id = ts.ts_ticket_id;
-		this.submission_version_id = ts.submission_version_id;
-		this.scheduled_version_id = ts.scheduled_version_id;
-		this.submitter_user_id = ts.submitter_user_id;
-		this.submission_date = ts.submission_date;
-		this.detection_phase_id = ts.detection_phase_id;
+	public int getTicketSubmission_id() {
+		return ticket_submission_id;
+	}
+
+	/**
+	 * @param ticket_submission_id the ticket_submission_id to set
+	 */
+	public void setTicketSubmission_id(int ticket_submission_id) {
+		this.ticket_submission_id = ticket_submission_id;
 	}
 
 	/**

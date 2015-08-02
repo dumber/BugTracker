@@ -4,7 +4,8 @@ package model;
  * @author dumber
  *
  */
-public class Severity extends GenericTableElement {
+public class Severity {
+	private int severity_id;
 	private String severity;
 
 	/**
@@ -12,17 +13,23 @@ public class Severity extends GenericTableElement {
 	 * @param severity
 	 */
 	public Severity(int severity_id, String severity) {
-		super(severity_id);
+		this.severity_id = severity_id;
 		this.severity = severity;
 	}
 
 	/**
-	 * @param s
+	 * @return the severity_id
 	 */
-	public Severity(Severity s) {
-		super(s.id);
-		this.severity = s.severity;
-	}	
+	public int getSeverity_id() {
+		return severity_id;
+	}
+
+	/**
+	 * @param severity_id the severity_id to set
+	 */
+	public void setSeverity_id(int severity_id) {
+		this.severity_id = severity_id;
+	}
 
 	/**
 	 * @return the severity

@@ -4,7 +4,8 @@ package model;
  * @author dumber
  *
  */
-public class TicketState extends GenericTableElement {
+public class TicketState {
+	private int ticket_state_id;
 	private String ticket_state;
 
 	/**
@@ -12,18 +13,24 @@ public class TicketState extends GenericTableElement {
 	 * @param ticket_state
 	 */
 	public TicketState(int ticket_state_id, String ticket_state) {
-		super(ticket_state_id);
+		this.ticket_state_id = ticket_state_id;
 		this.ticket_state = ticket_state;
 	}
 
 	/**
-	 * @param ts
+	 * @return the ticket_state_id
 	 */
-	public TicketState(TicketState ts) {
-		super(ts.id);
-		this.ticket_state = ts.ticket_state;
+	public int getTicketState_id() {
+		return ticket_state_id;
 	}
-	
+
+	/**
+	 * @param ticket_state_id the ticket_state_id to set
+	 */
+	public void setTicketState_id(int ticket_state_id) {
+		this.ticket_state_id = ticket_state_id;
+	}
+
 	/**
 	 * @return the ticket_state
 	 */

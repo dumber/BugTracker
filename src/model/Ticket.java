@@ -1,6 +1,3 @@
-/**
- * 
- */
 package model;
 
 /**
@@ -8,140 +5,165 @@ package model;
  *
  */
 public class Ticket {
-	private TicketHeader header;
-	private TicketSubmission ticket_submission;
-	private TicketAnalysis ticket_analysis;
-	private TicketRealisation ticket_realisation;
-	private TicketValidation ticket_validation;
-	private TicketWorkload ticket_workload;
-	private TicketHistory ticket_history;
-	/**
-	 * 
-	 */
-	public Ticket() {
-		// TODO Auto-generated constructor stub
-	}
+	private int t_id;
+	private String ticket_name;
+	private int t_project_id;
+	private String headline;
+	private String description;
+	private int t_severity_id;
+	private int t_priority_id;
+	private int t_state_id;
+	private int linked_ticket_id;
 	
 	/**
-	 * @param header
-	 * @param ticket_submission
-	 * @param ticket_analysis
-	 * @param ticket_realisation
-	 * @param ticket_validation
-	 * @param ticket_workload
-	 * @param ticket_history
+	 * @param t_id
+	 * @param ticket_name
+	 * @param t_project_id
+	 * @param headline
+	 * @param description
+	 * @param t_severity_id
+	 * @param t_priority_id
+	 * @param t_state_id
+	 * @param linked_ticket_id
 	 */
-	public Ticket(TicketHeader header, TicketSubmission ticket_submission,
-			TicketAnalysis ticket_analysis,
-			TicketRealisation ticket_realisation,
-			TicketValidation ticket_validation, TicketWorkload ticket_workload,
-			TicketHistory ticket_history) {
-		this.header = header;
-		this.ticket_submission = ticket_submission;
-		this.ticket_analysis = ticket_analysis;
-		this.ticket_realisation = ticket_realisation;
-		this.ticket_validation = ticket_validation;
-		this.ticket_workload = ticket_workload;
-		this.ticket_history = ticket_history;
+	public Ticket(int t_id, String ticket_name, int t_project_id,
+			String headline, String description, int t_severity_id,
+			int t_priority_id, int t_state_id, int linked_ticket_id) {
+		this.t_id = t_id;
+		this.ticket_name = ticket_name;
+		this.t_project_id = t_project_id;
+		this.headline = headline;
+		this.description = description;
+		this.t_severity_id = t_severity_id;
+		this.t_priority_id = t_priority_id;
+		this.t_state_id = t_state_id;
+		this.linked_ticket_id = linked_ticket_id;
 	}
 
 	/**
-	 * @return the header
+	 * @return the t_id
 	 */
-	protected TicketHeader getHeader() {
-		return header;
+	public int getTicket_id() {
+		return t_id;
 	}
 
 	/**
-	 * @param header the header to set
+	 * @param t_id the t_id to set
 	 */
-	protected void setHeader(TicketHeader header) {
-		this.header = header;
+	public void setTicket_id(int t_id) {
+		this.t_id = t_id;
 	}
 
 	/**
-	 * @return the ticket_submission
+	 * @return the ticket_name
 	 */
-	protected TicketSubmission getTicketSubmission() {
-		return ticket_submission;
+	public String getTicketName() {
+		return ticket_name;
 	}
 
 	/**
-	 * @param ticket_submission the ticket_submission to set
+	 * @param ticket_name the ticket_name to set
 	 */
-	protected void setTicketSubmission(TicketSubmission ticket_submission) {
-		this.ticket_submission = ticket_submission;
+	public void setTicketName(String ticket_name) {
+		this.ticket_name = ticket_name;
 	}
 
 	/**
-	 * @return the ticket_analysis
+	 * @return the t_project_id
 	 */
-	protected TicketAnalysis getTicketAnalysis() {
-		return ticket_analysis;
+	public int getT_Project_id() {
+		return t_project_id;
 	}
 
 	/**
-	 * @param ticket_analysis the ticket_analysis to set
+	 * @param t_project_id the t_project_id to set
 	 */
-	protected void setTicketAnalysis(TicketAnalysis ticket_analysis) {
-		this.ticket_analysis = ticket_analysis;
+	public void setT_Project_id(int t_project_id) {
+		this.t_project_id = t_project_id;
 	}
 
 	/**
-	 * @return the ticket_realisation
+	 * @return the headline
 	 */
-	protected TicketRealisation getTicketRealisation() {
-		return ticket_realisation;
+	public String getHeadline() {
+		return headline;
 	}
 
 	/**
-	 * @param ticket_realisation the ticket_realisation to set
+	 * @param headline the headline to set
 	 */
-	protected void setTicketRealisation(TicketRealisation ticket_realisation) {
-		this.ticket_realisation = ticket_realisation;
+	public void setHeadline(String headline) {
+		this.headline = headline;
 	}
 
 	/**
-	 * @return the ticket_validation
+	 * @return the description
 	 */
-	protected TicketValidation getTicketValidation() {
-		return ticket_validation;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param ticket_validation the ticket_validation to set
+	 * @param description the description to set
 	 */
-	protected void setTicketValidation(TicketValidation ticket_validation) {
-		this.ticket_validation = ticket_validation;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
-	 * @return the ticket_workload
+	 * @return the t_severity_id
 	 */
-	protected TicketWorkload getTicketWorkload() {
-		return ticket_workload;
+	public int getT_Severity_id() {
+		return t_severity_id;
 	}
 
 	/**
-	 * @param ticket_workload the ticket_workload to set
+	 * @param t_severity_id the t_severity_id to set
 	 */
-	protected void setTicketWorkload(TicketWorkload ticket_workload) {
-		this.ticket_workload = ticket_workload;
+	public void setT_Severity_id(int t_severity_id) {
+		this.t_severity_id = t_severity_id;
 	}
 
 	/**
-	 * @return the ticket_history
+	 * @return the t_priority_id
 	 */
-	protected TicketHistory getTicketHistory() {
-		return ticket_history;
+	public int getT_Priority_id() {
+		return t_priority_id;
 	}
 
 	/**
-	 * @param ticket_history the ticket_history to set
+	 * @param t_priority_id the t_priority_id to set
 	 */
-	protected void setTicketHistory(TicketHistory ticket_history) {
-		this.ticket_history = ticket_history;
+	public void setT_Priority_id(int t_priority_id) {
+		this.t_priority_id = t_priority_id;
 	}
 
-	
+	/**
+	 * @return the t_state_id
+	 */
+	public int getT_State_id() {
+		return t_state_id;
+	}
+
+	/**
+	 * @param t_state_id the t_state_id to set
+	 */
+	public void setT_State_id(int t_state_id) {
+		this.t_state_id = t_state_id;
+	}
+
+	/**
+	 * @return the linked_ticket_id
+	 */
+	public int getLinked_Ticket_id() {
+		return linked_ticket_id;
+	}
+
+	/**
+	 * @param linked_ticket_id the linked_ticket_id to set
+	 */
+	public void setLinked_Ticket_id(int linked_ticket_id) {
+		this.linked_ticket_id = linked_ticket_id;
+	}
+		
 }

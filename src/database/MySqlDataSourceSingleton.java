@@ -4,11 +4,7 @@
 package database;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
+import java.sql.*;
 
 /** 
  * 
@@ -23,14 +19,14 @@ public class MySqlDataSourceSingleton {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/bugtrack";
 	
 	private Connection conn = null;
-	private PreparedStatement stmt = null;
+	private Statement stmt = null;
 	private ResultSet rs;
 	
-	private String select_all_query_string = "SELECT * FROM `bugtrack`.";	
-	private String insert_query_string = "INSERT INTO `bugtrack`.";
-	private String update_query_string = "UPDATE `bugtrack`.";
-	private String delete_query_string = "DELETE FROM `bugtrack`.";
-	private String custom_select_query_string = "SELECT";	
+	private String select_command = "SELECT * FROM `bugtrack`.";	
+	private String insert_command = "INSERT INTO `bugtrack`.";
+	private String update_command = "UPDATE `bugtrack`.";
+	private String delete_command = "DELETE FROM `bugtrack`.";
+	private String custom_select_command = "SELECT ";	
 
 	/**
 	 * Exists only to defeat instantiation.
@@ -44,7 +40,8 @@ public class MySqlDataSourceSingleton {
 		if(instance == null) {
 	         instance = new MySqlDataSourceSingleton();
 	      }
-	    return instance;		
+	    return instance;
+		
 	}
 	
 	/**
@@ -60,7 +57,7 @@ public class MySqlDataSourceSingleton {
 		// Open a connection
 		System.out.println("Connecting to database...");
 	    conn = DriverManager.getConnection(DB_URL, user, passw);
-//	    stmt = conn.createStatement();
+	    stmt = conn.createStatement();
 	}
 	
 	/**
@@ -76,7 +73,6 @@ public class MySqlDataSourceSingleton {
 	    	System.out.println("ID" + id);
 	    	System.out.println("Priority" + priority);
 	    }
-	    resetSelectAllCommands();
 	    rs.close();
 	}
 	
@@ -84,43 +80,36 @@ public class MySqlDataSourceSingleton {
 	 * @throws SQLException 
 	 * 
 	 */
-	public void executeSelectQuery() throws SQLException {
-		rs = stmt.executeQuery(select_all_query_string);
-		resetSelectAllCommands();
+	public void executeSelectCommand() throws SQLException {
+		rs = stmt.executeQuery(select_command);
 	}
 	
 	/**
 	 * @throws SQLException 
 	 * 
 	 */
-	public void executeInsertQuery() throws SQLException {
-		stmt.executeUpdate(insert_query_string);
-		resetInsertCommands();
+	public void executeInsertCommand() throws SQLException {
+		stmt.executeUpdate(insert_command);
 	}
 	
-	public void executeUpdateQuery() throws SQLException {
-		stmt.executeUpdate(update_query_string);
-		resetUpdateCommands();
-	}
-	
-	/**
-	 * @throws SQLException 
-	 * 
-	 */
-	public void executeDeleteQuery() throws SQLException {
-		resetDeleteCommands();
-		stmt.executeUpdate(delete_query_string);
+	public void executeUpdateCommand() throws SQLException {
+		stmt.executeUpdate(update_command);
 	}
 	
 	/**
 	 * @throws SQLException 
 	 * 
 	 */
-	public void executeSelectByIdQuery(int id) throws SQLException {
-		stmt = conn.prepareStatement(custom_select_query_string);
-		stmt.setInt(1, id);
-		rs = stmt.executeQuery();
-		resetCustomSelectCommands();
+	public void executeDeleteCommand() throws SQLException {
+		stmt.executeUpdate(delete_command);
+	}
+	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	public void executeCustomSelectCommand() throws SQLException {
+		rs = stmt.executeQuery(custom_select_command);
 	}
 	
 	/**
@@ -135,17 +124,10 @@ public class MySqlDataSourceSingleton {
 	/**
 	 * @return the statement
 	 */
-	public PreparedStatement getStatement() {
+	public Statement getStmt() {
 		return stmt;
 	}	
 	
-	/**
-	 * @param stmt the stmt to set
-	 */
-	protected void setStmt(PreparedStatement stmt) {
-		this.stmt = stmt;
-	}
-
 	/**
 	 * @return rs the result set
 	 */
@@ -161,93 +143,73 @@ public class MySqlDataSourceSingleton {
 	}
 	
 	/**
-	 * @return the select_all_query_string
+	 * @return the select_command
 	 */
-	public String getSelectQueryString() {
-		return select_all_query_string;
+	public String getSelect_command() {
+		return select_command;
 	}
 
 	/**
-	 * @param command_part the part to add to the select_all_query_string 
+	 * @param command_part the part to add to the select_command 
 	 */
-	public void setSelectQueryString(String command_part) {
-		this.select_all_query_string += command_part;
+	public void setSelect_command(String command_part) {
+		this.select_command += command_part;
 	}
 	
 	/**
-	 * @return the insert_query_string
+	 * @return the insert_command
 	 */
-	public String getInsertQueryString() {
-		return insert_query_string;
+	public String getInsert_command() {
+		return insert_command;
 	}
 	
 	/**
-	 * @param command_part the part to add to the insert_query_string
+	 * @param command_part the part to add to the insert_command
 	 */
-	public void setInsertQueryString(String command_part) {
-		this.insert_query_string += command_part;
+	public void setInsert_command(String command_part) {
+		this.insert_command += command_part;
 	}
 
 	/**
-	 * @return the update_query_string
+	 * @return the update_command
 	 */
-	public String getUpdateQueryString() {
-		return update_query_string;
+	public String getUpdate_command() {
+		return update_command;
 	}
 	
 	/**
-	 * @param command_part the part to add to the update_query_string
+	 * @param command_part the part to add to the update_command
 	 */
-	public void setUpdateQueryString(String command_part) {
-		this.update_query_string += command_part;
+	public void setUpdate_command(String command_part) {
+		this.update_command += command_part;
 	}
 
 	/**
-	 * @return the delete_query_string
+	 * @return the delete_command
 	 */
-	public String getDeleteQueryString() {
-		return delete_query_string;
+	public String getDelete_command() {
+		return delete_command;
 	}	
 	
 	/**
-	 * @param command_part the part to add to the delete_query_string
+	 * @param command_part the part to add to the delete_command
 	 */
-	public void setDeleteQueryString(String command_part) {
-		this.delete_query_string += command_part;
+	public void setDelete_command(String command_part) {
+		this.delete_command += command_part;
 	}
 
 	/**
-	 * @return the custom_select_query_string
+	 * @return the custom_select_command
 	 */
-	public String getCustomQueryString() {
-		return custom_select_query_string;
+	public String getCustom_select_command() {
+		return custom_select_command;
 	}
 
 	/**
-	 * @param command_part the part to add to the custom_select_query_string
+	 * @param command_part the part to add to the custom_select_command
 	 */
-	public void setCustomQueryString(String command_part) {
-		this.custom_select_query_string += command_part;
+	public void setCustom_select_command(String command_part) {
+		this.custom_select_command += custom_select_command;
 	}
 	
-	public void resetSelectAllCommands() {
-		select_all_query_string = "SELECT * FROM `bugtrack`.";	
-	}
-	
-	public void resetInsertCommands() {	
-		insert_query_string = "INSERT INTO `bugtrack`.";
-	}
-	
-	public void resetUpdateCommands() {
-		update_query_string = "UPDATE `bugtrack`.";	
-	}
-	
-	public void resetDeleteCommands() {
-		delete_query_string = "DELETE FROM `bugtrack`.";
-	}
-	
-	public void resetCustomSelectCommands() {
-		custom_select_query_string = "SELECT";	
-	}
-
 }
