@@ -5,4 +5,7 @@
 /database/insert_helper.sql
 /database/select_helper.sql
 /database/update_helper.sql
+/doc/
+/documentation/
 .gitignore
+desktop.ini
