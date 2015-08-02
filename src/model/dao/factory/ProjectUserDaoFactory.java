@@ -26,8 +26,8 @@ public class ProjectUserDaoFactory implements ProjectUserDao {
 	 */
 	public ProjectUserDaoFactory() throws SQLException {
 		project_users = new ArrayList<ProjectUser>();
-		db.setSelectQueryString("`project_users`");
-		db.executeSelectQuery();
+		db.setSelect_command("`project_users`");
+		db.executeSelectCommand();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			ProjectUser dp = new ProjectUser(rs.getInt("pu_id"), rs.getInt("project_id"), rs.getInt("user_id"));
@@ -58,9 +58,9 @@ public class ProjectUserDaoFactory implements ProjectUserDao {
 	@Override
 	public void addProjectUser(ProjectUser project_user) throws SQLException {
 		project_users.add(project_user);
-		db.setInsertQueryString("`project_users` (`project_id`, `user_id` ) VALUES (" +
+		db.setInsert_command("`project_users` (`project_id`, `user_id` ) VALUES (" +
 				project_user.getPuProject_id() + ", " + project_user.getPuUser_id() + ");");
-		db.executeInsertQuery();
+		db.executeInsertCommand();
 	}
 
 	/* (non-Javadoc)
@@ -71,9 +71,9 @@ public class ProjectUserDaoFactory implements ProjectUserDao {
 		ProjectUser pu = findProjectUser(pu_id);
 		pu.setPuUser_id(pu_project_id);
 		pu.setPuProject_id(pu_user_id);
-		db.setUpdateQueryString("`project_users` SET `project_id` = " + pu_project_id + 
+		db.setUpdate_command("`project_users` SET `project_id` = " + pu_project_id + 
 				"`user_id` = " + pu_user_id + " WHERE `pu_id` = " + pu_id + ";");
-		db.executeUpdateQuery();
+		db.executeUpdateCommand();
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +82,8 @@ public class ProjectUserDaoFactory implements ProjectUserDao {
 	@Override
 	public void deleteProjectUser(int pu_id) throws SQLException {
 		project_users.remove(pu_id);
-		db.setDeleteQueryString("`project_users` WHERE pu_id = " + pu_id + ";");
-		db.executeDeleteQuery();
+		db.setDelete_command("`project_users` WHERE pu_id = " + pu_id + ";");
+		db.executeDeleteCommand();
 	}
 
 }

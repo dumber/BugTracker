@@ -9,7 +9,8 @@ import java.sql.Timestamp;
  * @author dumber
  *
  */
-public class TicketValidation extends GenericTableElement {
+public class TicketValidation {
+	private int ticket_validation_id;
 	private int tv_ticket_id;
 	private String validator_comments;
 	private int validated_version_id;
@@ -30,7 +31,7 @@ public class TicketValidation extends GenericTableElement {
 			String validator_comments, int validated_version_id,
 			Timestamp validation_date, int validator_user_id,
 			Timestamp closure_date) {
-		super(ticket_validation_id);
+		this.ticket_validation_id = ticket_validation_id;
 		this.tv_ticket_id = tv_ticket_id;
 		this.validator_comments = validator_comments;
 		this.validated_version_id = validated_version_id;
@@ -40,16 +41,17 @@ public class TicketValidation extends GenericTableElement {
 	}
 
 	/**
-	 * @param tv
+	 * @return the ticket_validation_id
 	 */
-	public TicketValidation(TicketValidation tv) {
-		super(tv.id);
-		this.tv_ticket_id = tv.tv_ticket_id;
-		this.validator_comments = tv.validator_comments;
-		this.validated_version_id = tv.validated_version_id;
-		this.validation_date = tv.validation_date;
-		this.validator_user_id = tv.validator_user_id;
-		this.closure_date = tv.closure_date;
+	public int getTicketValidation_id() {
+		return ticket_validation_id;
+	}
+
+	/**
+	 * @param ticket_validation_id the ticket_validation_id to set
+	 */
+	public void setTicketValidation_id(int ticket_validation_id) {
+		this.ticket_validation_id = ticket_validation_id;
 	}
 
 	/**

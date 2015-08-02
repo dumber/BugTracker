@@ -8,103 +8,78 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.MySqlDataSourceSingleton;
 import model.Action;
-import model.GenericTableElement;
-import model.dao.GenericDaoIFC;;
+import model.dao.ActionDao;
 
 /**
  * @author dumber
  *
  */
-public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
-//	List<GenericTableElement> actions;
-//	List<Action> actions;
-	
+public class ActionDaoFactory implements ActionDao {
+	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
+	List<Action> actions;
 		
 	/**
 	 * @throws SQLException 
 	 * 
 	 */
 	public ActionDaoFactory() throws SQLException {
-		super();
-//		actions = new ArrayList<Action>();
+		actions = new ArrayList<Action>();
+		db.setSelect_command("`actions`");
+		db.executeSelectCommand();
+		ResultSet rs = db.getResultSet();
+		while (rs.next()) {
+			Action dp = new Action(rs.getInt("a_id"), rs.getString("action"));
+			actions.add(dp);
+		}
+		rs.close();
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.ActionDao#getAllActions()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
-		List<Action> actions = new ArrayList<Action>();
-		dataSource.setSelectQueryString("`actions`");
-		dataSource.executeSelectQuery();
-		ResultSet rs = dataSource.getResultSet();
-		while (rs.next()) {
-			Action a = new Action(rs.getInt("a_id"), rs.getString("action"));
-			actions.add(a);
-		}
-		rs.close();
+	public List<Action> getAllActions() {
 		return actions;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int)
+	 * @see model.dao.ActionDao#findAction(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int a_id, Class<T> type) throws SQLException {
-		Action a = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.actions WHERE a_id = ?" );
-		dataSource.executeSelectByIdQuery(a_id);
-		ResultSet rs = dataSource.getResultSet();
-		while (rs.next()) {
-			a = new Action(rs.getInt("a_id"), rs.getString("action"));
-		}
-		rs.close();
-		return type.cast(a);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public Action findActionById(int id) throws SQLException {
-		return findElementById(id, Action.class);
-	}
-	
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T action)
-	 */
-	@Override
-	public <T extends GenericTableElement> void addElementToTable(T action) throws SQLException {
-//		actions.add((Action)action);
-		dataSource.setInsertQueryString("`actions` (`action`) VALUES (" + ((Action)action).getAction() + ");");
-		dataSource.executeInsertQuery();
+	public Action findAction(int a_id) {
+		return actions.get(a_id);
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(model.Action)
+	 * @see model.dao.ActionDao#addAction(model.Action)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int a_id, T action) throws SQLException{
-		Action a = findActionById(a_id);
-		if (a != null) {
-			a.setAction(((Action)action).getAction());
-			dataSource.setUpdateQueryString("`actions` SET `action` = \'" + a.getAction() + "\' WHERE `a_id` = " + a_id + ";");
-			dataSource.executeUpdateQuery();
-		} else {
-			// TODO throw some exceptions
-		}
+	public void addAction(Action action) throws SQLException {
+		actions.add(action);
+		db.setInsert_command("`actions` (`action`) VALUES (" + action.getAction() + ");");
+		db.executeInsertCommand();
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
+	 * @see model.dao.ActionDao#updateAction(model.Action)
 	 */
 	@Override
-	public void deleteElementFromTable(int a_id) throws SQLException {
-//		actions.remove(a_id);
-		dataSource.setDeleteQueryString("`actions` WHERE a_id = " + a_id + ";");
-		dataSource.executeDeleteQuery();
+	public void updateAction(int a_id, String action) throws SQLException{
+		findAction(a_id).setAction(action);
+		db.setUpdate_command("`actions` SET `action` = " + action + " WHERE `a_id` = " + a_id + ";");
+		db.executeUpdateCommand();
+	}
+
+	/* (non-Javadoc)
+	 * @see model.dao.ActionDao#deleteAction(int)
+	 */
+	@Override
+	public void deleteAction(int a_id) throws SQLException {
+		actions.remove(a_id);
+		db.setDelete_command("`actions` WHERE a_id = " + a_id + ";");
+		db.executeDeleteCommand();
 	}
 
 }

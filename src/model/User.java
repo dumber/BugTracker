@@ -11,26 +11,16 @@ public class User {
 	private int user_type_id;
 
 	/**
-	 * @param user_id			the user id
-	 * @param username			the user name
-	 * @param password			the password
-	 * @param user_type_id		the user type id
+	 * @param user_id
+	 * @param username
+	 * @param password
+	 * @param user_type_id
 	 */
 	public User(int user_id, String username, String password, int user_type_id) {
 		this.user_id = user_id;
 		this.username = username;
 		this.password = password;
 		this.user_type_id = user_type_id;
-	}
-	
-	/**
-	 * @param u					the user to copy
-	 */
-	public User(User u) {
-		this.user_id = u.user_id;
-		this.username = u.username;
-		this.password = u.password;
-		this.user_type_id = u.user_type_id;
 	}
 
 	/**
@@ -87,25 +77,6 @@ public class User {
 	 */
 	public void setUserType_id(int user_type_id) {
 		this.user_type_id = user_type_id;
-	}
-	
-	/**
-	 * @param un
-	 * @param pw
-	 * @param ut_id
-	 */
-	public void modifyUser(String un, String pw, int ut_id) {
-		this.username = un;
-		this.password = pw;
-		this.user_type_id = ut_id;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return username + ", " + password + ", " + user_type_id;
 	}
 	
 }
