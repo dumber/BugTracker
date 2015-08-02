@@ -9,8 +9,7 @@ import java.sql.Timestamp;
  * @author dumber
  *
  */
-public class TicketAnalysis {
-	private int ticket_analysis_id;
+public class TicketAnalysis extends GenericTableElement {
 	private int ta_ticket_id;
 	private String proposed_change;
 	private int impacted_version_id;
@@ -28,7 +27,7 @@ public class TicketAnalysis {
 	public TicketAnalysis(int ticket_analysis_id, int ta_ticket_id,
 			String proposed_change, int impacted_version_id,
 			Timestamp analysis_date, int analyser_user_id) {
-		this.ticket_analysis_id = ticket_analysis_id;
+		super(ticket_analysis_id);
 		this.ta_ticket_id = ta_ticket_id;
 		this.proposed_change = proposed_change;
 		this.impacted_version_id = impacted_version_id;
@@ -37,19 +36,17 @@ public class TicketAnalysis {
 	}
 
 	/**
-	 * @return the ticket_analysis_id
+	 * @param ta
 	 */
-	public int getTicketAnalysis_id() {
-		return ticket_analysis_id;
-	}
-
-	/**
-	 * @param ticket_analysis_id the ticket_analysis_id to set
-	 */
-	public void setTicketAnalysis_id(int ticket_analysis_id) {
-		this.ticket_analysis_id = ticket_analysis_id;
-	}
-
+	public TicketAnalysis(TicketAnalysis ta) {
+		super(ta.id);
+		this.ta_ticket_id = ta.ta_ticket_id;
+		this.proposed_change = ta.proposed_change;
+		this.impacted_version_id = ta.impacted_version_id;
+		this.analysis_date = ta.analysis_date;
+		this.analyser_user_id = ta.analyser_user_id;
+	}	
+	
 	/**
 	 * @return the ta_ticket_id
 	 */

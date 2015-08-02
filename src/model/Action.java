@@ -7,31 +7,24 @@ package model;
  * @author dumber
  *
  */
-public class Action {
-	private int action_id;
+public class Action extends GenericTableElement {
 	private String action;
 	
 	/**
-	 * @param action_id
-	 * @param action
+	 * @param action_id		the action id
+	 * @param action		the action name
 	 */
 	public Action(int action_id, String action) {
-		this.action_id = action_id;
+		super(action_id);
 		this.action = action;
 	}
 
 	/**
-	 * @return the action_id
+	 * @param a				the action to copy
 	 */
-	public int getAction_id() {
-		return action_id;
-	}
-
-	/**
-	 * @param action_id the action_id to set
-	 */
-	public void setAction_id(int action_id) {
-		this.action_id = action_id;
+	public Action(Action a) {
+		super(a.id);
+		this.action = a.action;
 	}
 
 	/**
@@ -46,6 +39,14 @@ public class Action {
 	 */
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Action [action=" + action + ", id=" + id + "]";
 	}
 	
 }

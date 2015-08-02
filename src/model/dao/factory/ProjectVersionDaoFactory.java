@@ -22,8 +22,8 @@ public class ProjectVersionDaoFactory implements ProjectVersionDao {
 	
 	public ProjectVersionDaoFactory() throws SQLException {
 		project_versions = new ArrayList<ProjectVersion>();
-		db.setSelect_command("`project_versions`");
-		db.executeSelectCommand();
+		db.setSelectQueryString("`project_versions`");
+		db.executeSelectQuery();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
 			ProjectVersion pv = new ProjectVersion(rs.getInt("pv_id"), rs.getString("version"));
@@ -55,8 +55,8 @@ public class ProjectVersionDaoFactory implements ProjectVersionDao {
 	@Override
 	public void addProjectVersion(ProjectVersion project_version) throws SQLException {
 		project_versions.add(project_version);
-		db.setInsert_command("`project_versions` (`version`) VALUES (" + project_version.getVersion() + ");");
-		db.executeInsertCommand();
+		db.setInsertQueryString("`project_versions` (`version`) VALUES (" + project_version.getVersion() + ");");
+		db.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
@@ -65,8 +65,8 @@ public class ProjectVersionDaoFactory implements ProjectVersionDao {
 	@Override
 	public void updateProjectVersion(int pv_id, String project_version) throws SQLException {
 		findProjectVersion(pv_id).setVersion(project_version);
-		db.setUpdate_command("`project_versions` SET `version` = " + project_version + "WHERE `pv_id = " + pv_id + ";");
-		db.executeUpdateCommand();
+		db.setUpdateQueryString("`project_versions` SET `version` = " + project_version + "WHERE `pv_id = " + pv_id + ";");
+		db.executeUpdateQuery();
 	}
 
 	/* (non-Javadoc)
@@ -75,8 +75,8 @@ public class ProjectVersionDaoFactory implements ProjectVersionDao {
 	@Override
 	public void deleteProjectVersion(int pv_id) throws SQLException {
 		project_versions.remove(pv_id);
-		db.setDelete_command("`project_versions` WHERE pv_id = " + pv_id + ";");
-		db.executeDeleteCommand();
+		db.setDeleteQueryString("`project_versions` WHERE pv_id = " + pv_id + ";");
+		db.executeDeleteQuery();
 	}
 
 }

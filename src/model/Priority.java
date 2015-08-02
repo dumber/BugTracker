@@ -4,33 +4,26 @@ package model;
  * @author dumber
  *
  */
-public class Priority {
-	private int priority_id;
+public class Priority extends GenericTableElement {
 	private String priority;
 	
 	/**
-	 * @param priority_id
-	 * @param priority
+	 * @param priority_id		the priority id
+	 * @param priority			the name of the priority
 	 */
 	public Priority(int priority_id, String priority) {
-		this.priority_id = priority_id;
+		super(priority_id);
 		this.priority = priority;
 	}
 	
 	/**
-	 * @return the priority_id
+	 * @param p					the priority to copy
 	 */
-	public int getPriority_id() {
-		return priority_id;
+	public Priority(Priority p) {
+		super(p.id);
+		this.priority = p.priority;
 	}
-	
-	/**
-	 * @param priority_id the priority_id to set
-	 */
-	public void setPriority_id(int priority_id) {
-		this.priority_id = priority_id;
-	}
-	
+		
 	/**
 	 * @return the priority
 	 */
