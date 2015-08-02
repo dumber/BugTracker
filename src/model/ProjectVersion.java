@@ -4,8 +4,7 @@ package model;
  * @author dumber
  *
  */
-public class ProjectVersion {
-	private int project_version_id;
+public class ProjectVersion extends GenericTableElement {
 	private String version;
 
 	/**
@@ -13,22 +12,16 @@ public class ProjectVersion {
 	 * @param version
 	 */
 	public ProjectVersion(int pv_id, String version) {
-		this.project_version_id = pv_id;
+		super(pv_id);
 		this.version = version;
 	}
 
 	/**
-	 * @return the project_version_id
+	 * @param pv
 	 */
-	public int getProjectVersion_id() {
-		return project_version_id;
-	}
-
-	/**
-	 * @param pv_id the project_version_id to set
-	 */
-	public void setProjectVersion_id(int pv_id) {
-		this.project_version_id = pv_id;
+	public ProjectVersion(ProjectVersion pv) {
+		super(pv.id);
+		this.version = pv.version;
 	}
 
 	/**

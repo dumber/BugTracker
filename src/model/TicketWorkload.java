@@ -7,8 +7,7 @@ package model;
  * @author dumber
  *
  */
-public class TicketWorkload {
-	private int ticket_workload_id;
+public class TicketWorkload extends GenericTableElement {
 	private int tw_ticket_id;
 	private int estimated_analysis;
 	private int estimated_realisation;
@@ -35,7 +34,7 @@ public class TicketWorkload {
 			int estimated_analysis, int estimated_realisation,
 			int estimated_validation, int estimated_sum, int analysis_workload,
 			int realisation_workload, int validation_workload, int workload_sum) {
-		this.ticket_workload_id = ticket_workload_id;
+		super(ticket_workload_id);
 		this.tw_ticket_id = tw_ticket_id;
 		this.estimated_analysis = estimated_analysis;
 		this.estimated_realisation = estimated_realisation;
@@ -46,19 +45,21 @@ public class TicketWorkload {
 		this.validation_workload = validation_workload;
 		this.workload_sum = workload_sum;
 	}
-	
+
 	/**
-	 * @return the ticket_workload_id
+	 * @param tw
 	 */
-	public int getTicketWorkload_id() {
-		return ticket_workload_id;
-	}
-	
-	/**
-	 * @param ticket_workload_id the ticket_workload_id to set
-	 */
-	public void setTicketWorkload_id(int ticket_workload_id) {
-		this.ticket_workload_id = ticket_workload_id;
+	public TicketWorkload(TicketWorkload tw) {
+		super(tw.id);
+		this.tw_ticket_id = tw.tw_ticket_id;
+		this.estimated_analysis = tw.estimated_analysis;
+		this.estimated_realisation = tw.estimated_realisation;
+		this.estimated_validation = tw.estimated_validation;
+		this.estimated_sum = tw.estimated_sum;
+		this.analysis_workload = tw.analysis_workload;
+		this.realisation_workload = tw.realisation_workload;
+		this.validation_workload = tw.validation_workload;
+		this.workload_sum = tw.workload_sum;
 	}
 	
 	/**

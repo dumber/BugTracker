@@ -7,8 +7,7 @@ package model;
  * @author dumber
  *
  */
-public class ProjectUser {
-	private int project_user_id;
+public class ProjectUser extends GenericTableElement {
 	private int pu_project_id;
 	private int pu_user_id;
 	
@@ -18,23 +17,18 @@ public class ProjectUser {
 	 * @param pu_user_id
 	 */
 	public ProjectUser(int pu_id, int pu_project_id, int pu_user_id) {
-		this.project_user_id = pu_id;
+		super(pu_id);
 		this.pu_project_id = pu_project_id;
 		this.pu_user_id = pu_user_id;
 	}
 
 	/**
-	 * @return the project_user_id
+	 * @param pu
 	 */
-	public int getProjectUser_id() {
-		return project_user_id;
-	}
-
-	/**
-	 * @param pu_id the project_user_id to set
-	 */
-	public void setProjectUser_id(int pu_id) {
-		this.project_user_id = pu_id;
+	public ProjectUser(ProjectUser pu) {
+		super(pu.id);
+		this.pu_project_id = pu.pu_project_id;
+		this.pu_user_id = pu.pu_user_id;
 	}
 
 	/**

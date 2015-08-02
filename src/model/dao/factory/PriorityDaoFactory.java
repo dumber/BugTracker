@@ -8,23 +8,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.MySqlDataSourceSingleton;
+import model.GenericTableElement;
 import model.Priority;
-import model.dao.PriorityDao;
+import model.dao.GenericDaoIFC;
 
 /**
  * @author dumber
  *
  */
-public class PriorityDaoFactory implements PriorityDao {
-	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
+public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	List<Priority> priorities;
 		
 	public PriorityDaoFactory() throws SQLException {
+		super();
 		priorities = new ArrayList<Priority>();
-		db.setSelect_command("`priorities`");
-		db.executeSelectCommand();
-		ResultSet rs = db.getResultSet();
+		dataSource.setSelectQueryString("`priorities`");
+		dataSource.executeSelectQuery();
+		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
 			Priority prio = new Priority(rs.getInt("pr_id"),rs.getString("priority"));
 			priorities.add(prio);
@@ -36,7 +36,7 @@ public class PriorityDaoFactory implements PriorityDao {
 	 * @see model.dao.PriorityDao#getAllPrioritys()
 	 */
 	@Override
-	public List<model.Priority> getAllPrioritys() {
+	public List<? extends GenericTableElement> getAllTableElements() {
 		return priorities;
 	}
 
@@ -44,38 +44,53 @@ public class PriorityDaoFactory implements PriorityDao {
 	 * @see model.dao.PriorityDao#findPriority(int)
 	 */
 	@Override
-	public Priority findPriority(int p_id) {
-		return priorities.get(p_id);
+	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) {
+		Priority tmp = null;
+		for (Priority p : priorities) {
+			if (p_id == p.getId()) {
+				tmp = p;
+			}
+		}
+		return type.cast(tmp);
 	}
 
+	public Priority findPriority(int id) {
+		return findElementById(id, Priority.class);
+	}
+	
 	/* (non-Javadoc)
 	 * @see model.dao.PriorityDao#addPriority(model.Priority)
 	 */
 	@Override
-	public void addPriority(Priority priority) throws SQLException {
-		priorities.add(priority);
-		db.setInsert_command("`priorities` (`priority`) VALUES (" + priority.getPriority() + ");");
-		db.executeInsertCommand();
+	public <T extends GenericTableElement> void addElementToTable(T priority) throws SQLException {
+		priorities.add((Priority)priority);
+		dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (" + ((Priority)priority).getPriority() + ");");
+		dataSource.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.PriorityDao#updatePriority(model.Priority)
 	 */
 	@Override
-	public void updatePriority(int p_id, String priority) throws SQLException {
-		findPriority(p_id).setPriority(priority);
-		db.setUpdate_command("`priorities` SET `priority` = " + priority + " WHERE `p_id` = " + p_id + ";");
-		db.executeUpdateCommand();
+	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T priority) throws SQLException {
+		Priority p = findPriority(p_id);
+		if (p != null) {
+			p.setPriority(((Priority)priority).getPriority());
+			dataSource.setUpdateQueryString("`priorities` SET `priority` = " + p.getPriority() + " WHERE `p_id` = " + p_id + ";");
+			dataSource.executeUpdateQuery();
+		} else {
+			// TODO throw some exceptions
+		}		
 	}
 
 	/* (non-Javadoc)
 	 * @see model.dao.PriorityDao#deletePriority(model.Priority)
 	 */
 	@Override
-	public void deletePriority(int p_id) throws SQLException {
+	public void deleteElementFromTable(int p_id) throws SQLException {
 		priorities.remove(p_id);
-		db.setDelete_command("`priorities` WHERE p_id = " + p_id + ";");
-		db.executeDeleteCommand();
+		dataSource.setDeleteQueryString("`priorities` WHERE p_id = " + p_id + ";");
+		dataSource.executeDeleteQuery();
 	}
 
 }

@@ -4,8 +4,7 @@ package model;
  * @author dumber
  *
  */
-public class UserType {
-	private int user_type_id;
+public class UserType extends GenericTableElement {
 	private String user_type;
 
 	/**
@@ -13,24 +12,18 @@ public class UserType {
 	 * @param user_type
 	 */
 	public UserType(int user_type_id, String user_type) {
-		this.user_type_id = user_type_id;
+		super(user_type_id);
 		this.user_type = user_type;
 	}
 
 	/**
-	 * @return the user_type_id
+	 * @param ut
 	 */
-	public int getUserType_id() {
-		return user_type_id;
-	}
-
-	/**
-	 * @param user_type_id the user_type_id to set
-	 */
-	public void setUserType_id(int user_type_id) {
-		this.user_type_id = user_type_id;
-	}
-
+	public UserType(UserType ut) {
+		super(ut.id);
+		this.user_type = ut.user_type;
+	}	
+	
 	/**
 	 * @return the user_type
 	 */

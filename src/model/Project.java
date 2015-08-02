@@ -4,8 +4,7 @@ package model;
  * @author dumber
  *
  */
-public class Project {
-	private int project_id;
+public class Project extends GenericTableElement {
 	private String project_name;
 
 	/**
@@ -13,24 +12,19 @@ public class Project {
 	 * @param project_name
 	 */
 	public Project(int project_id, String project_name) {
-		this.project_id = project_id;
+		super(project_id);
 		this.project_name = project_name;
 	}
-
+	
+	
 	/**
-	 * @return the project_id
+	 * @param pr
 	 */
-	public int getProject_id() {
-		return project_id;
+	public Project(Project pr) {
+		super(pr.id);
+		this.project_name = pr.project_name;
 	}
-
-	/**
-	 * @param project_id the project_id to set
-	 */
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
-	}
-
+	
 	/**
 	 * @return the project_name
 	 */
