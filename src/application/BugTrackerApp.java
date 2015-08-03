@@ -98,11 +98,16 @@ public class BugTrackerApp extends Application {
 //			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());
 //			System.out.println(adf.findAction(1).getId() + ", " + adf.findAction(1).getAction());
 //			System.out.println(adf.findAction(2).getId() + ", " + adf.findAction(2).getAction());
-			Action a = new Action(1,"asdasf");
-			adf.updateElementInTalbe(1, a);
+			Action a = new Action(1,"lophas");
+//			adf.updateElementInTalbe(1, a);
+//			adf.addElementToTable(a);
 			System.out.println("Modified:");
-			System.out.println(adf.findActionById(1).toString());
+//			System.out.println(adf.findActionById(14).toString());
 //			alist = (ArrayList<Action>)adf.getAllTableElements();
+//			adf.deleteElementFromTable(14);
+			for(Action i : ((ArrayList<Action>)adf.getAllTableElements())) {
+				System.out.println(i.toString());
+			}
 //			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());
 //			System.out.println(adf.findAction(1).getId() + ", " + adf.findAction(1).getAction());
 //			System.out.println(adf.findAction(2).getId() + ", " + adf.findAction(2).getAction());

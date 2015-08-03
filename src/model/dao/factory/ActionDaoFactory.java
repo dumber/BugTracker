@@ -17,9 +17,6 @@ import model.dao.GenericDaoIFC;;
  *
  */
 public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
-//	List<GenericTableElement> actions;
-//	List<Action> actions;
-	
 		
 	/**
 	 * @throws SQLException 
@@ -77,8 +74,8 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T action) throws SQLException {
-//		actions.add((Action)action);
-		dataSource.setInsertQueryString("`actions` (`action`) VALUES (" + ((Action)action).getAction() + ");");
+		dataSource.setInsertQueryString("`actions` (`action`) VALUES (\'" + ((Action)action).getAction() + "\');");
+		System.out.println(dataSource.getInsertQueryString());
 		dataSource.executeInsertQuery();
 	}
 
@@ -102,8 +99,8 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	 */
 	@Override
 	public void deleteElementFromTable(int a_id) throws SQLException {
-//		actions.remove(a_id);
-		dataSource.setDeleteQueryString("`actions` WHERE a_id = " + a_id + ";");
+		dataSource.setDeleteQueryString("`actions` WHERE a_id =" + a_id +";");
+		System.out.println(dataSource.getDeleteQueryString());
 		dataSource.executeDeleteQuery();
 	}
 

@@ -108,8 +108,8 @@ public class MySqlDataSourceSingleton {
 	 * 
 	 */
 	public void executeDeleteQuery() throws SQLException {
-		resetDeleteCommands();
 		stmt.executeUpdate(delete_query_string);
+		resetDeleteCommands();
 	}
 	
 	/**
