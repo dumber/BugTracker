@@ -1,7 +1,7 @@
 /**
  * 
  */
-package database;
+package helper;
 
 
 import java.sql.Connection;
@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+
+import java.sql.DatabaseMetaData;
 
 /** 
  * 
@@ -18,7 +20,7 @@ import java.sql.PreparedStatement;
 public class MySqlDataSourceSingleton {
 	private static MySqlDataSourceSingleton instance = null;	
 	
-	// JDBC driver name and database URL
+	// JDBC driver name and helper URL
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/bugtrack";
 	
@@ -58,10 +60,26 @@ public class MySqlDataSourceSingleton {
 		// Register JDBC driver
 		Class.forName(JDBC_DRIVER).newInstance();		
 		// Open a connection
-		System.out.println("Connecting to database...");
+		System.out.println("Connecting to helper...");
 	    conn = DriverManager.getConnection(DB_URL, user, passw);
 //	    stmt = conn.createStatement();
 	}
+	
+    public void getDatabaseMetaData()
+    {
+        try {
+
+            DatabaseMetaData dbmd = conn.getMetaData();
+            String[] types = {"TABLE"};
+            ResultSet rs = dbmd.getTables(null, null, "%", types);
+            while (rs.next()) {
+                System.out.println(rs.getString("TABLE_NAME"));
+            }
+        } 
+            catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	/**
 	 * @throws SQLException 
@@ -128,8 +146,15 @@ public class MySqlDataSourceSingleton {
 	 * 
 	 */
 	public void MySqlDataSourceCloseConections() throws SQLException {		
-	    stmt.close();
-	    conn.close();
+		if (rs != null) {
+			rs.close();
+		}
+		if (stmt != null) {
+			stmt.close();
+		}
+		if (conn != null) {
+			conn.close();
+		}
 	}
 
 	/**
@@ -249,5 +274,5 @@ public class MySqlDataSourceSingleton {
 	public void resetCustomSelectCommands() {
 		custom_select_query_string = "SELECT";	
 	}
-
+	
 }

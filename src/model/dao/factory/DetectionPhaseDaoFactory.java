@@ -17,7 +17,7 @@ import model.dao.GenericDaoIFC;
  *
  */
 public class DetectionPhaseDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
-	List<DetectionPhase> detection_phases;
+//	List<DetectionPhase> detection_phases;
 	
 	/**
 	 * @throws SQLException 
@@ -25,7 +25,15 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	 */
 	public DetectionPhaseDaoFactory() throws SQLException {
 		super();
-		detection_phases = new ArrayList<DetectionPhase>();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 */
+	@Override
+	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {		
+		List<DetectionPhase> detection_phases = new ArrayList<DetectionPhase>();
 		dataSource.setSelectQueryString("`detection_phases`");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
@@ -34,65 +42,61 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 			detection_phases.add(dp);
 		}
 		rs.close();
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#getAllDetectionPhases()
-	 */
-	@Override
-	public List<? extends GenericTableElement> getAllTableElements() {		
 		return detection_phases;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#findDetectionPhase(int)
+	 * @see model.dao.GenericDaoIFC#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int dp_id, Class<T> type) {		
-		DetectionPhase tmp = null;
-		for (DetectionPhase dp : detection_phases) {
-			if (dp_id == dp.getId()) {
-				tmp = dp;
-			}
+	public <T extends GenericTableElement> T findElementById(int dp_id, Class<T> type) throws SQLException {		
+		DetectionPhase dp = null;
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`detection_phases` WHERE dp_id = ");
+		dataSource.executeSelectByIdQuery(dp_id);
+		ResultSet rs = dataSource.getResultSet();
+		while (rs.next()) {
+			dp = new DetectionPhase(rs.getInt("dp_id"), rs.getString("detection_phase"));
 		}
-		return type.cast(tmp);
+		rs.close();
+		return type.cast(dp);
 	}
 	
-	public DetectionPhase findDetectionPhase(int id) {
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public DetectionPhase findDetectionPhaseById(int id) throws SQLException {
 		return findElementById(id, DetectionPhase.class);
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#addDetectionPhase(model.DetectionPhase)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(T action)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {		
-		detection_phases.add((DetectionPhase)detection_phase);
-		dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (" + ((DetectionPhase)detection_phase).getPhaseName() + ");");
+		dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (\'" + ((DetectionPhase)detection_phase).getPhaseName() + "\');");
 		dataSource.executeInsertQuery();
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#updateDetectionPhase(model.DetectionPhase)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(model.Action)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T elem) throws SQLException {
-		DetectionPhase dp = findDetectionPhase(dp_id);
-		if (dp != null) {
-			dp.setPhaseName(((DetectionPhase)elem).getPhaseName());
-			dataSource.setUpdateQueryString("`detection_phases` SET `detection_phase` = " + dp.getPhaseName() + " WHERE `dp_id` = " + dp_id + ";");
+	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T phase) throws SQLException {
+		if (((DetectionPhase)phase).getPhaseName() != null) {
+			dataSource.setUpdateQueryString("`detection_phases` SET `detection_phase` = " + ((DetectionPhase)phase).getPhaseName() + " WHERE `dp_id` = " + dp_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
-			// TODO throw some exceptions
+			throw new RuntimeException("corrupt detection_phase; \n");
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.DetectionPhaseDao#deleteDetectionPhase(model.DetectionPhase)
+	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
 	public void deleteElementFromTable(int dp_id) throws SQLException {
-		detection_phases.remove(dp_id);
 		dataSource.setDeleteQueryString("`detection_phase` WHERE dp_id = " + dp_id + ";");
 		dataSource.executeDeleteQuery();
 	}

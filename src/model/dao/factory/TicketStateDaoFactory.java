@@ -3,12 +3,13 @@
  */
 package model.dao.factory;
 
+import helper.MySqlDataSourceSingleton;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.MySqlDataSourceSingleton;
 import model.TicketState;
 import model.dao.TicketStateDao;
 

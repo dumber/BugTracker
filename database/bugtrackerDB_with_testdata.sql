@@ -1,43 +1,22 @@
--- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
---
--- Host: localhost    Database: bugtrack
--- ------------------------------------------------------
--- Server version	5.6.22-log
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `actions`
 --
 
 DROP TABLE IF EXISTS `actions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `actions` (
   `a_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `action` varchar(30) NOT NULL,
   PRIMARY KEY (`a_id`),
   UNIQUE KEY `a_id_UNIQUE` (`a_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `actions`
 --
 
 LOCK TABLES `actions` WRITE;
-/*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 INSERT INTO `actions` VALUES (1,'Submit'),(2,'Modify'),(3,'Record'),(4,'Assign'),(5,'Analyse'),(6,'Realise'),(7,'Validate'),(8,'Fail'),(9,'Reject'),(10,'Cancel'),(11,'Postpone'),(12,'Close');
-/*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -45,24 +24,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `detection_phases`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `detection_phases` (
   `dp_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `phase_name` varchar(100) NOT NULL,
   PRIMARY KEY (`dp_id`),
   UNIQUE KEY `dp_id_UNIQUE` (`dp_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `detection_phases`
 --
 
 LOCK TABLES `detection_phases` WRITE;
-/*!40000 ALTER TABLE `detection_phases` DISABLE KEYS */;
 INSERT INTO `detection_phases` VALUES (1,'Specification'),(2,'Code Inspection'),(3,'Software Unit Testing'),(4,'Software Integration Testing'),(5,'Requirement Based Functional Testing'),(6,'System Integration Testing'),(7,'System Acceptance Testing'),(8,'N/A');
-/*!40000 ALTER TABLE `detection_phases` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -70,24 +44,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `priorities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `priorities` (
   `pr_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `priority` varchar(20) NOT NULL,
   PRIMARY KEY (`pr_id`),
   UNIQUE KEY `pr_id_UNIQUE` (`pr_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `priorities`
 --
 
 LOCK TABLES `priorities` WRITE;
-/*!40000 ALTER TABLE `priorities` DISABLE KEYS */;
 INSERT INTO `priorities` VALUES (1,'Very low'),(2,'Low'),(3,'Medium'),(4,'High'),(5,'Very high');
-/*!40000 ALTER TABLE `priorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,8 +64,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `project_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project_users` (
   `pu_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(6) unsigned NOT NULL,
@@ -108,16 +75,13 @@ CREATE TABLE `project_users` (
   CONSTRAINT `fk_project_id` FOREIGN KEY (`project_id`) REFERENCES `projects` (`p_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`u_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `project_users`
 --
 
 LOCK TABLES `project_users` WRITE;
-/*!40000 ALTER TABLE `project_users` DISABLE KEYS */;
 INSERT INTO `project_users` VALUES (1,1,2),(2,1,3),(3,1,4);
-/*!40000 ALTER TABLE `project_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -125,8 +89,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `project_versions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project_versions` (
   `pv_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `version` varchar(12) DEFAULT NULL,
@@ -134,16 +96,13 @@ CREATE TABLE `project_versions` (
   UNIQUE KEY `id_UNIQUE` (`pv_id`),
   UNIQUE KEY `version_UNIQUE` (`version`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `project_versions`
 --
 
 LOCK TABLES `project_versions` WRITE;
-/*!40000 ALTER TABLE `project_versions` DISABLE KEYS */;
 INSERT INTO `project_versions` VALUES (1,'0.7a'),(2,'0.8b'),(4,'0.9.1b'),(5,'0.9.2b'),(3,'0.9b'),(6,'1.0'),(7,'1.0.1'),(8,'1.0.2'),(9,'1.1.0'),(10,'1.1.1'),(11,'1.2.0'),(12,'1.2.1'),(13,'1.2.2'),(14,'1.2.3'),(15,'1.2.4'),(16,'2.0'),(17,'2.1'),(18,'2.2'),(19,'2.3'),(20,'2.4'),(21,'2.5');
-/*!40000 ALTER TABLE `project_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -151,24 +110,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `projects`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `projects` (
   `p_id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `project_name` varchar(50) NOT NULL,
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `p_id_UNIQUE` (`p_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `projects`
 --
 
 LOCK TABLES `projects` WRITE;
-/*!40000 ALTER TABLE `projects` DISABLE KEYS */;
 INSERT INTO `projects` VALUES (1,'U500'),(2,'U400'),(3,'Accounting Assistant application');
-/*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -176,24 +130,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `severities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `severities` (
   `s_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `severity` varchar(20) NOT NULL,
   PRIMARY KEY (`s_id`),
   UNIQUE KEY `s_id_UNIQUE` (`s_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `severities`
 --
 
 LOCK TABLES `severities` WRITE;
-/*!40000 ALTER TABLE `severities` DISABLE KEYS */;
 INSERT INTO `severities` VALUES (1,'Bypassing'),(2,'Minor'),(3,'Major'),(4,'Blocking');
-/*!40000 ALTER TABLE `severities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -201,8 +150,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_analyses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_analyses` (
   `ta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ta_ticket_id` int(11) unsigned NOT NULL,
@@ -220,16 +167,13 @@ CREATE TABLE `ticket_analyses` (
   CONSTRAINT `fk_impacted_ver_id` FOREIGN KEY (`impacted_ver_id`) REFERENCES `project_versions` (`pv_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_ta_ticket_id` FOREIGN KEY (`ta_ticket_id`) REFERENCES `tickets` (`t_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_analyses`
 --
 
 LOCK TABLES `ticket_analyses` WRITE;
-/*!40000 ALTER TABLE `ticket_analyses` DISABLE KEYS */;
 INSERT INTO `ticket_analyses` VALUES (1,1,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `ticket_analyses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -237,8 +181,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_histories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_histories` (
   `th_id` int(13) unsigned NOT NULL AUTO_INCREMENT,
   `th_ticket_id` int(11) unsigned NOT NULL,
@@ -260,16 +202,13 @@ CREATE TABLE `ticket_histories` (
   CONSTRAINT `fk_old_state_id` FOREIGN KEY (`old_state_id`) REFERENCES `ticket_states` (`ts_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_th_ticket_id` FOREIGN KEY (`th_ticket_id`) REFERENCES `tickets` (`t_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_histories`
 --
 
 LOCK TABLES `ticket_histories` WRITE;
-/*!40000 ALTER TABLE `ticket_histories` DISABLE KEYS */;
 INSERT INTO `ticket_histories` VALUES (1,1,4,11,1,1,'2015-03-29 17:56:07'),(2,1,4,1,1,2,'2015-03-29 18:00:29');
-/*!40000 ALTER TABLE `ticket_histories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -277,8 +216,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_realisations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_realisations` (
   `tr_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `tr_ticket_id` int(11) unsigned NOT NULL,
@@ -296,16 +233,13 @@ CREATE TABLE `ticket_realisations` (
   CONSTRAINT `fk_realiser_user_id` FOREIGN KEY (`realiser_user_id`) REFERENCES `users` (`u_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_tr_ticket_id` FOREIGN KEY (`tr_ticket_id`) REFERENCES `tickets` (`t_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_realisations`
 --
 
 LOCK TABLES `ticket_realisations` WRITE;
-/*!40000 ALTER TABLE `ticket_realisations` DISABLE KEYS */;
 INSERT INTO `ticket_realisations` VALUES (1,1,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `ticket_realisations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -313,24 +247,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_states`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_states` (
   `ts_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `ticket_state` varchar(20) NOT NULL,
   PRIMARY KEY (`ts_id`),
   UNIQUE KEY `ts_id_UNIQUE` (`ts_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_states`
 --
 
 LOCK TABLES `ticket_states` WRITE;
-/*!40000 ALTER TABLE `ticket_states` DISABLE KEYS */;
 INSERT INTO `ticket_states` VALUES (1,'New'),(2,'Assigned'),(3,'Analysed'),(4,'Realised'),(5,'Validated'),(6,'Validation failed'),(7,'Rejected'),(8,'Cancelled'),(9,'Postponed'),(10,'Closed'),(11,'N/A');
-/*!40000 ALTER TABLE `ticket_states` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -338,8 +267,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_submissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_submissions` (
   `ts_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ts_ticket_id` int(11) unsigned NOT NULL,
@@ -362,16 +289,13 @@ CREATE TABLE `ticket_submissions` (
   CONSTRAINT `fk_submitter_user_id` FOREIGN KEY (`submitter_user_id`) REFERENCES `users` (`u_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_ts_ticket_id` FOREIGN KEY (`ts_ticket_id`) REFERENCES `tickets` (`t_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_submissions`
 --
 
 LOCK TABLES `ticket_submissions` WRITE;
-/*!40000 ALTER TABLE `ticket_submissions` DISABLE KEYS */;
 INSERT INTO `ticket_submissions` VALUES (1,1,3,3,4,'2015-03-29 17:56:07',1);
-/*!40000 ALTER TABLE `ticket_submissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -379,8 +303,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_validations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_validations` (
   `tv_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `tv_ticket_id` int(11) unsigned NOT NULL,
@@ -399,16 +321,13 @@ CREATE TABLE `ticket_validations` (
   CONSTRAINT `fk_validated_ver_id` FOREIGN KEY (`validated_ver_id`) REFERENCES `project_versions` (`pv_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_validator_user_id` FOREIGN KEY (`validator_user_id`) REFERENCES `users` (`u_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_validations`
 --
 
 LOCK TABLES `ticket_validations` WRITE;
-/*!40000 ALTER TABLE `ticket_validations` DISABLE KEYS */;
 INSERT INTO `ticket_validations` VALUES (1,1,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `ticket_validations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -416,8 +335,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ticket_workloads`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_workloads` (
   `tw_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tw_ticket_id` int(11) unsigned NOT NULL,
@@ -435,16 +352,13 @@ CREATE TABLE `ticket_workloads` (
   KEY `fk_tw_ticket_id_idx` (`tw_ticket_id`),
   CONSTRAINT `fk_tw_ticket_id` FOREIGN KEY (`tw_ticket_id`) REFERENCES `tickets` (`t_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ticket_workloads`
 --
 
 LOCK TABLES `ticket_workloads` WRITE;
-/*!40000 ALTER TABLE `ticket_workloads` DISABLE KEYS */;
 INSERT INTO `ticket_workloads` VALUES (1,1,0,1,0,1,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `ticket_workloads` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -452,8 +366,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tickets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tickets` (
   `t_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `unique_ticket_id` int(11) unsigned zerofill NOT NULL,
@@ -477,16 +389,13 @@ CREATE TABLE `tickets` (
   CONSTRAINT `fk_t_severity_id` FOREIGN KEY (`severity_id`) REFERENCES `severities` (`s_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_t_state_id` FOREIGN KEY (`state_id`) REFERENCES `ticket_states` (`ts_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tickets`
 --
 
 LOCK TABLES `tickets` WRITE;
-/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
 INSERT INTO `tickets` VALUES (1,00000000001,1,'Problems detected in specification','In requirement SwRs-0291 the part about the hash calculation uses a variable which is not defined anywhere',2,3,1,NULL);
-/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -494,24 +403,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `user_types`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_types` (
   `ut_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
   `user_type` varchar(20) NOT NULL,
   PRIMARY KEY (`ut_id`),
   UNIQUE KEY `ut_id_UNIQUE` (`ut_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `user_types`
 --
 
 LOCK TABLES `user_types` WRITE;
-/*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
 INSERT INTO `user_types` VALUES (1,'admin'),(2,'project manager'),(3,'developer'),(4,'validator');
-/*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -519,8 +423,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `u_id` int(7) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(16) NOT NULL,
@@ -532,33 +434,12 @@ CREATE TABLE `users` (
   KEY `fk_usr_type_idx` (`user_type_id`),
   CONSTRAINT `fk_u_user_type_id` FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`ut_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `users`
 --
 
 LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES (1,'admin','03c99c683998d08ae8f31b7dec65b9bf',1),(2,'ProManAdam','5f4dcc3b5aa765d61d8327deb882cf99',2),(3,'DeveloperBob','e890f806dfd189052ca7b39ac29da142',3),(4,'ValidatorChuck','d041888f2058008fb0cb6c9b7bfa2a0c',4);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Dumping events for database 'bugtrack'
---
-
---
--- Dumping routines for database 'bugtrack'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-03-30 10:31:20

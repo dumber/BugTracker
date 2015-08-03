@@ -1,10 +1,10 @@
 /bin/
 /help/
 /dumps/
-/database/delete_helper.sql
-/database/insert_helper.sql
-/database/select_helper.sql
-/database/update_helper.sql
+/database/delete_database.sql
+/database/insert_database.sql
+/database/select_database.sql
+/database/update_database.sql
 /doc/
 /documentation/
 .gitignore

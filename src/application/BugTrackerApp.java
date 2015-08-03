@@ -3,9 +3,13 @@
  */
 package application;
 	
+import helper.MySqlDataSourceSingleton;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.mysql.jdbc.DatabaseMetaData;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import database.MySqlDataSourceSingleton;
 import model.Action;
 import model.dao.factory.ActionDaoFactory;
 import model.dao.factory.PriorityDaoFactory;
@@ -32,8 +35,8 @@ public class BugTrackerApp extends Application {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("BugTracker");
         
-        initRootLayout();
-        showTicketOverview();
+//        initRootLayout();
+//        showTicketOverview();
 	}
 	
     /**
@@ -84,6 +87,7 @@ public class BugTrackerApp extends Application {
         return primaryStage;
     }
     
+
     
 	public static void main(String[] args) {
 		MySqlDataSourceSingleton my = MySqlDataSourceSingleton.getInstance();
@@ -93,25 +97,20 @@ public class BugTrackerApp extends Application {
 			ActionDaoFactory adf = new ActionDaoFactory();
 //			PriorityDaoFactory prdf = new PriorityDaoFactory();
 			System.out.println("Success: " );
-			System.out.println(adf.findActionById(1).toString());
+			adf.geet();
+//			System.out.println(adf.findActionById(1).toString());
 //			ArrayList<Action> alist = (ArrayList<Action>)adf.getAllTableElements();
 //			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());
-//			System.out.println(adf.findAction(1).getId() + ", " + adf.findAction(1).getAction());
-//			System.out.println(adf.findAction(2).getId() + ", " + adf.findAction(2).getAction());
-			Action a = new Action(1,"lophas");
+//			Action a = new Action(1,"lophas");
 //			adf.updateElementInTalbe(1, a);
 //			adf.addElementToTable(a);
 			System.out.println("Modified:");
 //			System.out.println(adf.findActionById(14).toString());
 //			alist = (ArrayList<Action>)adf.getAllTableElements();
 //			adf.deleteElementFromTable(14);
-			for(Action i : ((ArrayList<Action>)adf.getAllTableElements())) {
-				System.out.println(i.toString());
-			}
-//			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());
-//			System.out.println(adf.findAction(1).getId() + ", " + adf.findAction(1).getAction());
-//			System.out.println(adf.findAction(2).getId() + ", " + adf.findAction(2).getAction());
-//			System.out.println(prdf.findPriority(2).getId() + ", " + prdf.findPriority(2).getPriority());
+//			for(Action i : ((ArrayList<Action>)adf.getAllTableElements())) {
+//				System.out.println(i.toString());
+//			}
 			my.MySqlDataSourceCloseConections();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
