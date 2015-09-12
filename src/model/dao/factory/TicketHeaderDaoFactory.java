@@ -31,7 +31,7 @@ public class TicketHeaderDaoFactory implements TicketHeaderDao {
 		db.executeSelectQuery();
 		ResultSet rs = db.getResultSet();
 		while (rs.next()) {
-			TicketHeader ticket_header = new TicketHeader(rs.getInt("t_id"), rs.getInt("unique_ticket_id"), rs.getInt("project_id"), 
+			TicketHeader ticket_header = new TicketHeader(rs.getInt("t_id"), rs.getString("unique_ticket_id"), rs.getInt("project_id"), 
 					rs.getString("headline"), rs.getString("description"), rs.getInt("severity_id"), rs.getInt("priority_id"),
 					rs.getInt("state_id"), rs.getInt("linked_ticket_id"));
 			ticket_headers.add(ticket_header);
@@ -76,7 +76,7 @@ public class TicketHeaderDaoFactory implements TicketHeaderDao {
 	 * @see model.dao.TicketHeaderDao#updateTicketHeader(model.TicketHeader)
 	 */
 	@Override
-	public void updateTicketHeader(int t_id, int u_t_id, int p_id, String hl,
+	public void updateTicketHeader(int t_id, String u_t_id, int p_id, String hl,
 			String desc, int s_id, int pri_id, int st_id, int lt_id) throws SQLException {
 		TicketHeader t = findTicket(t_id);
 		if (t != null) {

@@ -5,7 +5,7 @@ package model;
  *
  */
 public class TicketHeader extends GenericTableElement {
-	private int unique_ticket_id;
+	private String unique_ticket_id;
 	private int t_project_id;
 	private String headline;
 	private String description;
@@ -25,7 +25,7 @@ public class TicketHeader extends GenericTableElement {
 	 * @param t_state_id		the state of the ticket
 	 * @param linked_ticket_id	the linked ticket of the ticket
 	 */
-	public TicketHeader(int t_id, int u_t_id, int t_project_id,
+	public TicketHeader(int t_id, String u_t_id, int t_project_id,
 			String headline, String description, int t_severity_id,
 			int t_priority_id, int t_state_id, int linked_ticket_id) {
 		super(t_id);
@@ -57,14 +57,14 @@ public class TicketHeader extends GenericTableElement {
 	/**
 	 * @return the unique_ticket_id
 	 */
-	public int getUniqueTicke_id() {
+	public String getUniqueTicke_id() {
 		return unique_ticket_id;
 	}
 
 	/**
 	 * @param u_t_id the ticket_name to set
 	 */
-	public void getUniqueTicket_id(int u_t_id) {
+	public void getUniqueTicket_id(String u_t_id) {
 		this.unique_ticket_id = u_t_id;
 	}
 
@@ -176,7 +176,7 @@ public class TicketHeader extends GenericTableElement {
 	 * @param t_state_id
 	 * @param linked_ticket_id
 	 */
-	public void modifyTicketHeader(int u_t_id, int p_id, String hl, 
+	public void modifyTicketHeader(String u_t_id, int p_id, String hl, 
 			String desc, int s_id, int pri_id, int st_id, int lt_id) {
 		this.unique_ticket_id = u_t_id;
 		this.t_project_id = p_id;

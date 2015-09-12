@@ -35,8 +35,8 @@ public class BugTrackerApp extends Application {
 		this.primaryStage = primaryStage;
         this.primaryStage.setTitle("BugTracker");
         
-//        initRootLayout();
-//        showTicketOverview();
+        initRootLayout();
+        showTicketOverview();
 	}
 	
     /**
@@ -59,7 +59,7 @@ public class BugTrackerApp extends Application {
     }
     
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the ticket overview inside the root layout.
      */
     public void showTicketOverview() {
         try {
@@ -125,6 +125,6 @@ public class BugTrackerApp extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-//		launch(args);
+		launch(args);
 	}
 }
