@@ -58,7 +58,14 @@ public class TicketLink extends GenericTableElement {
 	public void setTlLinkedTicket_id(int t_linked_ticket_id) {
 		this.t_linked_ticket_id = t_linked_ticket_id;
 	}
-	
-	
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TicketLink [t_ticket_id=" + t_ticket_id
+				+ ", t_linked_ticket_id=" + t_linked_ticket_id + "]";
+	}
+	
 }

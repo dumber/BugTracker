@@ -3,98 +3,107 @@
  */
 package model.dao.factory;
 
-import helper.MySqlDataSourceSingleton;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.GenericTableElement;
 import model.User;
-import model.dao.UserDao;
+import model.dao.GenericDaoIFC;
 
 /**
  * @author dumber
  *
  */
-public class UserDaoFactory implements UserDao {
-	MySqlDataSourceSingleton db = MySqlDataSourceSingleton.getInstance();
-	List<User> users;
-	
+public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+
 	/**
-	 * TODO Password hashing
 	 * 
-	 * @throws SQLException 
 	 * 
 	 */
-	public UserDaoFactory() throws SQLException {
-		users = new ArrayList<User>();
-		db.setSelectQueryString("`users`");
-		db.executeSelectQuery();
-		ResultSet rs = db.getResultSet();
-		while (rs.next()) {
-			User usr = new User(rs.getInt("u_id"),rs.getString("username"),rs.getString("password"),rs.getInt("user_type_id"));
-			users.add(usr);
-		}
-		rs.close();
+	public UserDaoFactory() {
+		super();
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.UserDao#getAllUsers()
+	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * 	TODO Password hashing
 	 */
 	@Override
-	public List<User> getAllUsers() {
+	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+		List<User> users = new ArrayList<User>();
+		dataSource.setSelectQueryString("`users`");
+		dataSource.executeSelectQuery();
+		ResultSet rs = dataSource.getResultSet();
+		while (rs.next()) {
+			User usr = new User(rs.getInt("u_id"), rs.getString("username"), rs.getString("password"), rs.getInt("user_type_id"));
+			users.add(usr);
+		}
+		rs.close();
 		return users;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.UserDao#findUsername(int)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
 	 */
 	@Override
-	public User findUser(int u_id) {
-		User tmp = null;
-		for (User u : users) {
-			if (u_id == u.getUser_id()) {
-				tmp = u;
-			}
+	public <T extends GenericTableElement> T findElementById(int u_id, Class<T> type) throws SQLException {
+		User u = null;
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`users` WHERE u_id = ?" );
+		dataSource.executeSelectByIdQuery(u_id);
+		ResultSet rs = dataSource.getResultSet();
+		while (rs.next()) {
+			u = new User(rs.getInt("u_id"), rs.getString("username"), rs.getString("password"), rs.getInt("user_type_id"));
 		}
-		return tmp;
+		rs.close();
+		return type.cast(u);
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public User findUserById(int id) throws SQLException {
+		return findElementById(id, User.class);
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.UserDao#addUser(model.User)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(T user)
 	 */
 	@Override
-	public void addUser(User user) throws SQLException {
-		users.add(user);
-		db.setInsertQueryString("`users` (`username`,`password`,`user_type_id`) VALUES (" + user.toString() + ");");
-		db.executeInsertQuery();
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.UserDao#updateUser(model.User)
-	 */
-	@Override
-	public void updateUser(int u_id, String username, String password, int user_type_id) throws SQLException {
-		User u = findUser(u_id);
-		if (u != null) {
-			u.modifyUser(username, password, user_type_id);
-			db.setUpdateQueryString("`users` SET `username` = " + username + ", `password` = "	+ password 
-				+ ", `user_type_id` = " + user_type_id + ", WHERE `u_id` = " + user_type_id + ";");
-			db.executeUpdateQuery();
+	public <T extends GenericTableElement> void addElementToTable(T user) throws SQLException {
+		if (((User)user) != null) {
+			dataSource.setInsertQueryString("`users` (`username`,`password`,`user_type_id`) VALUES (\'" + ((User)user).getUsername()
+											+ "\', \'" + ((User)user).getPassword() + "\', " + ((User)user).getUserType_id() +  ");");
+			dataSource.executeInsertQuery();
 		} else {
-			// TODO throw some exception
+			throw new RuntimeException("trying to insert corrupt user into database \n");
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.UserDao#deleteUser(model.User)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
 	 */
 	@Override
-	public void deleteUser(int u_id) throws SQLException {
-		users.remove(u_id);
-		db.setDeleteQueryString("`users` WHERE u_id = " + u_id + ";");
-		db.executeDeleteQuery();
+	public <T extends GenericTableElement> void updateElementInTalbe(int u_id, T user) throws SQLException {
+		if (((User)user) != null) {
+			dataSource.setUpdateQueryString("`users` SET `username` = \'" + ((User)user).getUsername() + "\', `password` = \'" 
+									+ ((User)user).getPassword()+ "\', `user_type_id` = " + ((User)user).getUserType_id() + ", WHERE `u_id` = " + u_id + ";");
+			dataSource.executeUpdateQuery();
+		} else {
+			throw new RuntimeException("corrupt user \n");
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
+	 */
+	@Override
+	public void deleteElementFromTable(int u_id) throws SQLException {
+		dataSource.setDeleteQueryString("`users` WHERE u_id = " + u_id + ";");
+		dataSource.executeDeleteQuery();
 	}
 	
 }

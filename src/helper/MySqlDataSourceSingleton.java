@@ -27,6 +27,7 @@ public class MySqlDataSourceSingleton {
 	private Connection conn = null;
 	private PreparedStatement stmt = null;
 	private ResultSet rs;
+	private PropertyManager pm;
 	
 	private String select_all_query_string = "SELECT * FROM `bugtrack`.";	
 	private String insert_query_string = "INSERT INTO `bugtrack`.";
@@ -60,25 +61,33 @@ public class MySqlDataSourceSingleton {
 		// Register JDBC driver
 		Class.forName(JDBC_DRIVER).newInstance();		
 		// Open a connection
-		System.out.println("Connecting to helper...");
+		System.out.println("Connecting to database...");
 	    conn = DriverManager.getConnection(DB_URL, user, passw);
 //	    stmt = conn.createStatement();
+	    System.out.println("Connection has been set up");
 	}
 	
     public void getDatabaseMetaData()
     {
-        try {
-
-            DatabaseMetaData dbmd = conn.getMetaData();
-            String[] types = {"TABLE"};
-            ResultSet rs = dbmd.getTables(null, null, "%", types);
-            while (rs.next()) {
-                System.out.println(rs.getString("TABLE_NAME"));
-            }
-        } 
-            catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            DatabaseMetaData dbmd = conn.getMetaData();
+//            String[] types = {"TABLE"};
+//            ResultSet rs = dbmd.getTables(null, null, "%", types);
+//            while (rs.next()) {
+//                System.out.println(rs.getString("TABLE_NAME"));
+//            }
+//        } 
+//            catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+    	try {
+			pm = new PropertyManager(conn);
+			pm.printTableData();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	
 	/**

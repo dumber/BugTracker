@@ -93,11 +93,11 @@ public class BugTrackerApp extends Application {
 		MySqlDataSourceSingleton my = MySqlDataSourceSingleton.getInstance();
 		try {
 			my.setupConnection("dumber", "asdfQq22");
+			my.getDatabaseMetaData();
 //			my.executeQueryDemo();
-			ActionDaoFactory adf = new ActionDaoFactory();
+//			ActionDaoFactory adf = new ActionDaoFactory();
 //			PriorityDaoFactory prdf = new PriorityDaoFactory();
 			System.out.println("Success: " );
-			adf.geet();
 //			System.out.println(adf.findActionById(1).toString());
 //			ArrayList<Action> alist = (ArrayList<Action>)adf.getAllTableElements();
 //			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());

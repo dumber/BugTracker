@@ -11,8 +11,7 @@ public class TicketHeader extends GenericTableElement {
 	private String description;
 	private int t_severity_id;
 	private int t_priority_id;
-	private int t_state_id;
-	private int linked_ticket_id;
+	private int t_status_id;
 	
 	/**
 	 * @param t_id				the ticket id
@@ -22,12 +21,11 @@ public class TicketHeader extends GenericTableElement {
 	 * @param description		the description of the ticket
 	 * @param t_severity_id		the severity of the ticket
 	 * @param t_priority_id		the priority of the ticket
-	 * @param t_state_id		the state of the ticket
-	 * @param linked_ticket_id	the linked ticket of the ticket
+	 * @param t_status_id		the status of the ticket
 	 */
 	public TicketHeader(int t_id, String u_t_id, int t_project_id,
 			String headline, String description, int t_severity_id,
-			int t_priority_id, int t_state_id, int linked_ticket_id) {
+			int t_priority_id, int t_status_id) {
 		super(t_id);
 		this.unique_ticket_id = u_t_id;
 		this.t_project_id = t_project_id;
@@ -35,8 +33,7 @@ public class TicketHeader extends GenericTableElement {
 		this.description = description;
 		this.t_severity_id = t_severity_id;
 		this.t_priority_id = t_priority_id;
-		this.t_state_id = t_state_id;
-		this.linked_ticket_id = linked_ticket_id;
+		this.t_status_id = t_status_id;
 	}
 	
 	/**
@@ -50,8 +47,7 @@ public class TicketHeader extends GenericTableElement {
 		this.description = t.description;
 		this.t_severity_id = t.t_severity_id;
 		this.t_priority_id = t.t_priority_id;
-		this.t_state_id = t.t_state_id;
-		this.linked_ticket_id = t.linked_ticket_id;
+		this.t_status_id = t.t_status_id;
 	}
 
 	/**
@@ -141,31 +137,17 @@ public class TicketHeader extends GenericTableElement {
 	/**
 	 * @return the t_state_id
 	 */
-	public int getT_State_id() {
-		return t_state_id;
+	public int getT_Status_id() {
+		return t_status_id;
 	}
 
 	/**
-	 * @param t_state_id the t_state_id to set
+	 * @param t_state_id the t_status_id to set
 	 */
-	public void setT_State_id(int t_state_id) {
-		this.t_state_id = t_state_id;
+	public void setT_State_id(int t_status_id) {
+		this.t_status_id = t_status_id;
 	}
 
-	/**
-	 * @return the linked_ticket_id
-	 */
-	public int getLinked_Ticket_id() {
-		return linked_ticket_id;
-	}
-
-	/**
-	 * @param linked_ticket_id the linked_ticket_id to set
-	 */
-	public void setLinked_Ticket_id(int linked_ticket_id) {
-		this.linked_ticket_id = linked_ticket_id;
-	}
-	
 	/**
 	 * @param u_t_id
 	 * @param t_project_id
@@ -184,8 +166,7 @@ public class TicketHeader extends GenericTableElement {
 		this.description = desc;
 		this.t_severity_id = s_id;
 		this.t_priority_id = pri_id;
-		this.t_state_id = st_id;
-		this.linked_ticket_id = lt_id;
+		this.t_status_id = st_id;
 	}
 
 	/* (non-Javadoc)
@@ -194,7 +175,7 @@ public class TicketHeader extends GenericTableElement {
 	@Override
 	public String toString() {
 		return  unique_ticket_id + ", " + t_project_id + ", " + headline + ", " + description + ", "
-				+ t_severity_id + ", " + t_priority_id + ", " + t_state_id + ", " + linked_ticket_id ;
+				+ t_severity_id + ", " + t_priority_id + ", " + t_status_id;
 	}
 	
 }

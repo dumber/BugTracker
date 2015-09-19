@@ -20,10 +20,9 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 //	List<DetectionPhase> detection_phases;
 	
 	/**
-	 * @throws SQLException 
 	 * 
 	 */
-	public DetectionPhaseDaoFactory() throws SQLException {
+	public DetectionPhaseDaoFactory() {
 		super();
 
 	}
@@ -46,7 +45,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int dp_id, Class<T> type) throws SQLException {		
@@ -71,24 +70,28 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T action)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {		
-		dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (\'" + ((DetectionPhase)detection_phase).getPhaseName() + "\');");
-		dataSource.executeInsertQuery();
+	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {
+		if (((DetectionPhase)detection_phase) != null) {
+			dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (\'" + ((DetectionPhase)detection_phase).getPhaseName() + "\');");
+			dataSource.executeInsertQuery();
+		} else {
+			throw new RuntimeException("trying to insert corrupt detection_phase into database \n");
+		}
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(model.Action)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T phase) throws SQLException {
-		if (((DetectionPhase)phase).getPhaseName() != null) {
+		if (((DetectionPhase)phase) != null) {
 			dataSource.setUpdateQueryString("`detection_phases` SET `detection_phase` = " + ((DetectionPhase)phase).getPhaseName() + " WHERE `dp_id` = " + dp_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
-			throw new RuntimeException("corrupt detection_phase; \n");
+			throw new RuntimeException("corrupt detection_phase \n");
 		}
 	}
 

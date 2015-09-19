@@ -17,11 +17,20 @@ import model.dao.GenericDaoIFC;
  *
  */
 public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
-	List<Priority> priorities;
-		
-	public PriorityDaoFactory() throws SQLException {
+	
+	/*
+	 * 
+	 */
+	public PriorityDaoFactory() {
 		super();
-		priorities = new ArrayList<Priority>();
+	}
+	
+	/* (non-Javadoc)
+	 * @see model.dao.PriorityDao#getAllPrioritys()
+	 */
+	@Override
+	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+		List<Priority> priorities = new ArrayList<Priority>();
 		dataSource.setSelectQueryString("`priorities`");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
@@ -30,66 +39,67 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 			priorities.add(prio);
 		}
 		rs.close();
-	}
-	
-	/* (non-Javadoc)
-	 * @see model.dao.PriorityDao#getAllPrioritys()
-	 */
-	@Override
-	public List<? extends GenericTableElement> getAllTableElements() {
 		return priorities;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.PriorityDao#findPriority(int)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) {
-		Priority tmp = null;
-		for (Priority p : priorities) {
-			if (p_id == p.getId()) {
-				tmp = p;
-			}
+	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) throws SQLException {
+		Priority p = null;
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.actions WHERE pr_id = ?" );
+		dataSource.executeSelectByIdQuery(p_id);
+		ResultSet rs = dataSource.getResultSet();
+		while (rs.next()) {
+			p = new Priority(rs.getInt("pr_id"), rs.getString("priority"));
 		}
-		return type.cast(tmp);
-	}
-
-	public Priority findPriority(int id) {
-		return findElementById(id, Priority.class);
+		rs.close();
+		return type.cast(p);
 	}
 	
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public Priority findPriorityById(int id) throws SQLException {
+		return findElementById(id, Priority.class);
+	}
+
+	
 	/* (non-Javadoc)
-	 * @see model.dao.PriorityDao#addPriority(model.Priority)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T priority) throws SQLException {
-		priorities.add((Priority)priority);
-		dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (" + ((Priority)priority).getPriority() + ");");
-		dataSource.executeInsertQuery();
+		if (priority != null){
+			dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (\'" + ((Priority)priority).getPriority() + "\');");
+			dataSource.executeInsertQuery();
+		} else {
+			throw new RuntimeException("trying to insert corrupt priority into database");
+		}
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.PriorityDao#updatePriority(model.Priority)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T priority) throws SQLException {
-		Priority p = findPriority(p_id);
-		if (p != null) {
-			p.setPriority(((Priority)priority).getPriority());
-			dataSource.setUpdateQueryString("`priorities` SET `priority` = " + p.getPriority() + " WHERE `p_id` = " + p_id + ";");
+		if (((Priority)priority) != null) {
+			dataSource.setUpdateQueryString("`priorities` SET `priority` = \'" + ((Priority)priority).getPriority() + "\' WHERE `pr_id` = " + p_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
-			// TODO throw some exceptions
+			throw new RuntimeException("corrupt priority\n");
 		}		
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.PriorityDao#deletePriority(model.Priority)
+	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
 	public void deleteElementFromTable(int p_id) throws SQLException {
-		priorities.remove(p_id);
-		dataSource.setDeleteQueryString("`priorities` WHERE p_id = " + p_id + ";");
+		dataSource.setDeleteQueryString("`priorities` WHERE pr_id = " + p_id + ";");
 		dataSource.executeDeleteQuery();
 	}
 
