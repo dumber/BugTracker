@@ -37,5 +37,16 @@ public class UserType extends GenericTableElement {
 	public void setUserType(String user_type) {
 		this.user_type = user_type;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + user_type + "\'";
+	}
 	
+	public String debug() {
+		return "UserType [id=" + id + ", user_type=" + user_type + "]";
+	}	
 }

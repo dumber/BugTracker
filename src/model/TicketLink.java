@@ -64,7 +64,11 @@ public class TicketLink extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return "TicketLink [t_ticket_id=" + t_ticket_id
+		return t_ticket_id	+ ", " + t_linked_ticket_id;
+	}
+	
+	public String debug() {
+		return "TicketLink [id=" + id + "t_ticket_id=" + t_ticket_id
 				+ ", t_linked_ticket_id=" + t_linked_ticket_id + "]";
 	}
 	

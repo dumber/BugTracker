@@ -37,5 +37,18 @@ public class Severity extends GenericTableElement {
 	public void setSeverity(String severity) {
 		this.severity = severity;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + severity + "\'";
+	}
+	
+	public String debug() {
+		return "Severity [id=" + id + ", severity=" + severity + "]";		
+	}
+	
 	
 }

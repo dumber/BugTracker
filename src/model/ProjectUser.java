@@ -58,5 +58,20 @@ public class ProjectUser extends GenericTableElement {
 	public void setPuUser_id(int pu_user_id) {
 		this.pu_user_id = pu_user_id;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return pu_project_id + ", " + pu_user_id;
+	}
+		
+	public String debug() {	
+		return "ProjectUser [id=" + id + "pu_project_id=" + pu_project_id + ", pu_user_id="
+				+ pu_user_id + "]";
+
+	}
+	
 	
 }

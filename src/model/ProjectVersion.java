@@ -53,5 +53,18 @@ public class ProjectVersion extends GenericTableElement {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return pv_project_id + ", \'" + version + "\'";
+	}
+	
+	public String debug() {
+		return "ProjectVersion [id=" + id + "pv_project_id=" + pv_project_id + ", version="
+				+ version + "]";
+	}	
 	
 }

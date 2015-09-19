@@ -26,7 +26,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#getAllTableElements()
 	 */
 	@Override
 	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
@@ -43,7 +43,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int s_id, Class<T> type) throws SQLException {
@@ -68,7 +68,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T status) throws SQLException {
@@ -81,7 +81,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int s_id, T status) throws SQLException {		

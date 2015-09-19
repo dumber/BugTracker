@@ -116,5 +116,22 @@ public class TicketRealisation extends GenericTableElement {
 	public void setRealiserUser_id(int realiser_user_id) {
 		this.realiser_user_id = realiser_user_id;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return tr_ticket_id	+ ", \'" + realised_items + "\', " + realised_version_id
+				+ ", \'" + realisation_date	+ "\', " + realiser_user_id;
+	}
+
+	public String debug() {
+		return "TicketRealisation [id=" + id + "tr_ticket_id=" + tr_ticket_id
+				+ ", realised_items=" + realised_items
+				+ ", realised_version_id=" + realised_version_id
+				+ ", realisation_date=" + realisation_date
+				+ ", realiser_user_id=" + realiser_user_id + "]";
+	}	
 	
 }

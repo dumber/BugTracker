@@ -135,5 +135,22 @@ public class TicketValidation extends GenericTableElement {
 	public void setClosureDate(Timestamp closure_date) {
 		this.closure_date = closure_date;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
+				+ ", \'" + validation_date + "\', " + validator_user_id + ", \'" + closure_date + "\'";
+	}
 	
+	public String debug() {
+		return "TicketValidation [id=" + id + "tv_ticket_id=" + tv_ticket_id
+				+ ", validator_comments=" + validator_comments
+				+ ", validated_version_id=" + validated_version_id
+				+ ", validation_date=" + validation_date
+				+ ", validator_user_id=" + validator_user_id
+				+ ", closure_date=" + closure_date + "]";
+	}		
 }

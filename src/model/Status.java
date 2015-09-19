@@ -37,5 +37,17 @@ public class Status extends GenericTableElement {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + status + "\'";
+	}
+	
+	public String debug() {
+		return "Status [id=" + id + ", status=" + status + "]";
+	}
 	
 }

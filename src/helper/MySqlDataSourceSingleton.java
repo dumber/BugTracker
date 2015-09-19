@@ -67,20 +67,7 @@ public class MySqlDataSourceSingleton {
 	    System.out.println("Connection has been set up");
 	}
 	
-    public void getDatabaseMetaData()
-    {
-//        try {
-//
-//            DatabaseMetaData dbmd = conn.getMetaData();
-//            String[] types = {"TABLE"};
-//            ResultSet rs = dbmd.getTables(null, null, "%", types);
-//            while (rs.next()) {
-//                System.out.println(rs.getString("TABLE_NAME"));
-//            }
-//        } 
-//            catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    public void getDatabaseMetaData() {
     	try {
 			pm = new PropertyManager(conn);
 			pm.printTableData();

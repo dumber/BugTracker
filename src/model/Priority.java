@@ -37,5 +37,20 @@ public class Priority extends GenericTableElement {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-		
+
+
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + priority + "\'";
+	}
+
+	public String debug() {				
+		return "Priority [id=" + id + ", priority=" + priority + "]";
+	}
+	
+	
 }

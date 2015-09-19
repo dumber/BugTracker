@@ -44,7 +44,7 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int pu_id, Class<T> type) throws SQLException {
@@ -69,7 +69,7 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T project_version)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T project_version) throws SQLException {
@@ -84,7 +84,7 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int pv_id, T project_version) throws SQLException {

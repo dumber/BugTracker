@@ -187,5 +187,25 @@ public class TicketWorkload extends GenericTableElement {
 	public void setWorkloadSum(int workload_sum) {
 		this.workload_sum = workload_sum;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return tw_ticket_id	+ ", " + estimated_analysis + ", " + estimated_realisation + ", " + estimated_validation
+				+ ", " + estimated_sum + ", " + analysis_workload + ", " + realisation_workload + ", "
+				+ validation_workload + ", " + workload_sum;
+	}
 	
+	public String debug() {
+		return "TicketWorkload [id=" + id + "tw_ticket_id=" + tw_ticket_id
+				+ ", estimated_analysis=" + estimated_analysis
+				+ ", estimated_realisation=" + estimated_realisation
+				+ ", estimated_validation=" + estimated_validation
+				+ ", estimated_sum=" + estimated_sum + ", analysis_workload="
+				+ analysis_workload + ", realisation_workload="
+				+ realisation_workload + ", validation_workload="
+				+ validation_workload + ", workload_sum=" + workload_sum + "]";
+	}	
 }

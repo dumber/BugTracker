@@ -116,5 +116,22 @@ public class TicketAnalysis extends GenericTableElement {
 	public void setAnalyserUser_id(int analyser_user_id) {
 		this.analyser_user_id = analyser_user_id;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return  ta_ticket_id + ", \'" + proposed_change	+ "\', " + impacted_version_id
+				+ ", \'" + analysis_date + "\', " + analyser_user_id;
+	}
+	
+	public String debug() {
+		return "TicketAnalysis [id=" + id + "ta_ticket_id=" + ta_ticket_id
+				+ ", proposed_change=" + proposed_change
+				+ ", impacted_version_id=" + impacted_version_id
+				+ ", analysis_date=" + analysis_date + ", analyser_user_id="
+				+ analyser_user_id + "]";
+	}
 	
 }

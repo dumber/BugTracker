@@ -38,5 +38,16 @@ public class Project extends GenericTableElement {
 	public void setProjectName(String project_name) {
 		this.project_name = project_name;
 	}
-		
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + project_name + "\'";
+	}
+	
+	public String debug() {
+		return "Project [id=" + id + ", id=" + project_name + "]";
+	}	
 }

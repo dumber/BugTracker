@@ -46,7 +46,7 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int th_id, Class<T> type) throws SQLException {
@@ -73,7 +73,7 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T ticket_header) throws SQLException {
@@ -90,7 +90,7 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int t_id, T ticket_header) throws SQLException {

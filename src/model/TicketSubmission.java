@@ -135,5 +135,22 @@ public class TicketSubmission extends GenericTableElement {
 	public void setDetectionPhase_id(int detection_phase_id) {
 		this.detection_phase_id = detection_phase_id;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return ts_ticket_id	+ ", " + submission_version_id + ", " + scheduled_version_id
+				+ ", " + submitter_user_id + ", \'" + submission_date + "\', " + detection_phase_id;
+	}
 	
+	public String debug() {
+		return "TicketSubmission [id=" + id	+ "ts_ticket_id=" + ts_ticket_id
+				+ ", submission_version_id=" + submission_version_id
+				+ ", scheduled_version_id=" + scheduled_version_id
+				+ ", submitter_user_id=" + submitter_user_id
+				+ ", submission_date=" + submission_date
+				+ ", detection_phase_id=" + detection_phase_id + "]";
+	}	
 }

@@ -5,7 +5,7 @@ package model;
  *
  */
 public class TicketHeader extends GenericTableElement {
-	private String unique_ticket_id;
+	private String unique_ticket_name;
 	private int t_project_id;
 	private String headline;
 	private String description;
@@ -27,7 +27,7 @@ public class TicketHeader extends GenericTableElement {
 			String headline, String description, int t_severity_id,
 			int t_priority_id, int t_status_id) {
 		super(t_id);
-		this.unique_ticket_id = u_t_id;
+		this.unique_ticket_name = u_t_id;
 		this.t_project_id = t_project_id;
 		this.headline = headline;
 		this.description = description;
@@ -41,7 +41,7 @@ public class TicketHeader extends GenericTableElement {
 	 */	
 	public TicketHeader(TicketHeader t) {
 		super(t.id);
-		this.unique_ticket_id = t.unique_ticket_id;
+		this.unique_ticket_name = t.unique_ticket_name;
 		this.t_project_id = t.t_project_id;
 		this.headline = t.headline;
 		this.description = t.description;
@@ -51,17 +51,17 @@ public class TicketHeader extends GenericTableElement {
 	}
 
 	/**
-	 * @return the unique_ticket_id
+	 * @return the unique_ticket_name
 	 */
 	public String getUniqueTicke_id() {
-		return unique_ticket_id;
+		return unique_ticket_name;
 	}
 
 	/**
 	 * @param u_t_id the ticket_name to set
 	 */
 	public void getUniqueTicket_id(String u_t_id) {
-		this.unique_ticket_id = u_t_id;
+		this.unique_ticket_name = u_t_id;
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class TicketHeader extends GenericTableElement {
 	 */
 	public void modifyTicketHeader(String u_t_id, int p_id, String hl, 
 			String desc, int s_id, int pri_id, int st_id, int lt_id) {
-		this.unique_ticket_id = u_t_id;
+		this.unique_ticket_name = u_t_id;
 		this.t_project_id = p_id;
 		this.headline = hl;
 		this.description = desc;
@@ -169,13 +169,23 @@ public class TicketHeader extends GenericTableElement {
 		this.t_status_id = st_id;
 	}
 
+
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return  unique_ticket_id + ", " + t_project_id + ", " + headline + ", " + description + ", "
+		return  "\'" + unique_ticket_name + "\', " + t_project_id + ", \'" + headline + "\', \'" + description + "\', "
 				+ t_severity_id + ", " + t_priority_id + ", " + t_status_id;
+	}
+
+	public String debug() {	
+		return "TicketHeader [id=" + id + "unique_ticket_name=" + unique_ticket_name
+				+ ", t_project_id=" + t_project_id + ", headline=" + headline
+				+ ", description=" + description + ", t_severity_id="
+				+ t_severity_id + ", t_priority_id=" + t_priority_id
+				+ ", t_status_id=" + t_status_id + "]";
 	}
 	
 }

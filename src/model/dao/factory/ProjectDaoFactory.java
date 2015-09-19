@@ -44,7 +44,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) throws SQLException {
@@ -69,7 +69,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T project) throws SQLException {
@@ -82,7 +82,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T project) throws SQLException{

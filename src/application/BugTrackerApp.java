@@ -92,8 +92,8 @@ public class BugTrackerApp extends Application {
 	public static void main(String[] args) {
 		MySqlDataSourceSingleton my = MySqlDataSourceSingleton.getInstance();
 		try {
-			my.setupConnection("dumber", "asdfQq22");
-			my.getDatabaseMetaData();
+			my.setupConnection("dumber", "asdfQq22");		
+//			my.getDatabaseMetaData();
 //			my.executeQueryDemo();
 //			ActionDaoFactory adf = new ActionDaoFactory();
 //			PriorityDaoFactory prdf = new PriorityDaoFactory();

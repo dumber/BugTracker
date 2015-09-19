@@ -37,5 +37,19 @@ public class DetectionPhase extends GenericTableElement {
 	public void setPhaseName(String phase_name) {
 		this.phase_name = phase_name;
 	}
-		
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "\'" + phase_name + "\'";
+	}
+
+	public String debug() {
+
+		return "DetectionPhase [id=" + id + ", phase_name=" + phase_name + "]";
+	}
+	
+	
 }

@@ -41,12 +41,18 @@ public class Action extends GenericTableElement {
 		this.action = action;
 	}
 
+
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Action [action=" + action + ", id=" + id + "]";
+		return "\'" + action + "\'";
+	}
+
+	public String debug() {		
+		return "Action [id=" + id + ", action=" + action + "]";
 	}
 	
 }

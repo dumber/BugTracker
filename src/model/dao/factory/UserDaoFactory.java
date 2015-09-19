@@ -20,7 +20,6 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 
 	/**
 	 * 
-	 * 
 	 */
 	public UserDaoFactory() {
 		super();
@@ -45,7 +44,7 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int u_id, Class<T> type) throws SQLException {
@@ -70,7 +69,7 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T user)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T user) throws SQLException {
@@ -84,7 +83,7 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int u_id, T user) throws SQLException {

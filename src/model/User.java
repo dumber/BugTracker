@@ -93,4 +93,10 @@ public class User extends GenericTableElement {
 		return username + ", " + password + ", " + user_type_id;
 	}
 	
+	public String debug() {
+		return "User [id=" + id + "username=" + username + ", password=" + password
+				+ ", user_type_id=" + user_type_id + "]";
+	}
+	
+	
 }

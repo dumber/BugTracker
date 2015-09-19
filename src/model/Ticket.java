@@ -142,6 +142,5 @@ public class Ticket {
 	protected void setTicketHistory(TicketHistory ticket_history) {
 		this.ticket_history = ticket_history;
 	}
-
 	
 }

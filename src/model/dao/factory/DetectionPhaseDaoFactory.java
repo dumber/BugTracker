@@ -17,7 +17,6 @@ import model.dao.GenericDaoIFC;
  *
  */
 public class DetectionPhaseDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
-//	List<DetectionPhase> detection_phases;
 	
 	/**
 	 * 
@@ -45,7 +44,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, Class<T>)
+	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
 	public <T extends GenericTableElement> T findElementById(int dp_id, Class<T> type) throws SQLException {		
@@ -70,7 +69,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(T)
+	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {
@@ -83,7 +82,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, T)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T phase) throws SQLException {
