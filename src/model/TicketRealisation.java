@@ -125,7 +125,19 @@ public class TicketRealisation extends GenericTableElement {
 		return tr_ticket_id	+ ", \'" + realised_items + "\', " + realised_version_id
 				+ ", \'" + realisation_date	+ "\', " + realiser_user_id;
 	}
-
+	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`tr_ticket_id`=" + tr_ticket_id + ", `realised_items`=\'" + realised_items
+				+ "\', `realised_version_id`=" + realised_version_id + ", `realisation_date`=\'" 
+				+ realisation_date + "\', `realiser_user_id`=" + realiser_user_id;
+	}	
+		
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "TicketRealisation [id=" + id + "tr_ticket_id=" + tr_ticket_id
 				+ ", realised_items=" + realised_items

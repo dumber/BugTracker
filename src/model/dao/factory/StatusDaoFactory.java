@@ -73,7 +73,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T status) throws SQLException {
 		if (((Status)status) != null) {
-			dataSource.setInsertQueryString("`statuses` (`status`) VALUES (\'" + ((Status)status).getStatus() + "\');");
+			dataSource.setInsertQueryString("`statuses` (`status`) VALUES (" + ((Status)status).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt status into database \n");
@@ -86,7 +86,8 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int s_id, T status) throws SQLException {		
 		if (((Status)status) != null) {
-			dataSource.setUpdateQueryString("`statuses` SET `status` = \'" + ((Status)status).getStatus() + "\' WHERE `s_id` = " + s_id + ";");
+			dataSource.setUpdateQueryString("`statuses` SET " + ((Status)status).toUpdateString() 
+					+ " WHERE `s_id` = " + s_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt status \n");

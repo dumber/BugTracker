@@ -75,8 +75,7 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	public <T extends GenericTableElement> void addElementToTable(T project_version) throws SQLException {
 		if (((ProjectVersion)project_version) != null) {
 			dataSource.setInsertQueryString("`project_versions` (`project_id`, `version`) VALUES (" + 
-											((ProjectVersion)project_version).getPvProject_id() + ", \'" 
-											+ ((ProjectVersion)project_version).getVersion() + "\');");
+					((ProjectVersion)project_version).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt project_version into database \n");
@@ -89,9 +88,8 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int pv_id, T project_version) throws SQLException {
 		if (((ProjectVersion)project_version) != null) {
-			dataSource.setUpdateQueryString("`project_versions` SET `project_id` = " + 
-											((ProjectVersion)project_version).getPvProject_id() + ", `version` = \'" + 
-											((ProjectVersion)project_version).getVersion() + "\' WHERE `pv_id` = " + pv_id + ";");
+			dataSource.setUpdateQueryString("`project_versions` SET " + ((ProjectVersion)project_version).toUpdateString() 
+					+ " WHERE `pv_id` = " + pv_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project_version \n");

@@ -73,7 +73,7 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T action) throws SQLException {
 		if (((Action)action) != null) {
-			dataSource.setInsertQueryString("`actions` (`action`) VALUES (\'" + ((Action)action).getAction() + "\');");
+			dataSource.setInsertQueryString("`actions` (`action`) VALUES (" + ((Action)action).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt action into database \n");
@@ -86,7 +86,8 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int a_id, T action) throws SQLException{
 		if (((Action)action).getAction() != null) {
-			dataSource.setUpdateQueryString("`actions` SET `action` = \'" + ((Action)action).getAction() + "\' WHERE `a_id` = " + a_id + ";");
+			dataSource.setUpdateQueryString("`actions` SET " + ((Action)action).toUpdateString() 
+					+ " WHERE `a_id` = " + a_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt action \n");

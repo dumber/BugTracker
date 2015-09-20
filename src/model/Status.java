@@ -45,7 +45,17 @@ public class Status extends GenericTableElement {
 	public String toString() {
 		return "\'" + status + "\'";
 	}
+
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`status`=\'" + status + "\'";
+	}
 	
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "Status [id=" + id + ", status=" + status + "]";
 	}

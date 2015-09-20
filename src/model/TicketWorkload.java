@@ -198,6 +198,20 @@ public class TicketWorkload extends GenericTableElement {
 				+ validation_workload + ", " + workload_sum;
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`tw_ticket_id`=" + tw_ticket_id	+ ", `estimated_analysis`=" + estimated_analysis
+				+ ", `estimated_realisation`=" + estimated_realisation + ", `estimated_validation`=" 
+				+ estimated_validation + ", `estimated_sum`=" + estimated_sum + ", `analysis_workload`="
+				+ analysis_workload + ", `realisation_workload`=" + realisation_workload + ", `validation_workload`="
+				+ validation_workload + ", `workload_sum`=" + workload_sum;
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "TicketWorkload [id=" + id + "tw_ticket_id=" + tw_ticket_id
 				+ ", estimated_analysis=" + estimated_analysis
@@ -207,5 +221,6 @@ public class TicketWorkload extends GenericTableElement {
 				+ analysis_workload + ", realisation_workload="
 				+ realisation_workload + ", validation_workload="
 				+ validation_workload + ", workload_sum=" + workload_sum + "]";
-	}	
+	}
+	
 }

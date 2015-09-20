@@ -145,6 +145,18 @@ public class TicketValidation extends GenericTableElement {
 				+ ", \'" + validation_date + "\', " + validator_user_id + ", \'" + closure_date + "\'";
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
+				+ "\', `validated_version_id`=" + validated_version_id + ", `validation_date`=\'" + validation_date
+				+ "\', `validator_user_id`=" + validator_user_id + ", `closure_date`=\'" + closure_date + "\'";
+	}
+		
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "TicketValidation [id=" + id + "tv_ticket_id=" + tv_ticket_id
 				+ ", validator_comments=" + validator_comments
@@ -152,5 +164,6 @@ public class TicketValidation extends GenericTableElement {
 				+ ", validation_date=" + validation_date
 				+ ", validator_user_id=" + validator_user_id
 				+ ", closure_date=" + closure_date + "]";
-	}		
+	}
+	
 }

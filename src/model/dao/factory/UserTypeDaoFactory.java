@@ -73,8 +73,7 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T user_type) throws SQLException {
 		if (((UserType)user_type) != null) {
-			dataSource.setInsertQueryString("`user_types` (`user_type`) VALUES (\'" +
-					((UserType)user_type).getUserType() + "\');");
+			dataSource.setInsertQueryString("`user_types` (`user_type`) VALUES (" +	((UserType)user_type).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt user_type into database \n");
@@ -87,7 +86,8 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int ut_id, T user_type) throws SQLException {
 		if (((UserType)user_type) != null) {
-			dataSource.setUpdateQueryString("`user_types` SET `user_type` = \'" + ((UserType)user_type).getUserType() + "\' WHERE `ut_id` = " + ut_id + ";");
+			dataSource.setUpdateQueryString("`user_types` SET " + ((UserType)user_type).toUpdateString() 
+					+ " WHERE `ut_id` = " + ut_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt user_type \n");

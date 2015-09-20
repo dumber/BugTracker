@@ -140,11 +140,22 @@ public class TicketHistory extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return th_ticket_id + ", " + modifier_user_id + ", "
-				+ old_state_id + ", " + new_state_id + ", " + action_id 
-				+ ", \'" + modification_date + "\'";
+		return th_ticket_id + ", " + modifier_user_id + ", " + old_state_id + ", " + new_state_id 
+				+ ", " + action_id + ", \'" + modification_date + "\'";
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`th_ticket_id`=" + th_ticket_id + ", `modifier_user_id`=" + modifier_user_id + ", `old_state_id`="
+				+ old_state_id + ", `new_state_id`=" + new_state_id	+ ", `action_id`=" + action_id 
+				+ ", `modification_date`=\'" + modification_date + "\'";
+	}
+		
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "TicketHistory [id=" + id + "th_ticket_id=" + th_ticket_id
 				+ ", modifier_user_id=" + modifier_user_id + ", old_state_id="

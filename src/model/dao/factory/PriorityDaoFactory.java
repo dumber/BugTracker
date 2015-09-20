@@ -74,7 +74,7 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T priority) throws SQLException {
 		if (priority != null){
-			dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (\'" + ((Priority)priority).getPriority() + "\');");
+			dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (" + ((Priority)priority).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt priority into database");
@@ -87,7 +87,8 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T priority) throws SQLException {
 		if (((Priority)priority) != null) {
-			dataSource.setUpdateQueryString("`priorities` SET `priority` = \'" + ((Priority)priority).getPriority() + "\' WHERE `pr_id` = " + p_id + ";");
+			dataSource.setUpdateQueryString("`priorities` SET " + ((Priority)priority).toUpdateString() 
+					+ " WHERE `pr_id` = " + p_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt priority\n");

@@ -74,8 +74,8 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T user) throws SQLException {
 		if (((User)user) != null) {
-			dataSource.setInsertQueryString("`users` (`username`,`password`,`user_type_id`) VALUES (\'" + ((User)user).getUsername()
-											+ "\', \'" + ((User)user).getPassword() + "\', " + ((User)user).getUserType_id() +  ");");
+			dataSource.setInsertQueryString("`users` (`username`,`password`,`user_type_id`) VALUES (" 
+					+ ((User)user).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt user into database \n");
@@ -88,8 +88,8 @@ public class UserDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int u_id, T user) throws SQLException {
 		if (((User)user) != null) {
-			dataSource.setUpdateQueryString("`users` SET `username` = \'" + ((User)user).getUsername() + "\', `password` = \'" 
-									+ ((User)user).getPassword()+ "\', `user_type_id` = " + ((User)user).getUserType_id() + ", WHERE `u_id` = " + u_id + ";");
+			dataSource.setUpdateQueryString("`users` SET " + ((User)user).toUpdateString() 
+					+ " WHERE `u_id` = " + u_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt user \n");

@@ -74,7 +74,7 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	public <T extends GenericTableElement> void addElementToTable(T project_user) throws SQLException {
 		if (((ProjectUser)project_user) != null) {
 			dataSource.setInsertQueryString("`project_users` (`project_id`, `user_id` ) VALUES (" +
-				((ProjectUser)project_user).getPuProject_id() + ", " + ((ProjectUser)project_user).getPuUser_id() + ");");
+				((ProjectUser)project_user).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt project_user into database \n");
@@ -87,8 +87,8 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int pu_id, T project_user) throws SQLException {
 		if (((ProjectUser)project_user) != null) {
-			dataSource.setUpdateQueryString("`project_users` SET `project_id` = " + ((ProjectUser)project_user).getPuProject_id() + 
-				", `user_id` = " + ((ProjectUser)project_user).getPuUser_id() + " WHERE `pu_id` = " + pu_id + ";");
+			dataSource.setUpdateQueryString("`project_users` SET " + ((ProjectUser)project_user).toUpdateString() 
+					+ " WHERE `pu_id` = " + pu_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project user \n");

@@ -50,7 +50,17 @@ public class Action extends GenericTableElement {
 	public String toString() {
 		return "\'" + action + "\'";
 	}
-
+	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {		
+		return "`action`=\'" + action + "\'";
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {		
 		return "Action [id=" + id + ", action=" + action + "]";
 	}

@@ -179,7 +179,19 @@ public class TicketHeader extends GenericTableElement {
 		return  "\'" + unique_ticket_name + "\', " + t_project_id + ", \'" + headline + "\', \'" + description + "\', "
 				+ t_severity_id + ", " + t_priority_id + ", " + t_status_id;
 	}
-
+	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {	
+		return "`unique_ticket_name`=\'" + unique_ticket_name + "\', `t_project_id`=" + t_project_id 
+				+ ", `headline`=\'" + headline + "\', `description`=\'" + description + "\', `t_severity_id`="
+				+ t_severity_id + ", `t_priority_id`=" + t_priority_id + ", `t_status_id`=" + t_status_id;
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {	
 		return "TicketHeader [id=" + id + "unique_ticket_name=" + unique_ticket_name
 				+ ", t_project_id=" + t_project_id + ", headline=" + headline

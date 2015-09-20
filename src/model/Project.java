@@ -47,7 +47,17 @@ public class Project extends GenericTableElement {
 		return "\'" + project_name + "\'";
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`project_name`=\'" + project_name + "\'";
+	}	
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {
-		return "Project [id=" + id + ", id=" + project_name + "]";
+		return "Project [id=" + id + ", project_name=" + project_name + "]";
 	}	
 }

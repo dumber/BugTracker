@@ -90,13 +90,22 @@ public class User extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return username + ", " + password + ", " + user_type_id;
+		return "\'" + username + "\', \'" + password + "\', " + user_type_id;
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`username`=\'" + username + "\', `password`=\'" + password + "\', `user_type_id`=" + user_type_id;
+	}
+			
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "User [id=" + id + "username=" + username + ", password=" + password
 				+ ", user_type_id=" + user_type_id + "]";
 	}
-	
-	
+		
 }

@@ -126,6 +126,18 @@ public class TicketAnalysis extends GenericTableElement {
 				+ ", \'" + analysis_date + "\', " + analyser_user_id;
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`ta_ticket_id`=" + ta_ticket_id	+ ", `proposed_change`=\'" + proposed_change
+				+ "\', `impacted_version_id`=" + impacted_version_id + ", `analysis_date`=\'" 
+				+ analysis_date + "\', `analyser_user_id`="	+ analyser_user_id;
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {
 		return "TicketAnalysis [id=" + id + "ta_ticket_id=" + ta_ticket_id
 				+ ", proposed_change=" + proposed_change

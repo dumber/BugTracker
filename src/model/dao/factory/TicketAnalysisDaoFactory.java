@@ -30,7 +30,7 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	 */
 	@Override
 	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
-		List<TicketAnalysis> ana = new ArrayList<TicketAnalysis>();
+		List<TicketAnalysis> analyses = new ArrayList<TicketAnalysis>();
 		dataSource.setSelectQueryString("`ticket_analyses`");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
@@ -38,10 +38,10 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 			TicketAnalysis ta = new TicketAnalysis(rs.getInt("ta_id"), rs.getInt("ta_ticket_id"),
 						rs.getString("proposed_change"), rs.getInt("impacted_ver_id"),
 						rs.getTimestamp("analysis_date"), rs.getInt("analyser_user_id"));
-			ana.add(ta);
+			analyses.add(ta);
 		}
 		rs.close();
-		return null;
+		return analyses;
 	}
 
 	/* (non-Javadoc)
@@ -77,10 +77,8 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T ta) throws SQLException {
 		if (((TicketAnalysis)ta) != null) {
-			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`, `proposed_change`, `impacted_version`, `analysis_date`, `analyser_user_id`) VALUES (" 
-											+ ((TicketAnalysis)ta).getTaTicket_id() + ", \'" + ((TicketAnalysis)ta).getProposedChange() + "\', " 
-											+ ((TicketAnalysis)ta).getImpactedVersion_id() + ", \'" + ((TicketAnalysis)ta).getAnalysisDate() + "\', "
-											+ ((TicketAnalysis)ta).getAnalyserUser_id() + ");");
+			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`, `proposed_change`, `impacted_version`,"
+					+ " `analysis_date`, `analyser_user_id`) VALUES (" + ((TicketAnalysis)ta).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt ticket_analysis into database \n");
@@ -93,11 +91,8 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ta) throws SQLException {
 		if (((TicketAnalysis)ta) != null) {
-			dataSource.setUpdateQueryString("`ticket_analyses` SET `ta_tikcet_id`=" + ((TicketAnalysis)ta).getTaTicket_id() 
-											+ ", `proposed_change`=\'" + ((TicketAnalysis)ta).getProposedChange()
-											+ "\', `impacted_version`=" + ((TicketAnalysis)ta).getImpactedVersion_id() 
-											+ ", `analysis_date`=\'" + ((TicketAnalysis)ta).getAnalysisDate()
-											+ "\', `analyser_user_id`=" + ((TicketAnalysis)ta).getAnalyserUser_id());
+			dataSource.setUpdateQueryString("`ticket_analyses` SET " + ((TicketAnalysis)ta).toUpdateString() 
+					+ " WHERE ta_id=" + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_analysis \n");

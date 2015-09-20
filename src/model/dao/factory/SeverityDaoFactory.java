@@ -73,7 +73,7 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T severity) throws SQLException {
 		if (((Severity)severity) != null) {
-			dataSource.setInsertQueryString("`severities` (`severity`) VALUES (\'" + ((Severity)severity).getSeverity() + "\');");
+			dataSource.setInsertQueryString("`severities` (`severity`) VALUES (" + ((Severity)severity).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt severity into database \n");
@@ -86,7 +86,8 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int s_id, T severity) throws SQLException {
 		if (((Severity)severity) != null) {
-			dataSource.setUpdateQueryString("`severities` SET `severity` = \'" + ((Severity)severity).getSeverity() + "\' WHERE `s_id` = " + s_id + ";");
+			dataSource.setUpdateQueryString("`severities` SET " + ((Severity)severity).toUpdateString() 
+					+ " WHERE `s_id` = " + s_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt severity \n");

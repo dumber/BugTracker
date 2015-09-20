@@ -74,7 +74,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T project) throws SQLException {
 		if (((Project)project) != null) {
-			dataSource.setInsertQueryString("`projects` (`project`) VALUES (\'" + ((Project)project).getProjectName() + "\');");
+			dataSource.setInsertQueryString("`projects` (`project`) VALUES (" + ((Project)project).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt project into database \n");
@@ -87,7 +87,8 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T project) throws SQLException{
 		if (((Project)project) != null) {
-			dataSource.setUpdateQueryString("`projects` SET `project_name` = \'" + ((Project)project).getProjectName() + "\' WHERE `p_id` = " + p_id + ";");
+			dataSource.setUpdateQueryString("`projects` SET " + ((Project)project).toUpdateString() 
+					+ " WHERE `p_id` = " + p_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project \n");

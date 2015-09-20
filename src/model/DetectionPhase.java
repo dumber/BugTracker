@@ -45,9 +45,18 @@ public class DetectionPhase extends GenericTableElement {
 	public String toString() {
 		return "\'" + phase_name + "\'";
 	}
-
+	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`phase_name`=\'" + phase_name + "\'";
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {
-
 		return "DetectionPhase [id=" + id + ", phase_name=" + phase_name + "]";
 	}
 	

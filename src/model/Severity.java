@@ -46,9 +46,18 @@ public class Severity extends GenericTableElement {
 		return "\'" + severity + "\'";
 	}
 	
-	public String debug() {
-		return "Severity [id=" + id + ", severity=" + severity + "]";		
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {
+		return "`severity`=\'" + severity + "\'";		
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String debug() {
+		return "Severity [id=" + id + ", severity=" + severity + "]";		
+	}	
 	
 }

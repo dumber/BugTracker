@@ -46,7 +46,18 @@ public class UserType extends GenericTableElement {
 		return "\'" + user_type + "\'";
 	}
 	
+	/**
+	* @return 
+	*/
+	public String toUpdateString() {
+		return "`user_type`=\'" + user_type + "\'";
+	}
+	
+	/**
+	* @return 
+	*/
 	public String debug() {
 		return "UserType [id=" + id + ", user_type=" + user_type + "]";
-	}	
+	}
+	
 }

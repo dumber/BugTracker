@@ -47,10 +47,19 @@ public class Priority extends GenericTableElement {
 	public String toString() {
 		return "\'" + priority + "\'";
 	}
-
-	public String debug() {				
-		return "Priority [id=" + id + ", priority=" + priority + "]";
+	
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {				
+		return "`priority`=\'" + priority + "\'";
 	}
 	
+	/**
+	 * @return 
+	 */
+	public String debug() {				
+		return "Priority [id=" + id + ", priority=" + priority + "]";
+	}	
 	
 }

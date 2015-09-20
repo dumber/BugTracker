@@ -74,7 +74,8 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {
 		if (((DetectionPhase)detection_phase) != null) {
-			dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (\'" + ((DetectionPhase)detection_phase).getPhaseName() + "\');");
+			dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (" 
+					+ ((DetectionPhase)detection_phase).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt detection_phase into database \n");
@@ -87,7 +88,8 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T phase) throws SQLException {
 		if (((DetectionPhase)phase) != null) {
-			dataSource.setUpdateQueryString("`detection_phases` SET `detection_phase` = " + ((DetectionPhase)phase).getPhaseName() + " WHERE `dp_id` = " + dp_id + ";");
+			dataSource.setUpdateQueryString("`detection_phases` SET " + ((DetectionPhase)phase).toUpdateString() 
+					+ " WHERE `dp_id` = " + dp_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt detection_phase \n");

@@ -66,7 +66,18 @@ public class ProjectUser extends GenericTableElement {
 	public String toString() {
 		return pu_project_id + ", " + pu_user_id;
 	}
-		
+
+	/**
+	 * @return 
+	 */
+	public String toUpdateString() {	
+		return "`pu_project_id`=" + pu_project_id + ", `pu_user_id`=" + pu_user_id;
+
+	}
+	
+	/**
+	 * @return 
+	 */
 	public String debug() {	
 		return "ProjectUser [id=" + id + "pu_project_id=" + pu_project_id + ", pu_user_id="
 				+ pu_user_id + "]";
