@@ -122,24 +122,35 @@ public class TicketAnalysis extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return  ta_ticket_id + ", \'" + proposed_change	+ "\', " + impacted_version_id
+		if (analysis_date != null) {
+			return  ta_ticket_id + ", \'" + proposed_change	+ "\', " + impacted_version_id
 				+ ", \'" + analysis_date + "\', " + analyser_user_id;
+		} else {
+			return  ta_ticket_id + ", \'" + proposed_change	+ "\', " + impacted_version_id
+					+ ", NULL , " + analyser_user_id;
+		}
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`ta_ticket_id`=" + ta_ticket_id	+ ", `proposed_change`=\'" + proposed_change
-				+ "\', `impacted_version_id`=" + impacted_version_id + ", `analysis_date`=\'" 
-				+ analysis_date + "\', `analyser_user_id`="	+ analyser_user_id;
+		if (analysis_date != null) {
+			return "`ta_ticket_id`=" + ta_ticket_id	+ ", `proposed_change`=\'" + proposed_change
+					+ "\', `impacted_ver_id`=" + impacted_version_id + ", `analysis_date`=\'" 
+					+ analysis_date + "\', `analyser_user_id`="	+ analyser_user_id;
+		} else {
+			return "`ta_ticket_id`=" + ta_ticket_id	+ ", `proposed_change`=\'" + proposed_change
+					+ "\', `impacted_ver_id`=" + impacted_version_id + ", `analysis_date`= NULL" 
+					+ ", `analyser_user_id`="	+ analyser_user_id;
+		}
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketAnalysis [id=" + id + "ta_ticket_id=" + ta_ticket_id
+		return "TicketAnalysis [id=" + id + ", ta_ticket_id=" + ta_ticket_id
 				+ ", proposed_change=" + proposed_change
 				+ ", impacted_version_id=" + impacted_version_id
 				+ ", analysis_date=" + analysis_date + ", analyser_user_id="

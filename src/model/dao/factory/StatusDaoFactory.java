@@ -21,8 +21,8 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	/*
 	 * 
 	 */
-	public StatusDaoFactory() throws SQLException {
-		super();
+	public StatusDaoFactory() {
+		super("`statuses`");
 	}
 	
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			Status s = new Status(rs.getInt("s_id"), rs.getString("status"));
+			Status s = new Status(rs.getInt("id"), rs.getString("status"));
 			statuses.add(s);
 		}
 		rs.close();
@@ -46,13 +46,13 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int s_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		Status s = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.statuses WHERE s_id = ?" );
-		dataSource.executeSelectByIdQuery(s_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.statuses WHERE id = ?" );
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			s = new Status(rs.getInt("s_id"), rs.getString("status"));
+			s = new Status(rs.getInt("id"), rs.getString("status"));
 		}
 		rs.close();
 		return type.cast(s);
@@ -84,10 +84,10 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int s_id, T status) throws SQLException {		
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T status) throws SQLException {		
 		if (((Status)status) != null) {
 			dataSource.setUpdateQueryString("`statuses` SET " + ((Status)status).toUpdateString() 
-					+ " WHERE `s_id` = " + s_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt status \n");
@@ -98,8 +98,8 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int s_id) throws SQLException {
-		dataSource.setDeleteQueryString("`statuses` WHERE s_id = " + s_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`statuses` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

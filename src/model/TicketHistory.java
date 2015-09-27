@@ -157,7 +157,7 @@ public class TicketHistory extends GenericTableElement {
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketHistory [id=" + id + "th_ticket_id=" + th_ticket_id
+		return "TicketHistory [id=" + id + ", th_ticket_id=" + th_ticket_id
 				+ ", modifier_user_id=" + modifier_user_id + ", old_state_id="
 				+ old_state_id + ", new_state_id=" + new_state_id
 				+ ", action_id=" + action_id + ", modification_date="

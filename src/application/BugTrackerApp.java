@@ -6,10 +6,11 @@ package application;
 import helper.MySqlDataSourceSingleton;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.DatabaseMetaData;
 
-import com.mysql.jdbc.DatabaseMetaData;
+import test.FactoryTest;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import model.Action;
+import model.DetectionPhase;
 import model.dao.factory.ActionDaoFactory;
+import model.dao.factory.DetectionPhaseDaoFactory;
 import model.dao.factory.PriorityDaoFactory;
 
 /**
@@ -95,21 +98,42 @@ public class BugTrackerApp extends Application {
 			my.setupConnection("dumber", "asdfQq22");		
 //			my.getDatabaseMetaData();
 //			my.executeQueryDemo();
-//			ActionDaoFactory adf = new ActionDaoFactory();
-//			PriorityDaoFactory prdf = new PriorityDaoFactory();
-			System.out.println("Success: " );
-//			System.out.println(adf.findActionById(1).toString());
-//			ArrayList<Action> alist = (ArrayList<Action>)adf.getAllTableElements();
+//			FactoryTest test = new FactoryTest();
+//			test.runSelectTest();
+//			test.runInsertTest();
+//			test.printMaxTest();
+//			test.runUpdateTest();
+//			test.runDeleteTest();
+//			DatabaseMetaData meta = my.getConn().getMetaData();
+//			String[] types = {"TABLE"};
+//			ResultSet rs_t = meta.getTables(null, null, "%", types);
+//			table_colums_n_types = new ArrayList<Map<String, List<Map<String,String>>>>();
+//			while (rs_t.next()) {
+//				String table = rs_t.getString("TABLE_NAME");
+//				test.runSelectAllTest(table);
+//			}
+//			DetectionPhaseDaoFactory adf = new DetectionPhaseDaoFactory();
+//			DetectionPhase a = new DetectionPhase(adf.findDetectionPhaseById(1));
+//			System.out.println("Success: " );
+//			System.out.println(a.toString());
+//			a.setPhaseName("Submit");
+//			adf.updateElementInTalbe(1, a);
+//			System.out.println("Modified:");
+//			System.out.println(a.debug());
+//			a.setPhaseName("Specification");
+//			adf.updateElementInTalbe(1, a);
+//			System.out.println("Modified:");
+//			System.out.println(a.debug());
+//			ArrayList<DetectionPhase> alist = (ArrayList<DetectionPhase>)adf.getAllTableElements();
 //			System.out.println(alist.get(0).getId() + ", " + alist.get(0).getAction());
 //			Action a = new Action(1,"lophas");
 //			adf.updateElementInTalbe(1, a);
 //			adf.addElementToTable(a);
-			System.out.println("Modified:");
 //			System.out.println(adf.findActionById(14).toString());
 //			alist = (ArrayList<Action>)adf.getAllTableElements();
 //			adf.deleteElementFromTable(14);
-//			for(Action i : ((ArrayList<Action>)adf.getAllTableElements())) {
-//				System.out.println(i.toString());
+//			for(DetectionPhase i : alist) {
+//				System.out.println(i.debug());
 //			}
 			my.MySqlDataSourceCloseConections();
 		} catch (ClassNotFoundException e) {
@@ -125,6 +149,6 @@ public class BugTrackerApp extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		launch(args);
+//		launch(args);
 	}
 }

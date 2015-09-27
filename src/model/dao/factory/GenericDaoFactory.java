@@ -3,8 +3,8 @@
  */
 package model.dao.factory;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import model.GenericTableElement;
 import model.dao.GenericDaoIFC;
@@ -17,12 +17,13 @@ import helper.MySqlDataSourceSingleton;
 public class GenericDaoFactory { //implements GenericDaoIFC {
 	
 	protected final MySqlDataSourceSingleton dataSource = MySqlDataSourceSingleton.getInstance();
-
+	protected String table_name;
 	/**
 	 * 	default ctor to provide access to the singleton instance
 	 */
-	public GenericDaoFactory() {
+	public GenericDaoFactory(String name) {
 		super();
+		table_name = name;
 	}
 
 //	@Override
@@ -58,5 +59,15 @@ public class GenericDaoFactory { //implements GenericDaoIFC {
 //		// TODO Auto-generated method stub
 //		
 //	}
-
+	
+	public int getMaxId() throws SQLException {
+		dataSource.setCustomQueryString(" MAX(id) FROM " + table_name);
+		dataSource.executeCustomQuery();
+		ResultSet rs = dataSource.getResultSet();
+		if (rs.next()) {
+			return rs.getInt(1);			
+		} else {
+			return -1;
+		}
+	}
 }

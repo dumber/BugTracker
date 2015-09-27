@@ -22,7 +22,7 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	 * 
 	 */
 	public ProjectUserDaoFactory() {
-		super();
+		super("`project_users`");
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			ProjectUser dp = new ProjectUser(rs.getInt("pu_id"), rs.getInt("project_id"), rs.getInt("user_id"));
+			ProjectUser dp = new ProjectUser(rs.getInt("id"), rs.getInt("project_id"), rs.getInt("user_id"));
 			project_users.add(dp);
 		}
 		rs.close();
@@ -46,13 +46,13 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int pu_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		ProjectUser pu = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`project_users` WHERE pu_id = ?" );
-		dataSource.executeSelectByIdQuery(pu_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`project_users` WHERE id = ?" );
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			pu = new ProjectUser(rs.getInt("pu_id"), rs.getInt("project_id"), rs.getInt("user_id"));
+			pu = new ProjectUser(rs.getInt("id"), rs.getInt("project_id"), rs.getInt("user_id"));
 		}
 		rs.close();
 		return type.cast(pu);
@@ -85,10 +85,10 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int pu_id, T project_user) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T project_user) throws SQLException {
 		if (((ProjectUser)project_user) != null) {
 			dataSource.setUpdateQueryString("`project_users` SET " + ((ProjectUser)project_user).toUpdateString() 
-					+ " WHERE `pu_id` = " + pu_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project user \n");
@@ -99,8 +99,8 @@ public class ProjectUserDaoFactory extends GenericDaoFactory implements GenericD
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int pu_id) throws SQLException {
-		dataSource.setDeleteQueryString("`project_users` WHERE pu_id = " + pu_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`project_users` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

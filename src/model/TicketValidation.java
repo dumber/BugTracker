@@ -141,17 +141,42 @@ public class TicketValidation extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
-				+ ", \'" + validation_date + "\', " + validator_user_id + ", \'" + closure_date + "\'";
+		if (validation_date == null && closure_date == null) {
+			return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
+					+ ",NULL , " + validator_user_id + ",NULL";
+		} else if (validation_date == null) {
+			return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
+				+ ",NULL , " + validator_user_id + ", \'" + closure_date + "\'";
+		} else if (closure_date == null) {
+			return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
+					+ ", \'" + validation_date + "\', " + validator_user_id + ",NULL";
+		}  else {
+			return tv_ticket_id + ", \'" + validator_comments + "\', " + validated_version_id
+					+ ", \'" + validation_date + "\', " + validator_user_id + ", \'" + closure_date + "\'";
+		}
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
-				+ "\', `validated_version_id`=" + validated_version_id + ", `validation_date`=\'" + validation_date
-				+ "\', `validator_user_id`=" + validator_user_id + ", `closure_date`=\'" + closure_date + "\'";
+		if (validation_date == null && closure_date == null) {
+			return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
+					+ "\', `validated_ver_id`=" + validated_version_id + ", `validation_date`= NULL "
+					+ ", `validator_user_id`=" + validator_user_id + ", `closure_date`= NULL";
+		} else if (validation_date == null) {
+			return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
+					+ "\', `validated_ver_id`=" + validated_version_id + ", `validation_date`= NULL" 
+					+ ", `validator_user_id`=" + validator_user_id + ", `closure_date`=\'" + closure_date + "\'";
+		} else if (closure_date == null) {
+			return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
+					+ "\', `validated_ver_id`=" + validated_version_id + ", `validation_date`=\'" + validation_date
+					+ "\', `validator_user_id`=" + validator_user_id + ", `closure_date`= NULL";
+		} else {
+			return "`tv_ticket_id`=" + tv_ticket_id	+ ", `validator_comments`=\'" + validator_comments
+					+ "\', `validated_ver_id`=" + validated_version_id + ", `validation_date`=\'" + validation_date
+					+ "\', `validator_user_id`=" + validator_user_id + ", `closure_date`=\'" + closure_date + "\'";
+		}
 	}
 		
 	/**

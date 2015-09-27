@@ -122,24 +122,35 @@ public class TicketRealisation extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return tr_ticket_id	+ ", \'" + realised_items + "\', " + realised_version_id
+		if (realisation_date != null) {
+			return tr_ticket_id	+ ", \'" + realised_items + "\', " + realised_version_id
 				+ ", \'" + realisation_date	+ "\', " + realiser_user_id;
+		} else {
+			return tr_ticket_id	+ ", \'" + realised_items + "\', " + realised_version_id
+					+ ",NULL , " + realiser_user_id;
+		}
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`tr_ticket_id`=" + tr_ticket_id + ", `realised_items`=\'" + realised_items
-				+ "\', `realised_version_id`=" + realised_version_id + ", `realisation_date`=\'" 
-				+ realisation_date + "\', `realiser_user_id`=" + realiser_user_id;
+		if (realisation_date != null) {
+			return "`tr_ticket_id`=" + tr_ticket_id + ", `realised_items`=\'" + realised_items
+					+ "\', `realised_ver_id`=" + realised_version_id + ", `realisation_date`=\'" 
+					+ realisation_date + "\', `realiser_user_id`=" + realiser_user_id;
+		} else {
+			return "`tr_ticket_id`=" + tr_ticket_id + ", `realised_items`=\'" + realised_items
+					+ "\', `realised_ver_id`=" + realised_version_id + ", `realisation_date`= NULL" 
+					+ ", `realiser_user_id`=" + realiser_user_id;
+		}
 	}	
 		
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketRealisation [id=" + id + "tr_ticket_id=" + tr_ticket_id
+		return "TicketRealisation [id=" + id + ", tr_ticket_id=" + tr_ticket_id
 				+ ", realised_items=" + realised_items
 				+ ", realised_version_id=" + realised_version_id
 				+ ", realisation_date=" + realisation_date

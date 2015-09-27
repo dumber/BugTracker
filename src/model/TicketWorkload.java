@@ -202,10 +202,10 @@ public class TicketWorkload extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`tw_ticket_id`=" + tw_ticket_id	+ ", `estimated_analysis`=" + estimated_analysis
-				+ ", `estimated_realisation`=" + estimated_realisation + ", `estimated_validation`=" 
-				+ estimated_validation + ", `estimated_sum`=" + estimated_sum + ", `analysis_workload`="
-				+ analysis_workload + ", `realisation_workload`=" + realisation_workload + ", `validation_workload`="
+		return "`tw_ticket_id`=" + tw_ticket_id	+ ", `est_analysis`=" + estimated_analysis
+				+ ", `est_realisation`=" + estimated_realisation + ", `est_validation`=" 
+				+ estimated_validation + ", `est_sum`=" + estimated_sum + ", `analysis_wl`="
+				+ analysis_workload + ", `realisation_wl`=" + realisation_workload + ", `validation_wl`="
 				+ validation_workload + ", `workload_sum`=" + workload_sum;
 	}
 	
@@ -213,7 +213,7 @@ public class TicketWorkload extends GenericTableElement {
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketWorkload [id=" + id + "tw_ticket_id=" + tw_ticket_id
+		return "TicketWorkload [id=" + id + ", tw_ticket_id=" + tw_ticket_id
 				+ ", estimated_analysis=" + estimated_analysis
 				+ ", estimated_realisation=" + estimated_realisation
 				+ ", estimated_validation=" + estimated_validation

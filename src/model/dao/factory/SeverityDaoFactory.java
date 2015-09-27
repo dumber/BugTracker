@@ -22,7 +22,7 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 * 
 	 */
 	public SeverityDaoFactory(){
-		super();
+		super("`severities`");
 	}
 	
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			Severity sev = new Severity(rs.getInt("s_id"),rs.getString("severity"));
+			Severity sev = new Severity(rs.getInt("id"),rs.getString("severity"));
 			severities.add(sev);
 		}
 		rs.close();
@@ -46,13 +46,13 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int s_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		Severity s = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`severities` WHERE s_id = ?" );
-		dataSource.executeSelectByIdQuery(s_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`severities` WHERE id = ?" );
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			s = new Severity(rs.getInt("s_id"), rs.getString("severity"));
+			s = new Severity(rs.getInt("id"), rs.getString("severity"));
 		}
 		rs.close();
 		return type.cast(s);
@@ -84,10 +84,10 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int s_id, T severity) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T severity) throws SQLException {
 		if (((Severity)severity) != null) {
 			dataSource.setUpdateQueryString("`severities` SET " + ((Severity)severity).toUpdateString() 
-					+ " WHERE `s_id` = " + s_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt severity \n");
@@ -98,8 +98,8 @@ public class SeverityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int s_id) throws SQLException {
-		dataSource.setDeleteQueryString("`severities` WHERE s_id = " + s_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`severities` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

@@ -22,7 +22,7 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	 * 
 	 */
 	public TicketAnalysisDaoFactory() {
-		super();
+		super("`ticket_analyses`");
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketAnalysis ta = new TicketAnalysis(rs.getInt("ta_id"), rs.getInt("ta_ticket_id"),
+			TicketAnalysis ta = new TicketAnalysis(rs.getInt("id"), rs.getInt("ta_ticket_id"),
 						rs.getString("proposed_change"), rs.getInt("impacted_ver_id"),
 						rs.getTimestamp("analysis_date"), rs.getInt("analyser_user_id"));
 			analyses.add(ta);
@@ -48,13 +48,13 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int ta_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		TicketAnalysis ta = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.ticket_analyses WHERE ta_id = ?" );
-		dataSource.executeSelectByIdQuery(ta_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.ticket_analyses WHERE id = ?" );
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			ta = new TicketAnalysis(rs.getInt("ta_id"), rs.getInt("ta_ticket_id"), 
+			ta = new TicketAnalysis(rs.getInt("id"), rs.getInt("ta_ticket_id"), 
 					rs.getString("proposed_change"), rs.getInt("impacted_ver_id"), 
 					rs.getTimestamp("analysis_date"), rs.getInt("analyser_user_id"));
 		}
@@ -77,7 +77,7 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T ta) throws SQLException {
 		if (((TicketAnalysis)ta) != null) {
-			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`, `proposed_change`, `impacted_version`,"
+			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`, `proposed_change`, `impacted_ver_id`,"
 					+ " `analysis_date`, `analyser_user_id`) VALUES (" + ((TicketAnalysis)ta).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
@@ -92,7 +92,7 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ta) throws SQLException {
 		if (((TicketAnalysis)ta) != null) {
 			dataSource.setUpdateQueryString("`ticket_analyses` SET " + ((TicketAnalysis)ta).toUpdateString() 
-					+ " WHERE ta_id=" + id + ";");
+					+ " WHERE `id` =" + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_analysis \n");
@@ -103,8 +103,8 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int ta_id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_analyses` WHERE ta_id = " + ta_id +";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`ticket_analyses` WHERE `id` = " + id +";");
 		dataSource.executeDeleteQuery();
 	}
 

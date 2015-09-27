@@ -71,14 +71,14 @@ public class TicketLink extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`t_ticket_id`=" + t_ticket_id + ", `t_linked_ticket_id`=" + t_linked_ticket_id;
+		return "`tl_ticket_id`=" + t_ticket_id + ", `tl_linked_ticket_id`=" + t_linked_ticket_id;
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketLink [id=" + id + "t_ticket_id=" + t_ticket_id + ", t_linked_ticket_id=" + t_linked_ticket_id + "]";
+		return "TicketLink [id=" + id + ", t_ticket_id=" + t_ticket_id + ", t_linked_ticket_id=" + t_linked_ticket_id + "]";
 	}
 	
 }

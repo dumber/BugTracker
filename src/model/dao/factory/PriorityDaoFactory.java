@@ -22,7 +22,7 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 * 
 	 */
 	public PriorityDaoFactory() {
-		super();
+		super("`priorities`");
 	}
 	
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			Priority prio = new Priority(rs.getInt("pr_id"),rs.getString("priority"));
+			Priority prio = new Priority(rs.getInt("id"),rs.getString("priority"));
 			priorities.add(prio);
 		}
 		rs.close();
@@ -48,11 +48,11 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	@Override
 	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) throws SQLException {
 		Priority p = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.actions WHERE pr_id = ?" );
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.priorities WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(p_id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			p = new Priority(rs.getInt("pr_id"), rs.getString("priority"));
+			p = new Priority(rs.getInt("id"), rs.getString("priority"));
 		}
 		rs.close();
 		return type.cast(p);
@@ -88,7 +88,7 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T priority) throws SQLException {
 		if (((Priority)priority) != null) {
 			dataSource.setUpdateQueryString("`priorities` SET " + ((Priority)priority).toUpdateString() 
-					+ " WHERE `pr_id` = " + p_id + ";");
+					+ " WHERE `id` = " + p_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt priority\n");
@@ -100,7 +100,7 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	 */
 	@Override
 	public void deleteElementFromTable(int p_id) throws SQLException {
-		dataSource.setDeleteQueryString("`priorities` WHERE pr_id = " + p_id + ";");
+		dataSource.setDeleteQueryString("`priorities` WHERE `id` = " + p_id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

@@ -137,6 +137,11 @@ public class MySqlDataSourceSingleton {
 		resetCustomSelectCommands();
 	}
 	
+	public void executeCustomQuery() throws SQLException {
+		rs = stmt.executeQuery(custom_select_query_string);
+		resetCustomSelectCommands();
+	}
+	
 	/**
 	 * @throws SQLException 
 	 * 
@@ -151,6 +156,14 @@ public class MySqlDataSourceSingleton {
 		if (conn != null) {
 			conn.close();
 		}
+	}
+
+	
+	/**
+	 * @return the conn
+	 */
+	public Connection getConn() {
+		return conn;
 	}
 
 	/**

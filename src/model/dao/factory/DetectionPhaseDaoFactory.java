@@ -22,7 +22,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	 * 
 	 */
 	public DetectionPhaseDaoFactory() {
-		super();
+		super("`detection_phases`");
 
 	}
 
@@ -36,7 +36,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			DetectionPhase dp = new DetectionPhase(rs.getInt("dp_id"),rs.getString("phase_name"));
+			DetectionPhase dp = new DetectionPhase(rs.getInt("id"),rs.getString("phase_name"));
 			detection_phases.add(dp);
 		}
 		rs.close();
@@ -47,13 +47,13 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int dp_id, Class<T> type) throws SQLException {		
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {		
 		DetectionPhase dp = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`detection_phases` WHERE dp_id = ");
-		dataSource.executeSelectByIdQuery(dp_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`detection_phases` WHERE id = ?");
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			dp = new DetectionPhase(rs.getInt("dp_id"), rs.getString("detection_phase"));
+			dp = new DetectionPhase(rs.getInt("id"), rs.getString("phase_name"));
 		}
 		rs.close();
 		return type.cast(dp);
@@ -74,7 +74,7 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {
 		if (((DetectionPhase)detection_phase) != null) {
-			dataSource.setInsertQueryString("`detection_phases` (`detection_phases`) VALUES (" 
+			dataSource.setInsertQueryString("`detection_phases` (`phase_name`) VALUES (" 
 					+ ((DetectionPhase)detection_phase).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
@@ -86,10 +86,10 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int dp_id, T phase) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T phase) throws SQLException {
 		if (((DetectionPhase)phase) != null) {
 			dataSource.setUpdateQueryString("`detection_phases` SET " + ((DetectionPhase)phase).toUpdateString() 
-					+ " WHERE `dp_id` = " + dp_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt detection_phase \n");
@@ -100,8 +100,8 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int dp_id) throws SQLException {
-		dataSource.setDeleteQueryString("`detection_phase` WHERE dp_id = " + dp_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`detection_phases` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

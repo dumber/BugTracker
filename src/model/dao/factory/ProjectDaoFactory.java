@@ -22,7 +22,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	 * 
 	 */	
 	public ProjectDaoFactory(){
-		super();
+		super("`projects`");
 
 	}
 	
@@ -36,7 +36,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			Project pro = new Project(rs.getInt("p_id"),rs.getString("project_name"));
+			Project pro = new Project(rs.getInt("id"),rs.getString("project_name"));
 			projects.add(pro);
 		}
 		rs.close();
@@ -47,13 +47,13 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		Project p = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.projects WHERE p_id = ?" );
-		dataSource.executeSelectByIdQuery(p_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.projects WHERE id = ?" );
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			p = new Project(rs.getInt("p_id"), rs.getString("project"));
+			p = new Project(rs.getInt("id"), rs.getString("project_name"));
 		}
 		rs.close();
 		return type.cast(p);
@@ -74,7 +74,7 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	@Override
 	public <T extends GenericTableElement> void addElementToTable(T project) throws SQLException {
 		if (((Project)project) != null) {
-			dataSource.setInsertQueryString("`projects` (`project`) VALUES (" + ((Project)project).toString() + ");");
+			dataSource.setInsertQueryString("`projects` (`project_name`) VALUES (" + ((Project)project).toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt project into database \n");
@@ -85,10 +85,10 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T project) throws SQLException{
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T project) throws SQLException{
 		if (((Project)project) != null) {
 			dataSource.setUpdateQueryString("`projects` SET " + ((Project)project).toUpdateString() 
-					+ " WHERE `p_id` = " + p_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project \n");
@@ -99,8 +99,8 @@ public class ProjectDaoFactory extends GenericDaoFactory implements GenericDaoIF
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int p_id) throws SQLException {
-		dataSource.setDeleteQueryString("`projects` WHERE p_id = " + p_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`projects` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

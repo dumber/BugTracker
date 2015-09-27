@@ -22,7 +22,7 @@ public class TicketLinkDaoFactory extends GenericDaoFactory implements GenericDa
 	 * 
 	 */
 	public TicketLinkDaoFactory() {
-		super();
+		super("`ticket_links`");
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class TicketLinkDaoFactory extends GenericDaoFactory implements GenericDa
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketLink tl = new TicketLink(rs.getInt("tl_id"), rs.getInt("tl_ticket_id"), rs.getInt("tl_linked_ticket_id"));
+			TicketLink tl = new TicketLink(rs.getInt("id"), rs.getInt("tl_ticket_id"), rs.getInt("tl_linked_ticket_id"));
 			ticket_links.add(tl);
 		}
 		rs.close();
@@ -46,13 +46,13 @@ public class TicketLinkDaoFactory extends GenericDaoFactory implements GenericDa
 	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int tl_id, Class<T> type) throws SQLException {
+	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
 		TicketLink tl = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_links` WHERE t_id = ?");
-		dataSource.executeSelectByIdQuery(tl_id);
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_links` WHERE id = ?");
+		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			tl = new TicketLink(rs.getInt("tl_id"), rs.getInt("tl_ticket_id"), rs.getInt("tl_linked_ticket_id"));
+			tl = new TicketLink(rs.getInt("id"), rs.getInt("tl_ticket_id"), rs.getInt("tl_linked_ticket_id"));
 		}
 		rs.close();
 		return type.cast(tl);
@@ -85,10 +85,11 @@ public class TicketLinkDaoFactory extends GenericDaoFactory implements GenericDa
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int tl_id, T ticket_link) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ticket_link) throws SQLException {
 		if (((TicketLink)ticket_link) != null) {
 			dataSource.setUpdateQueryString("`ticket_links` SET " + ((TicketLink)ticket_link).toUpdateString() 
-					+ " WHERE `tl_id` = " + tl_id + ";");
+					+ " WHERE `id` = " + id + ";");
+			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_link \n");
 		}
@@ -98,8 +99,8 @@ public class TicketLinkDaoFactory extends GenericDaoFactory implements GenericDa
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int tl_id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_links` WHERE tl_id = " + tl_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`ticket_links` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 	

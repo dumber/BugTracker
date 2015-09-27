@@ -13,7 +13,7 @@ public class TicketRealisationDaoFactory extends GenericDaoFactory implements
 		GenericDaoIFC {
 
 	public TicketRealisationDaoFactory() {
-		super();
+		super("`ticket_realisations`");
 	}
 
 	/* (non-Javadoc)
@@ -26,7 +26,7 @@ public class TicketRealisationDaoFactory extends GenericDaoFactory implements
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketRealisation tr = new TicketRealisation(rs.getInt("tr_id"), rs.getInt("tr_ticket_id"), rs.getString("realised_items"), 
+			TicketRealisation tr = new TicketRealisation(rs.getInt("id"), rs.getInt("tr_ticket_id"), rs.getString("realised_items"), 
 					rs.getInt("realised_ver_id"), rs.getTimestamp("realisation_date"), rs.getInt("realiser_user_id"));
 			ticket_realisations.add(tr);
 		}
@@ -44,7 +44,7 @@ public class TicketRealisationDaoFactory extends GenericDaoFactory implements
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			 tr = new TicketRealisation(rs.getInt("tr_id"), rs.getInt("tr_ticket_id"), rs.getString("realised_items"), 
+			 tr = new TicketRealisation(rs.getInt("id"), rs.getInt("tr_ticket_id"), rs.getString("realised_items"), 
 					 rs.getInt("realised_ver_id"), rs.getTimestamp("realisation_date"), rs.getInt("realiser_user_id"));
 		}
 		rs.close();
@@ -79,10 +79,10 @@ public class TicketRealisationDaoFactory extends GenericDaoFactory implements
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int tr_id, T ticket_real) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ticket_real) throws SQLException {
 		if (((TicketRealisation)ticket_real) != null) {
 			dataSource.setUpdateQueryString("`ticket_realisations` SET " + ((TicketRealisation)ticket_real).toUpdateString() 
-					+ " WHERE `tr_id` = " + tr_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_realisation \n");
@@ -93,8 +93,8 @@ public class TicketRealisationDaoFactory extends GenericDaoFactory implements
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int tr_id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_realisations` WHERE tr_id = " + tr_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`ticket_realisations` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 

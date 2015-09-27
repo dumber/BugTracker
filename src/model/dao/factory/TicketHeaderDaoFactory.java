@@ -23,7 +23,7 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	 * 
 	 */
 	public TicketHeaderDaoFactory() {
-		super();
+		super("`ticket_headers`");
 	}
 	
 	/* (non-Javadoc)
@@ -36,7 +36,7 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketHeader ticket_header = new TicketHeader(rs.getInt("t_id"), rs.getString("unique_ticket_name"), rs.getInt("project_id"), 
+			TicketHeader ticket_header = new TicketHeader(rs.getInt("id"), rs.getString("unique_ticket_name"), rs.getInt("project_id"), 
 					rs.getString("headline"), rs.getString("description"), rs.getInt("severity_id"), rs.getInt("priority_id"),
 					rs.getInt("status_id"));
 			ticket_headers.add(ticket_header);
@@ -51,11 +51,11 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	@Override
 	public <T extends GenericTableElement> T findElementById(int th_id, Class<T> type) throws SQLException {
 		TicketHeader th = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_headers` WHERE t_id = ?" );
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_headers` WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(th_id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			th = new TicketHeader(rs.getInt("t_id"), rs.getString("unique_ticket_name"), rs.getInt("project_id"), 
+			th = new TicketHeader(rs.getInt("id"), rs.getString("unique_ticket_name"), rs.getInt("project_id"), 
 					rs.getString("headline"), rs.getString("description"), rs.getInt("severity_id"), rs.getInt("priority_id"),
 					rs.getInt("status_id"));
 		}
@@ -90,10 +90,10 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int t_id, T ticket_header) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ticket_header) throws SQLException {
 		if (((TicketHeader)ticket_header) != null) {
 			dataSource.setUpdateQueryString("`ticket_headers` SET " + ((TicketHeader)ticket_header).toUpdateString() 
-					+ " WHERE `t_id` = " + t_id + ";");
+					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_header \n");
@@ -104,8 +104,8 @@ public class TicketHeaderDaoFactory extends GenericDaoFactory implements Generic
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int t_id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_headers` WHERE t_id = " + t_id + ";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`ticket_headers` WHERE `id` = " + id + ";");
 		dataSource.executeDeleteQuery();
 	}
 	

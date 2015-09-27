@@ -60,7 +60,7 @@ public class TicketHeader extends GenericTableElement {
 	/**
 	 * @param u_t_id the ticket_name to set
 	 */
-	public void getUniqueTicket_id(String u_t_id) {
+	public void setUniqueTicket_id(String u_t_id) {
 		this.unique_ticket_name = u_t_id;
 	}
 
@@ -184,16 +184,16 @@ public class TicketHeader extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {	
-		return "`unique_ticket_name`=\'" + unique_ticket_name + "\', `t_project_id`=" + t_project_id 
-				+ ", `headline`=\'" + headline + "\', `description`=\'" + description + "\', `t_severity_id`="
-				+ t_severity_id + ", `t_priority_id`=" + t_priority_id + ", `t_status_id`=" + t_status_id;
+		return "`unique_ticket_name`=\'" + unique_ticket_name + "\', `project_id`=" + t_project_id 
+				+ ", `headline`=\'" + headline + "\', `description`=\'" + description + "\', `severity_id`="
+				+ t_severity_id + ", `priority_id`=" + t_priority_id + ", `status_id`=" + t_status_id;
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {	
-		return "TicketHeader [id=" + id + "unique_ticket_name=" + unique_ticket_name
+		return "TicketHeader [id=" + id + ", unique_ticket_name=" + unique_ticket_name
 				+ ", t_project_id=" + t_project_id + ", headline=" + headline
 				+ ", description=" + description + ", t_severity_id="
 				+ t_severity_id + ", t_priority_id=" + t_priority_id

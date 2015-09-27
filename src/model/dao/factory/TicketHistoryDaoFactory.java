@@ -23,7 +23,7 @@ public class TicketHistoryDaoFactory extends GenericDaoFactory implements
 	 * 
 	 */
 	public TicketHistoryDaoFactory() {
-		super();
+		super("`ticket_histories`");
 	}
 
 	/* (non-Javadoc)
@@ -36,7 +36,7 @@ public class TicketHistoryDaoFactory extends GenericDaoFactory implements
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketHistory th = new TicketHistory(rs.getInt("th_id"), rs.getInt("th_ticket_id"), 
+			TicketHistory th = new TicketHistory(rs.getInt("id"), rs.getInt("th_ticket_id"), 
 						rs.getInt("modifier_user_id"), rs.getInt("old_state_id"), 
 						rs.getInt("new_state_id"), rs.getInt("action_id"), 
 						rs.getTimestamp("modification_date"));
@@ -52,11 +52,11 @@ public class TicketHistoryDaoFactory extends GenericDaoFactory implements
 	@Override
 	public <T extends GenericTableElement> T findElementById(int ta_id, Class<T> type) throws SQLException {
 		TicketHistory th = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.ticket_histories WHERE th_id = ?");
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.ticket_histories WHERE id = ?");
 		dataSource.executeSelectByIdQuery(ta_id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			th = new TicketHistory(rs.getInt("th_id"), rs.getInt("th_ticket_id"), 
+			th = new TicketHistory(rs.getInt("id"), rs.getInt("th_ticket_id"), 
 						rs.getInt("modifier_user_id"), rs.getInt("old_state_id"), 
 						rs.getInt("new_state_id"), rs.getInt("action_id"), 
 						rs.getTimestamp("modification_date"));
@@ -92,10 +92,10 @@ public class TicketHistoryDaoFactory extends GenericDaoFactory implements
 	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int th_id, T th) throws SQLException {
+	public <T extends GenericTableElement> void updateElementInTalbe(int id, T th) throws SQLException {
 		if (((TicketHistory)th) != null) {
 			dataSource.setUpdateQueryString("`ticket_histories` SET " + ((TicketHistory)th).toUpdateString() 
-					+ " WHERE th_id=" + th_id + ";" );
+					+ " WHERE `id` =" + id + ";" );
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_history \n");
@@ -106,8 +106,8 @@ public class TicketHistoryDaoFactory extends GenericDaoFactory implements
 	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
 	 */
 	@Override
-	public void deleteElementFromTable(int th_id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_histories` WHERE th_id = " + th_id +";");
+	public void deleteElementFromTable(int id) throws SQLException {
+		dataSource.setDeleteQueryString("`ticket_histories` WHERE `id` = " + id +";");
 		dataSource.executeDeleteQuery();
 	}
 

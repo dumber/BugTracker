@@ -66,14 +66,14 @@ public class ProjectVersion extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`pv_project_id`=" + pv_project_id + ", `version`=\'" + version + "\'";
+		return "`project_id`=" + pv_project_id + ", `version`=\'" + version + "\'";
 	}	
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "ProjectVersion [id=" + id + "pv_project_id=" + pv_project_id + ", version="
+		return "ProjectVersion [id=" + id + ", pv_project_id=" + pv_project_id + ", version="
 				+ version + "]";
 	}	
 	
