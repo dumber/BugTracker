@@ -3,82 +3,99 @@
  */
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * @author dumber
  *
  */
 public class TicketLink extends GenericTableElement {
-	private int t_ticket_id;
-	private int t_linked_ticket_id;
+	private IntegerProperty tl_ticket_id;
+	private IntegerProperty tl_linked_ticket_id;
 	
 	/**
 	 * @param id
-	 * @param t_t_id
-	 * @param t_lt_id
+	 * @param tl_t_id
+	 * @param tl_lt_id
 	 */
-	public TicketLink(int id, int t_t_id, int t_lt_id) {
+	public TicketLink(int id, int tl_t_id, int tl_lt_id) {
 		super(id);
-		this.t_ticket_id = t_t_id;
-		this.t_linked_ticket_id = t_lt_id;
+		this.tl_ticket_id = new SimpleIntegerProperty(tl_t_id);
+		this.tl_linked_ticket_id = new SimpleIntegerProperty(tl_lt_id);
 	}
 	
 	/**
 	 * @param TicketLink tl
 	 */
 	public TicketLink(TicketLink tl) {
-		super(tl.id);
-		this.t_ticket_id = tl.t_ticket_id;
-		this.t_linked_ticket_id = tl.t_linked_ticket_id;
+		super(tl.getId());
+		this.tl_ticket_id = tl.tl_ticket_id;
+		this.tl_linked_ticket_id = tl.tl_linked_ticket_id;
 	}
 	
 	/**
-	 * @return the t_ticket_id
+	 * @return the tl_ticket_id
 	 */
 	public int getTlTicket_id() {
-		return t_ticket_id;
+		return tl_ticket_id.get();
 	}
 	
 	/**
-	 * @param t_ticket_id the t_ticket_id to set
+	 * @param tl_ticket_id the tl_ticket_id to set
 	 */
-	public void setTlTicket_id(int t_ticket_id) {
-		this.t_ticket_id = t_ticket_id;
+	public void setTlTicket_id(int tl_ticket_id) {
+		this.tl_ticket_id.set(tl_ticket_id);
 	}
 	
 	/**
-	 * @return the t_linked_ticket_id
+	 * @return the tl_ticket_id
+	 */
+	public IntegerProperty tlTicketIdProperty() {
+		return tl_ticket_id;
+	}
+	
+	/**
+	 * @return the tl_linked_ticket_id
 	 */
 	public int getTlLinkedTicket_id() {
-		return t_linked_ticket_id;
+		return tl_linked_ticket_id.get();
 	}
 	
 	/**
-	 * @param t_linked_ticket_id the t_linked_ticket_id to set
+	 * @param tl_linked_ticket_id the tl_linked_ticket_id to set
 	 */
-	public void setTlLinkedTicket_id(int t_linked_ticket_id) {
-		this.t_linked_ticket_id = t_linked_ticket_id;
+	public void setTlLinkedTicket_id(int tl_linked_ticket_id) {
+		this.tl_linked_ticket_id.set(tl_linked_ticket_id);
 	}
-
+	
+	/**
+	 * @return the tl_linked_ticket_id
+	 */
+	public IntegerProperty tlLinkedTicketIdProperty() {
+		return tl_linked_ticket_id;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return t_ticket_id	+ ", " + t_linked_ticket_id;
+		return tl_ticket_id	+ ", " + tl_linked_ticket_id;
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`tl_ticket_id`=" + t_ticket_id + ", `tl_linked_ticket_id`=" + t_linked_ticket_id;
+		return "`tl_ticket_id`=" + tl_ticket_id + ", `tl_linked_ticket_id`=" + tl_linked_ticket_id;
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "TicketLink [id=" + id + ", t_ticket_id=" + t_ticket_id + ", t_linked_ticket_id=" + t_linked_ticket_id + "]";
+		return "TicketLink [id=" + id + ", tl_ticket_id=" + tl_ticket_id + ", tl_linked_ticket_id=" + tl_linked_ticket_id + "]";
 	}
 	
 }

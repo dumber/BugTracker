@@ -51,7 +51,6 @@ public class BugTrackerApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(BugTrackerApp.class.getResource("../view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
@@ -98,19 +97,19 @@ public class BugTrackerApp extends Application {
 			my.setupConnection("dumber", "asdfQq22");		
 //			my.getDatabaseMetaData();
 //			my.executeQueryDemo();
-//			FactoryTest test = new FactoryTest();
-//			test.runSelectTest();
+			FactoryTest test = new FactoryTest();
+			test.runSelectTest();
 //			test.runInsertTest();
-//			test.printMaxTest();
+			test.printMaxTest();
 //			test.runUpdateTest();
-//			test.runDeleteTest();
+			test.runDeleteTest();
 //			DatabaseMetaData meta = my.getConn().getMetaData();
 //			String[] types = {"TABLE"};
 //			ResultSet rs_t = meta.getTables(null, null, "%", types);
 //			table_colums_n_types = new ArrayList<Map<String, List<Map<String,String>>>>();
 //			while (rs_t.next()) {
 //				String table = rs_t.getString("TABLE_NAME");
-//				test.runSelectAllTest(table);
+				test.runSelectAllTest("actions");
 //			}
 //			DetectionPhaseDaoFactory adf = new DetectionPhaseDaoFactory();
 //			DetectionPhase a = new DetectionPhase(adf.findDetectionPhaseById(1));

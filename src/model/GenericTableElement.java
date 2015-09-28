@@ -3,19 +3,23 @@
  */
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * @author dumber
  *
  */
 public class GenericTableElement { //<T extends GenericTableElement<T>> {
-	protected int id;
+//	protected int id;
+	protected IntegerProperty id;
 //	public Class<? extends GenericTableElement<T>> type;
 	
 	/**
 	 * 
 	 */
 	public GenericTableElement(int id) {
-		this.id = id;
+		this.id = new SimpleIntegerProperty(id);
 	}
 
 //	/**
@@ -30,16 +34,19 @@ public class GenericTableElement { //<T extends GenericTableElement<T>> {
 	 * @return the id
 	 */
 	public int getId() {
-		return id;
+		return id.get();
 	}
 
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
-		this.id = id;
+		this.id.set(id);
 	}
 
+	public IntegerProperty idProperty() {
+		return id;
+	}
 //	/**
 //	 * @return the type
 //	 */

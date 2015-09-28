@@ -1,11 +1,14 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * @author dumber
  *
  */
 public class Severity extends GenericTableElement {
-	private String severity;
+	private StringProperty severity;
 
 	/**
 	 * @param severity_id
@@ -13,14 +16,14 @@ public class Severity extends GenericTableElement {
 	 */
 	public Severity(int severity_id, String severity) {
 		super(severity_id);
-		this.severity = severity;
+		this.severity = new SimpleStringProperty(severity);
 	}
 
 	/**
 	 * @param s
 	 */
 	public Severity(Severity s) {
-		super(s.id);
+		super(s.getId());
 		this.severity = s.severity;
 	}	
 
@@ -28,36 +31,43 @@ public class Severity extends GenericTableElement {
 	 * @return the severity
 	 */
 	public String getSeverity() {
-		return severity;
+		return severity.get();
 	}
-
+	
 	/**
 	 * @param severity the severity to set
 	 */
 	public void setSeverity(String severity) {
-		this.severity = severity;
+		this.severity.set(severity);
 	}
 
+	/**
+	 * @return the severity
+	 */
+	public StringProperty severityProperty() {
+		return severity;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "\'" + severity + "\'";
+		return "\'" + severity.get() + "\'";
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`severity`=\'" + severity + "\'";		
+		return "`severity`=\'" + severity.get() + "\'";		
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "Severity [id=" + id + ", severity=" + severity + "]";		
+		return "Severity [id=" + id.get() + ", severity=" + severity.get() + "]";		
 	}	
 	
 }
