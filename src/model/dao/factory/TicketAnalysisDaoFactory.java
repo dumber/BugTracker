@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.TicketAnalysis;
-import model.dao.GenericDaoIFC;
+import model.dao.TicketAnalysisDao;
 
 /**
  * @author dumber
  *
  */
-public class TicketAnalysisDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class TicketAnalysisDaoFactory extends GenericDaoFactory implements TicketAnalysisDao {
 
 	/**
 	 * 
@@ -26,18 +25,19 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.TicketAnalysisDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<TicketAnalysis> getAllTableElements() throws SQLException {
 		List<TicketAnalysis> analyses = new ArrayList<TicketAnalysis>();
-		dataSource.setSelectQueryString("`ticket_analyses`");
+		dataSource.setSelectQueryString("`ticket_analyses_view`;");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			TicketAnalysis ta = new TicketAnalysis(rs.getInt("id"), rs.getInt("ta_ticket_id"),
-						rs.getString("proposed_change"), rs.getInt("impacted_ver_id"),
-						rs.getTimestamp("analysis_date"), rs.getInt("analyser_user_id"));
+			TicketAnalysis ta = new TicketAnalysis(rs.getInt("id"), rs.getInt("ta_ticket_id"), 
+					rs.getString("proposed_change"), rs.getString("impacted_version"), 
+					rs.getTimestamp("analysis_date"), rs.getString("analyst"),
+					rs.getInt("project_id"));
 			analyses.add(ta);
 		}
 		rs.close();
@@ -45,40 +45,34 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.TicketAnalysisDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public TicketAnalysis findElementById(int id) throws SQLException {
 		TicketAnalysis ta = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.ticket_analyses WHERE id = ?" );
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_analyses_view` WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
 			ta = new TicketAnalysis(rs.getInt("id"), rs.getInt("ta_ticket_id"), 
-					rs.getString("proposed_change"), rs.getInt("impacted_ver_id"), 
-					rs.getTimestamp("analysis_date"), rs.getInt("analyser_user_id"));
+					rs.getString("proposed_change"), rs.getString("impacted_version"), 
+					rs.getTimestamp("analysis_date"), rs.getString("analyst"),
+					rs.getInt("project_id"));
 		}
 		rs.close();
-		return type.cast(ta);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public TicketAnalysis findTicketAnalysisById(int id) throws SQLException {
-		return findElementById(id, TicketAnalysis.class);
+		return ta;
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.TicketAnalysisDao#addElementToTable(model.TicketAnalysis)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T ta) throws SQLException {
-		if (((TicketAnalysis)ta) != null) {
-			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`, `proposed_change`, `impacted_ver_id`,"
-					+ " `analysis_date`, `analyser_user_id`) VALUES (" + ((TicketAnalysis)ta).toString() + ");");
+	public void addElementToTable(TicketAnalysis ta) throws SQLException {
+		if (ta != null) {
+			dataSource.setInsertQueryString("`ticket_analyses` (`ta_ticket_id`,"
+					+ " `proposed_change`, `impacted_ver_id`, `analysis_date`, "
+					+ "`analyser_user_id`, `project_id`) VALUES (" 
+					+ ta.toInsertString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt ticket_analysis into database \n");
@@ -86,26 +80,17 @@ public class TicketAnalysisDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.TicketAnalysisDao#updateElementInTalbe(int, model.TicketAnalysis)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ta) throws SQLException {
-		if (((TicketAnalysis)ta) != null) {
-			dataSource.setUpdateQueryString("`ticket_analyses` SET " + ((TicketAnalysis)ta).toUpdateString() 
+	public  void updateElementInTalbe(int id, TicketAnalysis ta) throws SQLException {
+		if (ta != null) {
+			dataSource.setUpdateQueryString("`ticket_analyses` SET " + ta.toUpdateString() 
 					+ " WHERE `id` =" + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_analysis \n");
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_analyses` WHERE `id` = " + id +";");
-		dataSource.executeDeleteQuery();
-	}
-
+	
 }

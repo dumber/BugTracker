@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.Status;
-import model.dao.GenericDaoIFC;
+import model.dao.StatusDao;
 
 /**
  * @author dumber
  *
  */
-public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class StatusDaoFactory extends GenericDaoFactory implements StatusDao {
 
 	/*
 	 * 
@@ -26,10 +25,10 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.StatusDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<Status> getAllTableElements() throws SQLException {
 		List<Status> statuses = new ArrayList<Status>();
 		dataSource.setSelectQueryString("`statuses`");
 		dataSource.executeSelectQuery();
@@ -43,10 +42,10 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.StatusDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public Status findElementById(int id) throws SQLException {
 		Status s = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.statuses WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
@@ -55,25 +54,16 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 			s = new Status(rs.getInt("id"), rs.getString("status"));
 		}
 		rs.close();
-		return type.cast(s);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public Status findTicketStateById(int id) throws SQLException {
-		return findElementById(id, Status.class);
+		return s;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.StatusDao#addElementToTable(model.Status)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T status) throws SQLException {
-		if (((Status)status) != null) {
-			dataSource.setInsertQueryString("`statuses` (`status`) VALUES (" + ((Status)status).toString() + ");");
+	public void addElementToTable(Status status) throws SQLException {
+		if (status != null) {
+			dataSource.setInsertQueryString("`statuses` (`status`) VALUES (" + status.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt status into database \n");
@@ -81,26 +71,17 @@ public class StatusDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.StatusDao#updateElementInTalbe(int, model.Status)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T status) throws SQLException {		
-		if (((Status)status) != null) {
-			dataSource.setUpdateQueryString("`statuses` SET " + ((Status)status).toUpdateString() 
+	public void updateElementInTalbe(int id, Status status) throws SQLException {		
+		if (status != null) {
+			dataSource.setUpdateQueryString("`statuses` SET " + status.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt status \n");
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`statuses` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
 	}
 
 }

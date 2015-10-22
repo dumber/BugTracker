@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.TicketValidation;
-import model.dao.GenericDaoIFC;
+import model.dao.TicketValidationDao;
 
 /**
  * @author dumber
  *
  */
-public class TicketValidationDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class TicketValidationDaoFactory extends GenericDaoFactory implements TicketValidationDao {
 
 	/**
 	 * 
@@ -26,18 +25,19 @@ public class TicketValidationDaoFactory extends GenericDaoFactory implements Gen
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.TicketValidationDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<TicketValidation> getAllTableElements() throws SQLException {
 		List<TicketValidation> ticket_validations = new ArrayList<TicketValidation>();
-		dataSource.setSelectQueryString("`ticket_validations`");
+		dataSource.setSelectQueryString("`ticket_validations_view`");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
 			TicketValidation tv = new TicketValidation(rs.getInt("id"),  rs.getInt("tv_ticket_id"), 
-					rs.getString("validator_comments"), rs.getInt("validated_ver_id"), rs.getTimestamp("validation_date"),
-					rs.getInt("validator_user_id"), rs.getTimestamp("closure_date"));
+					rs.getString("validator_comments"), rs.getString("validated_version"), rs.getTimestamp("validation_date"),
+					rs.getString("validator"), rs.getTimestamp("closure_date"),
+					rs.getInt("project_id"));
 			ticket_validations.add(tv);
 		}
 		rs.close();
@@ -45,41 +45,33 @@ public class TicketValidationDaoFactory extends GenericDaoFactory implements Gen
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.TicketValidationDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public TicketValidation findElementById(int id) throws SQLException {
 		TicketValidation tv = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_validations` WHERE id = ?" );
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_validations_view` WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
 			tv = new TicketValidation(rs.getInt("id"),  rs.getInt("tv_ticket_id"), 
-					rs.getString("validator_comments"), rs.getInt("validated_ver_id"), rs.getTimestamp("validation_date"),
-					rs.getInt("validator_user_id"), rs.getTimestamp("closure_date"));
+					rs.getString("validator_comments"), rs.getString("validated_version"), rs.getTimestamp("validation_date"),
+					rs.getString("validator"), rs.getTimestamp("closure_date"),
+					rs.getInt("project_id"));
 		}
 		rs.close();
-		return type.cast(tv);
-	}
-	
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public TicketValidation findTicketValidationById(int id) throws SQLException {
-		return findElementById(id, TicketValidation.class);
+		return tv;
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.TicketValidationDao#addElementToTable(model.TicketValidation)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T ticket_val) throws SQLException {
-		if (((TicketValidation)ticket_val) != null) {
+	public void addElementToTable(TicketValidation ticket_val) throws SQLException {
+		if (ticket_val != null) {
 			dataSource.setInsertQueryString("`ticket_validations` (`tv_ticket_id`,`validator_comments`,"
-					+ "`validated_ver_id`,`validation_date`,`validator_user_id`,`closure_date`) VALUES (" 
-					+ ((TicketValidation)ticket_val).toString() + ");");
+					+ "`validated_ver_id`,`validation_date`,`validator_user_id`,`closure_date`, `project_id`) VALUES (" 
+					+ ticket_val.toInsertString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt ticket_validation into database \n");
@@ -88,26 +80,17 @@ public class TicketValidationDaoFactory extends GenericDaoFactory implements Gen
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.TicketValidationDao#updateElementInTalbe(int, model.TicketValidation)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ticket_val) throws SQLException {
-		if (((TicketValidation)ticket_val) != null) {
-			dataSource.setUpdateQueryString("`ticket_validations` SET " + ((TicketValidation)ticket_val).toUpdateString() 
+	public  void updateElementInTalbe(int id, TicketValidation ticket_val) throws SQLException {
+		if (ticket_val != null) {
+			dataSource.setUpdateQueryString("`ticket_validations` SET " + ticket_val.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_validation \n");
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_validations` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
 	}
 
 }

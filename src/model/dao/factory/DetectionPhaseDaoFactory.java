@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.DetectionPhase;
-import model.GenericTableElement;
-import model.dao.GenericDaoIFC;
+import model.dao.DetectionPhaseDao;
 
 /**
  * @author dumber
  *
  */
-public class DetectionPhaseDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class DetectionPhaseDaoFactory extends GenericDaoFactory implements DetectionPhaseDao {
 	
 	/**
 	 * 
@@ -27,10 +26,10 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.DetectionPhaseDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {		
+	public List<DetectionPhase> getAllTableElements() throws SQLException {		
 		List<DetectionPhase> detection_phases = new ArrayList<DetectionPhase>();
 		dataSource.setSelectQueryString("`detection_phases`");
 		dataSource.executeSelectQuery();
@@ -44,10 +43,10 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.DetectionPhaseDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {		
+	public DetectionPhase findElementById(int id) throws SQLException {		
 		DetectionPhase dp = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.`detection_phases` WHERE id = ?");
 		dataSource.executeSelectByIdQuery(id);
@@ -56,26 +55,17 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 			dp = new DetectionPhase(rs.getInt("id"), rs.getString("phase_name"));
 		}
 		rs.close();
-		return type.cast(dp);
-	}
-	
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public DetectionPhase findDetectionPhaseById(int id) throws SQLException {
-		return findElementById(id, DetectionPhase.class);
+		return dp;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.DetectionPhaseDao#addElementToTable(model.DetectionPhase)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T detection_phase) throws SQLException {
-		if (((DetectionPhase)detection_phase) != null) {
+	public void addElementToTable(DetectionPhase detection_phase) throws SQLException {
+		if (detection_phase != null) {
 			dataSource.setInsertQueryString("`detection_phases` (`phase_name`) VALUES (" 
-					+ ((DetectionPhase)detection_phase).toString() + ");");
+					+ detection_phase.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt detection_phase into database \n");
@@ -83,26 +73,17 @@ public class DetectionPhaseDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.DetectionPhase)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T phase) throws SQLException {
-		if (((DetectionPhase)phase) != null) {
-			dataSource.setUpdateQueryString("`detection_phases` SET " + ((DetectionPhase)phase).toUpdateString() 
+	public void updateElementInTalbe(int id, DetectionPhase phase) throws SQLException {
+		if (phase != null) {
+			dataSource.setUpdateQueryString("`detection_phases` SET " + phase.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt detection_phase \n");
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`detection_phases` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
 	}
 
 }

@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.ProjectVersion;
-import model.dao.GenericDaoIFC;
+import model.dao.ProjectVersionDao;
 
 /**
  * @author dumber
  *
  */
-public class ProjectVersionDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class ProjectVersionDaoFactory extends GenericDaoFactory implements ProjectVersionDao {
 	
 	/*
 	 * 
@@ -26,16 +25,16 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.ProjectVersionDao#getAllTableElements()
 	 */
 	@Override
 	public List<ProjectVersion> getAllTableElements() throws SQLException {
 		List<ProjectVersion> project_versions = new ArrayList<ProjectVersion>();
-		dataSource.setSelectQueryString("`project_versions`");
+		dataSource.setSelectQueryString("`project_versions_view`");
 		dataSource.executeSelectQuery();
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			ProjectVersion pv = new ProjectVersion(rs.getInt("id"), rs.getInt("project_id"), rs.getString("version"));
+			ProjectVersion pv = new ProjectVersion(rs.getInt("id"), rs.getString("project_name"), rs.getString("version"));
 			project_versions.add(pv);
 		}
 		rs.close();
@@ -44,38 +43,29 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.ProjectVersionDao#ProjectVersionDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int pu_id, Class<T> type) throws SQLException {
+	public ProjectVersion findElementById(int pu_id) throws SQLException {
 		ProjectVersion pv = null;
-		dataSource.setCustomQueryString(" * FROM `bugtrack`.project_versions WHERE id = ?" );
+		dataSource.setCustomQueryString(" * FROM `bugtrack`.`project_versions_view` WHERE id = ?;" );
 		dataSource.executeSelectByIdQuery(pu_id);
 		ResultSet rs = dataSource.getResultSet();
 		while (rs.next()) {
-			pv = new ProjectVersion(rs.getInt("id"), rs.getInt("project_id"), rs.getString("version"));
+			pv = new ProjectVersion(rs.getInt("id"), rs.getString("project_name"), rs.getString("version"));
 		}
 		rs.close();
-		return type.cast(pv);
-	}
-	
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public ProjectVersion findProjectVersionById(int id) throws SQLException {
-		return findElementById(id, ProjectVersion.class);
+		return pv;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.ProjectVersionDao#addElementToTable(model.ProjectVersion)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T project_version) throws SQLException {
-		if (((ProjectVersion)project_version) != null) {
+	public void addElementToTable(ProjectVersion project_version) throws SQLException {
+		if (project_version != null) {
 			dataSource.setInsertQueryString("`project_versions` (`project_id`, `version`) VALUES (" + 
-					((ProjectVersion)project_version).toString() + ");");
+					project_version.toInsertString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt project_version into database \n");
@@ -83,26 +73,17 @@ public class ProjectVersionDaoFactory extends GenericDaoFactory implements Gener
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.ProjectVersionDao#updateElementInTalbe(int, model.ProjectVersion)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T project_version) throws SQLException {
-		if (((ProjectVersion)project_version) != null) {
-			dataSource.setUpdateQueryString("`project_versions` SET " + ((ProjectVersion)project_version).toUpdateString() 
+	public void updateElementInTalbe(int id, ProjectVersion project_version) throws SQLException {
+		if (project_version != null) {
+			dataSource.setUpdateQueryString("`project_versions` SET " + project_version.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt project_version \n");
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`project_versions` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
-	}
-
+	
 }

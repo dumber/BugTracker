@@ -8,16 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.TicketWorkload;
-import model.dao.GenericDaoIFC;
+import model.dao.TicketWorkloadDao;
 
 /**
  * @author dumber
  *
  */
 public class TicketWorkloadDaoFactory extends GenericDaoFactory implements
-		GenericDaoIFC {
+		TicketWorkloadDao {
 
 	/**
 	 * 
@@ -27,10 +26,10 @@ public class TicketWorkloadDaoFactory extends GenericDaoFactory implements
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.TicketWorkloadDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<TicketWorkload> getAllTableElements() throws SQLException {
 		List<TicketWorkload> ticket_workloads = new ArrayList<TicketWorkload>();
 		dataSource.setSelectQueryString("`ticket_workloads`");
 		dataSource.executeSelectQuery();
@@ -46,10 +45,10 @@ public class TicketWorkloadDaoFactory extends GenericDaoFactory implements
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.TicketWorkloadDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public TicketWorkload findElementById(int id) throws SQLException {
 		TicketWorkload tw = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.`ticket_workloads` WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
@@ -60,27 +59,18 @@ public class TicketWorkloadDaoFactory extends GenericDaoFactory implements
 					rs.getInt("realisation_wl"), rs.getInt("validation_wl"), rs.getInt("workload_sum"));
 		}
 		rs.close();
-		return type.cast(tw);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public TicketWorkload findTicketWorkloadById(int id) throws SQLException {
-		return findElementById(id, TicketWorkload.class);
+		return tw;
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.TicketWorkloadDao#addElementToTable(model.TicketWorkload)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T ticket_wl) throws SQLException {
-		if (((TicketWorkload)ticket_wl) != null) {
+	public void addElementToTable(TicketWorkload ticket_wl) throws SQLException {
+		if (ticket_wl != null) {
 			dataSource.setInsertQueryString("`ticket_workloads` (`tw_ticket_id`, `est_analysis`, `est_realisation`,"
 					+ "`est_validation`, `est_sum`, `analysis_wl`, `realisation_wl`, `validation_wl`, `workload_sum`) VALUES (" 
-					+ ((TicketWorkload)ticket_wl).toString() + ");");
+					+ ticket_wl.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt ticket_workload into database \n");
@@ -88,26 +78,17 @@ public class TicketWorkloadDaoFactory extends GenericDaoFactory implements
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.TicketWorkloadDao#updateElementInTalbe(int, model.TicketWorkload)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T ticket_wl) throws SQLException {
-		if (((TicketWorkload)ticket_wl) != null) {
-			dataSource.setUpdateQueryString("`ticket_workloads` SET " + ((TicketWorkload)ticket_wl).toUpdateString() 
+	public void updateElementInTalbe(int id, TicketWorkload ticket_wl) throws SQLException {
+		if (ticket_wl != null) {
+			dataSource.setUpdateQueryString("`ticket_workloads` SET " + ticket_wl.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt ticket_workload \n");
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`ticket_workloads` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
 	}
 
 }

@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-import java.sql.DatabaseMetaData;
-
 /** 
  * 
  * @author dumber
@@ -133,6 +131,17 @@ public class MySqlDataSourceSingleton {
 	public void executeSelectByIdQuery(int id) throws SQLException {
 		stmt = conn.prepareStatement(custom_select_query_string);
 		stmt.setInt(1, id);
+		rs = stmt.executeQuery();
+		resetCustomSelectCommands();
+	}
+	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	public void executeSelectByStringQuery(String str) throws SQLException {
+		stmt = conn.prepareStatement(custom_select_query_string);
+		stmt.setString(1, str);
 		rs = stmt.executeQuery();
 		resetCustomSelectCommands();
 	}

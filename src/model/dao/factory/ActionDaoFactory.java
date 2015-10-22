@@ -9,27 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Action;
-import model.GenericTableElement;
-import model.dao.GenericDaoIFC;;
+import model.dao.ActionDao;
 
 /**
  * @author dumber
  *
  */
-public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class ActionDaoFactory extends GenericDaoFactory implements ActionDao {
 		
 	/**
-	 * 
+	 *
 	 */
 	public ActionDaoFactory() {
 		super("actions");
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.ActionDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<Action> getAllTableElements() throws SQLException {
 		List<Action> actions = new ArrayList<Action>();
 		dataSource.setSelectQueryString("`actions`");
 		dataSource.executeSelectQuery();
@@ -43,10 +42,10 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.ActionDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public Action findElementById(int id) throws SQLException {
 		Action a = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.actions WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
@@ -55,25 +54,16 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 			a = new Action(rs.getInt("id"), rs.getString("action"));
 		}
 		rs.close();
-		return type.cast(a);
-	}
-
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public Action findActionById(int id) throws SQLException {
-		return findElementById(id, Action.class);
+		return a;
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.ActionDao#addElementToTable(model.Action)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T action) throws SQLException {
-		if (((Action)action) != null) {
-			dataSource.setInsertQueryString("`actions` (`action`) VALUES (" + ((Action)action).toString() + ");");
+	public void addElementToTable(Action action) throws SQLException {
+		if (action != null) {
+			dataSource.setInsertQueryString("`actions` (`action`) VALUES (" + action.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt action into database \n");
@@ -81,26 +71,17 @@ public class ActionDaoFactory extends GenericDaoFactory implements GenericDaoIFC
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.ActionDao#updateElementInTalbe(int, model.Action)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T action) throws SQLException{
-		if (((Action)action).getAction() != null) {
-			dataSource.setUpdateQueryString("`actions` SET " + ((Action)action).toUpdateString() 
+	public void updateElementInTalbe(int id, Action action) throws SQLException{
+		if (action.getAction() != null) {
+			dataSource.setUpdateQueryString("`actions` SET " + action.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt action \n");
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`actions` WHERE `id` = " + id +";");
-		dataSource.executeDeleteQuery();
 	}
 
 }

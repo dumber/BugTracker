@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.UserType;
-import model.dao.GenericDaoIFC;
+import model.dao.UserTypeDao;
 
 /**
  * @author dumber
  *
  */
-public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class UserTypeDaoFactory extends GenericDaoFactory implements UserTypeDao {
 	
 	/**
 	 * 
@@ -26,10 +25,10 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.UserTypeDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<UserType> getAllTableElements() throws SQLException {
 		List<UserType> user_types = new ArrayList<UserType>();
 		dataSource.setSelectQueryString("`user_types`");
 		dataSource.executeSelectQuery();
@@ -43,10 +42,10 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.UserTypeDao#findElementById(int)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int id, Class<T> type) throws SQLException {
+	public UserType findElementById(int id) throws SQLException {
 		UserType ut = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.`user_types` WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(id);
@@ -55,25 +54,16 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 			ut = new UserType(rs.getInt("id"), rs.getString("user_type"));
 		}
 		rs.close();
-		return type.cast(ut);
-	}
-	
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public UserType findUserTypeById(int id) throws SQLException {
-		return findElementById(id, UserType.class);
+		return ut;
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.UserTypeDao#addElementToTable(model.UserType)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T user_type) throws SQLException {
-		if (((UserType)user_type) != null) {
-			dataSource.setInsertQueryString("`user_types` (`user_type`) VALUES (" +	((UserType)user_type).toString() + ");");
+	public void addElementToTable(UserType user_type) throws SQLException {
+		if (user_type != null) {
+			dataSource.setInsertQueryString("`user_types` (`user_type`) VALUES (" +	user_type.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt user_type into database \n");
@@ -81,12 +71,12 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.UserTypeDao#updateElementInTalbe(int, model.UserType)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int id, T user_type) throws SQLException {
-		if (((UserType)user_type) != null) {
-			dataSource.setUpdateQueryString("`user_types` SET " + ((UserType)user_type).toUpdateString() 
+	public void updateElementInTalbe(int id, UserType user_type) throws SQLException {
+		if (user_type != null) {
+			dataSource.setUpdateQueryString("`user_types` SET " + user_type.toUpdateString() 
 					+ " WHERE `id` = " + id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
@@ -94,12 +84,4 @@ public class UserTypeDaoFactory extends GenericDaoFactory implements GenericDaoI
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int id) throws SQLException {
-		dataSource.setDeleteQueryString("`user_types` WHERE `id` = " + id + ";");
-		dataSource.executeDeleteQuery();
-	}
 }

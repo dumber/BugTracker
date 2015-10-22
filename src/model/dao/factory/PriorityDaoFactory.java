@@ -8,15 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.GenericTableElement;
 import model.Priority;
-import model.dao.GenericDaoIFC;
+import model.dao.PriorityDao;
 
 /**
  * @author dumber
  *
  */
-public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoIFC {
+public class PriorityDaoFactory extends GenericDaoFactory implements PriorityDao {
 	
 	/*
 	 * 
@@ -26,10 +25,10 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#getAllTableElements()
+	 * @see model.dao.PriorityDao#getAllTableElements()
 	 */
 	@Override
-	public List<? extends GenericTableElement> getAllTableElements() throws SQLException {
+	public List<Priority> getAllTableElements() throws SQLException {
 		List<Priority> priorities = new ArrayList<Priority>();
 		dataSource.setSelectQueryString("`priorities`");
 		dataSource.executeSelectQuery();
@@ -43,10 +42,10 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#findElementById(int, java.lang.Class)
+	 * @see model.dao.PriorityDao#findElementById(int, java.lang.Class)
 	 */
 	@Override
-	public <T extends GenericTableElement> T findElementById(int p_id, Class<T> type) throws SQLException {
+	public Priority findElementById(int p_id) throws SQLException {
 		Priority p = null;
 		dataSource.setCustomQueryString(" * FROM `bugtrack`.priorities WHERE id = ?" );
 		dataSource.executeSelectByIdQuery(p_id);
@@ -55,26 +54,16 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 			p = new Priority(rs.getInt("id"), rs.getString("priority"));
 		}
 		rs.close();
-		return type.cast(p);
+		return p;
 	}
-	
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
-	public Priority findPriorityById(int id) throws SQLException {
-		return findElementById(id, Priority.class);
-	}
-
 	
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#addElementToTable(model.GenericTableElement)
+	 * @see model.dao.PriorityDao#addElementToTable(model.Priority)
 	 */
 	@Override
-	public <T extends GenericTableElement> void addElementToTable(T priority) throws SQLException {
+	public void addElementToTable(Priority priority) throws SQLException {
 		if (priority != null){
-			dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (" + ((Priority)priority).toString() + ");");
+			dataSource.setInsertQueryString("`priorities` (`priority`) VALUES (" + priority.toString() + ");");
 			dataSource.executeInsertQuery();
 		} else {
 			throw new RuntimeException("trying to insert corrupt priority into database");
@@ -82,26 +71,17 @@ public class PriorityDaoFactory extends GenericDaoFactory implements GenericDaoI
 	}
 
 	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#updateElementInTalbe(int, model.GenericTableElement)
+	 * @see model.dao.PriorityDao#updateElementInTalbe(int, model.Priority)
 	 */
 	@Override
-	public <T extends GenericTableElement> void updateElementInTalbe(int p_id, T priority) throws SQLException {
-		if (((Priority)priority) != null) {
-			dataSource.setUpdateQueryString("`priorities` SET " + ((Priority)priority).toUpdateString() 
+	public void updateElementInTalbe(int p_id, Priority priority) throws SQLException {
+		if (priority != null) {
+			dataSource.setUpdateQueryString("`priorities` SET " + priority.toUpdateString() 
 					+ " WHERE `id` = " + p_id + ";");
 			dataSource.executeUpdateQuery();
 		} else {
 			throw new RuntimeException("corrupt priority\n");
 		}		
-	}
-
-	/* (non-Javadoc)
-	 * @see model.dao.GenericDaoIFC#deleteElementFromTable(int)
-	 */
-	@Override
-	public void deleteElementFromTable(int p_id) throws SQLException {
-		dataSource.setDeleteQueryString("`priorities` WHERE `id` = " + p_id + ";");
-		dataSource.executeDeleteQuery();
 	}
 
 }
