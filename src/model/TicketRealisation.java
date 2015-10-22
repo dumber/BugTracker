@@ -19,27 +19,31 @@ import javafx.beans.property.StringProperty;
 public class TicketRealisation extends GenericTableElement {
 	private IntegerProperty tr_ticket_id;
 	private StringProperty realised_items;
-	private IntegerProperty realised_version_id;
+	private StringProperty realised_version;
 	private ObjectProperty<Timestamp> realisation_date;
-	private IntegerProperty realiser_user_id;
+	private StringProperty realiser;
+	
+	private IntegerProperty project_id;
 	
 	/**
 	 * @param ticket_realisation_id
 	 * @param tr_ticket_id
 	 * @param realised_items
-	 * @param realised_version_id
+	 * @param realised_version
 	 * @param realisation_date
-	 * @param realiser_user_id
+	 * @param realiser
 	 */
 	public TicketRealisation(int ticket_realisation_id, int tr_ticket_id,
-			String realised_items, int realised_version_id,
-			Timestamp realisation_date, int realiser_user_id) {
+			String realised_items, String realised_version,
+			Timestamp realisation_date, String realiser, int project_id) {
 		super(ticket_realisation_id);
 		this.tr_ticket_id = new SimpleIntegerProperty(tr_ticket_id);
 		this.realised_items = new SimpleStringProperty(realised_items);
-		this.realised_version_id = new SimpleIntegerProperty(realised_version_id);
+		this.realised_version = new SimpleStringProperty(realised_version);
 		this.realisation_date = new SimpleObjectProperty<Timestamp>(realisation_date);
-		this.realiser_user_id = new SimpleIntegerProperty(realiser_user_id);
+		this.realiser = new SimpleStringProperty(realiser);
+		
+		this.project_id = new SimpleIntegerProperty(project_id);
 	}
 
 	/**
@@ -49,9 +53,11 @@ public class TicketRealisation extends GenericTableElement {
 		super(tr.getId());
 		this.tr_ticket_id = tr.tr_ticket_id;
 		this.realised_items = tr.realised_items;
-		this.realised_version_id = tr.realised_version_id;
+		this.realised_version = tr.realised_version;
 		this.realisation_date = tr.realisation_date;
-		this.realiser_user_id = tr.realiser_user_id;
+		this.realiser = tr.realiser;
+		
+		this.project_id = tr.project_id;
 	}	
 
 	/**
@@ -97,24 +103,24 @@ public class TicketRealisation extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the realised_version_id
+	 * @return the realised_version
 	 */
-	public int getRealisedVersion_id() {
-		return realised_version_id.get();
+	public String getRealisedVersion() {
+		return realised_version.get();
 	}
 
 	/**
-	 * @param realised_version_id the realised_version_id to set
+	 * @param realised_version the realised_version to set
 	 */
-	public void setRealisedVersion_id(int realised_version_id) {
-		this.realised_version_id.set(realised_version_id);
+	public void setRealisedVersion(String realissed_version) {
+		this.realised_version.set(realissed_version);
 	}
-	
+
 	/**
-	 * @return the realised_version_id
+	 * @return the realised_version
 	 */
-	public IntegerProperty realisedVersionIdProperty() {
-		return realised_version_id;
+	public StringProperty realisedVersionProperty() {
+		return realised_version;
 	}
 	
 	/**
@@ -139,24 +145,46 @@ public class TicketRealisation extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the realiser_user_id
+	 * @return the realiser
 	 */
-	public int getRealiserUser_id() {
-		return realiser_user_id.get();
+	public String getRealiser() {
+		return realiser.get();
 	}
 
 	/**
-	 * @param realiser_user_id the realiser_user_id to set
+	 * @param realiser the realiser to set
 	 */
-	public void setRealiserUser_id(int realiser_user_id) {
-		this.realiser_user_id.set(realiser_user_id);
+	public void setRealiser(String realiser) {
+		this.realiser.set(realiser);
+	}
+
+	/**
+	 * @return the realiser
+	 */
+	public StringProperty realiserProperty() {
+		return realiser;
+	}
+	
+	
+	/**
+	 * @return the project_id
+	 */
+	public int getProject_id() {
+		return project_id.get();
+	}
+
+	/**
+	 * @param project_id the project_id to set
+	 */
+	public void setProject_id(int project_id) {
+		this.project_id.set(project_id);
 	}
 	
 	/**
-	 * @return the realiser_user_id
+	 * @return the t_project_id
 	 */
-	public IntegerProperty realiserUserIdProperty() {
-		return realiser_user_id;
+	public IntegerProperty projectIdProperty() {
+		return project_id;
 	}
 	
 	/* (non-Javadoc)
@@ -164,12 +192,27 @@ public class TicketRealisation extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		if (realisation_date != null) {
-			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', " + realised_version_id.get()
-				+ ", \'" + realisation_date.get()	+ "\', " + realiser_user_id.get();
+		if (realisation_date.get() != null) {
+			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', " + realised_version.get()
+				+ ", \'" + realisation_date.get()	+ "\', " + realiser.get() + ", " 
+				+ project_id.get();
 		} else {
-			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', " + realised_version_id.get()
-					+ ",NULL , " + realiser_user_id.get();
+			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', " + realised_version.get()
+					+ ",NULL , " + realiser.get()+ ", " 
+							+ project_id.get();
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		if (realisation_date.get() != null) {
+			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + realised_version.get()
+				+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), \'" + realisation_date.get()	+ "\', (select `id` from `users` where `users`.`username` = \'" + realiser.get() + "\'), " + project_id.get();
+		} else {
+			return tr_ticket_id.get()	+ ", \'" + realised_items.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + realised_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), NULL, (select `id` from `users` where `users`.`username` = \'" + realiser.get()+ "\'), " 	+ project_id.get();
 		}
 	}
 	
@@ -177,14 +220,14 @@ public class TicketRealisation extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		if (realisation_date != null) {
+		if (realisation_date.get() != null) {
 			return "`tr_ticket_id`=" + tr_ticket_id.get() + ", `realised_items`=\'" + realised_items.get()
-					+ "\', `realised_ver_id`=" + realised_version_id.get() + ", `realisation_date`=\'" 
-					+ realisation_date.get() + "\', `realiser_user_id`=" + realiser_user_id.get();
+					+ "\', `realised_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + realised_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `realisation_date`=\'" 
+					+ realisation_date.get() + "\', `realiser_user_id`=(select `id` from `users` where `users`.`username` = \'" + realiser.get() + "\'), project_id = " + project_id.get();
 		} else {
 			return "`tr_ticket_id`=" + tr_ticket_id.get() + ", `realised_items`=\'" + realised_items.get()
-					+ "\', `realised_ver_id`=" + realised_version_id.get() + ", `realisation_date`= NULL" 
-					+ ", `realiser_user_id`=" + realiser_user_id.get();
+					+ "\', `realised_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + realised_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `realisation_date`= NULL" 
+					+ ", `realiser_user_id`=(select `id` from `users` where `users`.`username` = \'" + realiser.get() + "\'), project_id = " + project_id.get();
 		}
 	}	
 		
@@ -194,9 +237,9 @@ public class TicketRealisation extends GenericTableElement {
 	public String debug() {
 		return "TicketRealisation [id=" + id.get() + ", tr_ticket_id=" + tr_ticket_id.get()
 				+ ", realised_items=" + realised_items.get()
-				+ ", realised_version_id=" + realised_version_id.get()
+				+ ", realised_version=" + realised_version.get()
 				+ ", realisation_date=" + realisation_date.get()
-				+ ", realiser_user_id=" + realiser_user_id.get() + "]";
+				+ ", realiser=" + realiser.get() + ", " + project_id.get() + "]";
 	}	
 	
 }

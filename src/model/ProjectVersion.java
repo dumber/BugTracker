@@ -1,7 +1,5 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,16 +8,16 @@ import javafx.beans.property.StringProperty;
  *
  */
 public class ProjectVersion extends GenericTableElement {
-	private IntegerProperty pv_project_id;
+	private StringProperty project_name;
 	private StringProperty version;
 
 	/**
 	 * @param pv_id
 	 * @param version
 	 */
-	public ProjectVersion(int pv_id, int pr_id, String version) {
+	public ProjectVersion(int pv_id, String project, String version) {
 		super(pv_id);
-		this.pv_project_id = new SimpleIntegerProperty(pr_id);
+		this.project_name = new SimpleStringProperty(project);
 		this.version = new SimpleStringProperty(version);
 	}
 
@@ -28,28 +26,29 @@ public class ProjectVersion extends GenericTableElement {
 	 */
 	public ProjectVersion(ProjectVersion pv) {
 		super(pv.getId());
+		this.project_name = pv.project_name;
 		this.version = pv.version;
 	}
 
 	/**
-	 * @return the pv_project_id
+	 * @return the project_name
 	 */
-	public int getPvProject_id() {
-		return pv_project_id.get();
+	public String getProject() {
+		return project_name.get();
 	}
 
 	/**
-	 * @param pv_project_id the pv_project_id to set
+	 * @param project_name the project_name to set
 	 */
-	public void setPvProject_id(int pv_project_id) {
-		this.pv_project_id.set(pv_project_id);
+	public void setProject(String project) {
+		this.project_name.set(project);
 	}
 
 	/**
-	 * @return the pv_project_id
+	 * @return the project_name
 	 */
-	public IntegerProperty pvProjectIdProperty() {
-		return pv_project_id;
+	public StringProperty projectProperty() {
+		return project_name;
 	}
 	
 	/**
@@ -78,21 +77,28 @@ public class ProjectVersion extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return pv_project_id.get() + ", \'" + version.get() + "\'";
+		return project_name.get() + ", \'" + version.get() + "\'";
 	}
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		return "(select `id` from `projects` where `projects`.`project_name`=\'" + project_name.get() + "\'), \'" + version.get() + "\'";
+	}	
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`project_id`=" + pv_project_id.get() + ", `version`=\'" + version.get() + "\'";
+		return "`project_id`=(select `id` from `projects` where `projects`.`project_name`=\'" + project_name.get() + "\'), `version`=\'" + version.get() + "\'";
 	}	
 	
 	/**
 	 * @return 
 	 */
 	public String debug() {
-		return "ProjectVersion [id=" + id.get() + ", pv_project_id=" + pv_project_id.get() + ", version="
+		return "ProjectVersion [id=" + id.get() + ", project_name=" + project_name.get() + ", version="
 				+ version.get() + "]";
 	}	
 	

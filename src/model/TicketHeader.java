@@ -1,7 +1,5 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -11,12 +9,12 @@ import javafx.beans.property.StringProperty;
  */
 public class TicketHeader extends GenericTableElement {
 	private StringProperty unique_ticket_name;
-	private IntegerProperty t_project_id;
+	private StringProperty project_name;
 	private StringProperty headline;
 	private StringProperty description;
-	private IntegerProperty t_severity_id;
-	private IntegerProperty t_priority_id;
-	private IntegerProperty t_status_id;
+	private StringProperty severity;
+	private StringProperty priority;
+	private StringProperty status;
 	
 	/**
 	 * @param t_id				the ticket id
@@ -24,21 +22,21 @@ public class TicketHeader extends GenericTableElement {
 	 * @param t_project_id		the project id of the ticket
 	 * @param headline			the headline of the ticket
 	 * @param description		the description of the ticket
-	 * @param t_severity_id		the severity of the ticket
-	 * @param t_priority_id		the priority of the ticket
-	 * @param t_status_id		the status of the ticket
+	 * @param severity		the severity of the ticket
+	 * @param priority		the priority of the ticket
+	 * @param status		the status of the ticket
 	 */
-	public TicketHeader(int t_id, String u_t_id, int t_project_id,
-			String headline, String description, int t_severity_id,
-			int t_priority_id, int t_status_id) {
+	public TicketHeader(int t_id, String u_t_id, String project,
+			String headline, String description, String severity,
+			String priority, String status) {
 		super(t_id);
 		this.unique_ticket_name = new SimpleStringProperty(u_t_id);
-		this.t_project_id = new SimpleIntegerProperty(t_project_id);
+		this.project_name = new SimpleStringProperty(project);
 		this.headline = new SimpleStringProperty(headline);
 		this.description = new SimpleStringProperty(description);
-		this.t_severity_id = new SimpleIntegerProperty(t_severity_id);
-		this.t_priority_id = new SimpleIntegerProperty(t_priority_id);
-		this.t_status_id = new SimpleIntegerProperty(t_status_id);
+		this.severity = new SimpleStringProperty(severity);
+		this.priority = new SimpleStringProperty(priority);
+		this.status = new SimpleStringProperty(status);
 	}
 	
 	/**
@@ -47,12 +45,12 @@ public class TicketHeader extends GenericTableElement {
 	public TicketHeader(TicketHeader t) {
 		super(t.getId());
 		this.unique_ticket_name = t.unique_ticket_name;
-		this.t_project_id = t.t_project_id;
+		this.project_name = t.project_name;
 		this.headline = t.headline;
 		this.description = t.description;
-		this.t_severity_id = t.t_severity_id;
-		this.t_priority_id = t.t_priority_id;
-		this.t_status_id = t.t_status_id;
+		this.severity = t.severity;
+		this.priority = t.priority;
+		this.status = t.status;
 	}
 
 	/**
@@ -77,24 +75,24 @@ public class TicketHeader extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the t_project_id
+	 * @return the project_name
 	 */
-	public int getT_Project_id() {
-		return t_project_id.get();
+	public String getProjectName() {
+		return project_name.get();
 	}
 
 	/**
-	 * @param t_project_id the t_project_id to set
+	 * @param project_name the project_name to set
 	 */
-	public void setT_Project_id(int t_project_id) {
-		this.t_project_id.set(t_project_id);
+	public void setProjectName(String project_name) {
+		this.project_name.set(project_name);
 	}
-	
+
 	/**
-	 * @return the t_project_id
+	 * @return the project_name
 	 */
-	public IntegerProperty tProjectIdProperty() {
-		return t_project_id;
+	public StringProperty projectNameProperty() {
+		return project_name;
 	}
 	
 	/**
@@ -140,107 +138,113 @@ public class TicketHeader extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the t_severity_id
+	 * @return the severity
 	 */
-	public int getT_Severity_id() {
-		return t_severity_id.get();
+	public StringProperty severityProperty() {
+		return severity;
 	}
 
 	/**
-	 * @param t_severity_id the t_severity_id to set
+	 * @return the priority
 	 */
-	public void setT_Severity_id(int t_severity_id) {
-		this.t_severity_id.set(t_severity_id);
-	}
-	
-	/**
-	 * @return the t_severity_id
-	 */
-	public IntegerProperty tSeverityIdProperty() {
-		return t_severity_id;
-	}
-	
-	/**
-	 * @return the t_priority_id
-	 */
-	public int getT_Priority_id() {
-		return t_priority_id.get();
+	public String getPriority() {
+		return priority.get();
 	}
 
 	/**
-	 * @param t_priority_id the t_priority_id to set
+	 * @param priority the priority to set
 	 */
-	public void setT_Priority_id(int t_priority_id) {
-		this.t_priority_id.set(t_priority_id);
-	}
-	
-	/**
-	 * @return the t_priority_id
-	 */
-	public IntegerProperty tPriorityIdProperty() {
-		return t_priority_id;
-	}
-	
-	/**
-	 * @return the t_state_id
-	 */
-	public int getT_Status_id() {
-		return t_status_id.get();
+	public void setPriority(String priority) {
+		this.priority.set(priority);
 	}
 
 	/**
-	 * @param t_state_id the t_status_id to set
+	 * @return the priority
 	 */
-	public void setT_State_id(int t_status_id) {
-		this.t_status_id.set(t_status_id);
-	}
-	
-	/**
-	 * @return the t_status_id
-	 */
-	public IntegerProperty tStatusIdProperty() {
-		return t_status_id;
-	}
-	
-	/**
-	 * @param u_t_id
-	 * @param t_project_id
-	 * @param headline
-	 * @param description
-	 * @param t_severity_id
-	 * @param t_priority_id
-	 * @param t_state_id
-	 * @param linked_ticket_id
-	 */
-	public void modifyTicketHeader(String u_t_id, int p_id, String hl, 
-			String desc, int s_id, int pri_id, int st_id, int lt_id) {
-		this.unique_ticket_name.set(u_t_id);
-		this.t_project_id.set(p_id);
-		this.headline.set(hl);
-		this.description.set(desc);
-		this.t_severity_id.set(s_id);
-		this.t_priority_id.set(pri_id);
-		this.t_status_id.set(st_id);
+	public StringProperty priorityProperty() {
+		return priority;
 	}
 
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status.get();
+	}
 
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status.set(status);
+	}
+
+	/**
+	 * @return the status
+	 */
+	public StringProperty statusPorperty() {
+		return status;
+	}
 	
+//	/**
+//	 * @param u_t_id
+//	 * @param t_project_id
+//	 * @param headline
+//	 * @param description
+//	 * @param severity
+//	 * @param priority
+//	 * @param t_state_id
+//	 * @param linked_ticket_id
+//	 */
+//	public void modifyTicketHeader(String u_t_id, int p_id, String hl, 
+//			String desc, int s_id, int pri_id, int st_id, int lt_id) {
+//		this.unique_ticket_name.set(u_t_id);
+//		this.project_name.set(p_id);
+//		this.headline.set(hl);
+//		this.description.set(desc);
+//		this.severity.set(s_id);
+//		this.priority.set(pri_id);
+//		this.status.set(st_id);
+//	}
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return  "\'" + unique_ticket_name.get() + "\', " + t_project_id.get() + ", \'" + headline.get() + "\', \'" + description.get() + "\', "
-				+ t_severity_id.get() + ", " + t_priority_id.get() + ", " + t_status_id.get();
+		return  "\'" + unique_ticket_name.get() + "\', " + project_name.get() + ", \'" + headline.get() + "\', \'" + description.get() + "\', "
+				+ severity.get() + ", " + priority.get() + ", " + status.get();
+	}
+	
+	/** 
+	 * @return
+	 */
+	public String toInsertString() {
+		return  "\'" + unique_ticket_name.get() + "\', (select `id` from `projects` "
+				+ "where `projects`.`project_name`=\'" + project_name.get() + "\'), \'" 
+				+ headline.get() + "\', \'" + description.get() + "\', "
+				+ "(select `id` from `severities` where `severities`.`severity`=\'" 
+				+ severity.get() + "\'), (select `id` from `priorities` where "
+				+ "`priorities`.`priority`=\'" + priority.get() + "\'), "
+				+ "(select `id` from `statuses` where `statuses`.`status`=\'" + status.get() + "\')";
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {	
-		return "`unique_ticket_name`=\'" + unique_ticket_name.get() + "\', `project_id`=" + t_project_id.get() 
-				+ ", `headline`=\'" + headline.get() + "\', `description`=\'" + description.get() + "\', `severity_id`="
-				+ t_severity_id.get() + ", `priority_id`=" + t_priority_id.get() + ", `status_id`=" + t_status_id.get();
+		return "`unique_ticket_name`=\'" + unique_ticket_name.get() + "\', "
+				+ "`project_id`=(select `id` from `projects` where "
+				+ "`projects`.`project_name`=\'" + project_name.get() 
+				+ "\'), `headline`=\'" + headline.get() + "\', "
+				+ "`description`=\'" + description.get() + "\', "
+				+ "`severity_id`=(select `id` from `severities` where "
+				+ "`severities`.`severity`=\'"
+				+ severity.get() + "\'), `priority_id`=(select `id` from "
+				+ "`priorities` where `priorities`.`priority`=\'" 
+				+ priority.get() + "\'), `status_id`=(select `id` from "
+				+ "`statuses` where `statuses`.`status`=\'" + status.get() + "\')";
 	}
 	
 	/**
@@ -248,10 +252,10 @@ public class TicketHeader extends GenericTableElement {
 	 */
 	public String debug() {	
 		return "TicketHeader [id=" + id.get() + ", unique_ticket_name=" + unique_ticket_name.get()
-				+ ", t_project_id=" + t_project_id.get() + ", headline=" + headline.get()
-				+ ", description=" + description.get() + ", t_severity_id="
-				+ t_severity_id.get() + ", t_priority_id=" + t_priority_id.get()
-				+ ", t_status_id=" + t_status_id.get() + "]";
+				+ ", t_project_id=" + project_name.get() + ", headline=" + headline.get()
+				+ ", description=" + description.get() + ", severity="
+				+ severity.get() + ", priority=" + priority.get()
+				+ ", status=" + status.get() + "]";
 	}
 	
 }

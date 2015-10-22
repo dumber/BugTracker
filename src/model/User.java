@@ -1,7 +1,5 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,19 +10,21 @@ import javafx.beans.property.StringProperty;
 public class User extends GenericTableElement {
 	private StringProperty username;
 	private StringProperty password;
-	private IntegerProperty user_type_id;
+	private StringProperty user_type;
+	private StringProperty salt;
 	
 	/**
 	 * @param user_id			the user id
 	 * @param username			the user name
 	 * @param password			the password
-	 * @param user_type_id		the user type id
+	 * @param user_type		the user type id
 	 */
-	public User(int user_id, String username, String password, int user_type_id) {
+	public User(int user_id, String username, String password, String u_type, String salt) {
 		super(user_id);
 		this.username = new SimpleStringProperty(username);
 		this.password = new SimpleStringProperty(password);
-		this.user_type_id = new SimpleIntegerProperty(user_type_id);
+		this.user_type = new SimpleStringProperty(u_type);
+		this.salt = new SimpleStringProperty(salt);
 	}
 	
 	/**
@@ -34,7 +34,8 @@ public class User extends GenericTableElement {
 		super(u.getId());
 		this.username = u.username;
 		this.password = u.password;
-		this.user_type_id = u.user_type_id;
+		this.user_type = u.user_type;
+		this.salt = u.salt;
 	}
 
 	/**
@@ -80,50 +81,78 @@ public class User extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the user_type_id
+	 * @return the user_type
 	 */
-	public int getUserType_id() {
-		return user_type_id.get();
+	public String getUserType() {
+		return user_type.get();
 	}
 
 	/**
-	 * @param user_type_id the user_type_id to set
+	 * @param user_type the user_type to set
 	 */
-	public void setUserType_id(int user_type_id) {
-		this.user_type_id.set(user_type_id);
+	public void setUserType(String u_type) {
+		this.user_type.set(u_type);
 	}
 	
 	/**
-	 * @return the user_type_id
+	 * @return the user_type
 	 */
-	public IntegerProperty userTypeIdProperty() {
-		return user_type_id;
+	public StringProperty userTypeProperty() {
+		return user_type;
 	}
 	
 	/**
-	 * @param un
-	 * @param pw
-	 * @param ut_id
+	 * @return the salt
 	 */
-	public void modifyUser(String un, String pw, int ut_id) {
-		this.username.set(un);
-		this.password.set(pw);
-		this.user_type_id.set(ut_id);
+	public String getSalt() {
+		return salt.get();
 	}
+
+	/**
+	 * @param slt the salt to set
+	 */
+	public void setSalt(String slt) {
+		this.salt.set(slt);
+	}
+	
+	/**
+	 * @return the salt
+	 */
+	public StringProperty saltProperty() {
+		return salt;
+	}
+	
+//	/**
+//	 * @param un
+//	 * @param pw
+//	 * @param ut_id
+//	 */
+//	public void modifyUser(String un, String pw, int ut_id) {
+//		this.username.set(un);
+//		this.password.set(pw);
+//		this.user_type.set(ut_id);
+//	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "\'" + username.get() + "\', \'" + password.get() + "\', " + user_type_id.get();
+		return "\'" + username.get() + "\', \'" + password.get() + "\', \'" + user_type.get() + "\', \'" + salt.get() + "\'";
+	}
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		return "\'" + username.get() + "\', \'" + password.get() + "\', (select `id` from `user_types` where `user_types`.`user_type` = \'" + user_type.get() + "\'), \'" + salt.get() + "\'";
 	}
 	
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {
-		return "`username`=\'" + username.get() + "\', `password`=\'" + password.get() + "\', `user_type_id`=" + user_type_id.get();
+		return "`username`=\'" + username.get() + "\', `password`=\'" + password.get() + "\', `user_type_id`=(select `id` from `user_types` where `user_types`.`user_type` = \'" + user_type.get() + "\'), `salt`=\'" + salt.get() + "\'";
 	}
 			
 	/**
@@ -131,7 +160,7 @@ public class User extends GenericTableElement {
 	 */
 	public String debug() {
 		return "User [id=" + id.get() + ", username=" + username.get() + ", password=" + password.get()
-				+ ", user_type_id=" + user_type_id.get() + "]";
+				+ ", user_type=" + user_type.get() + ", salt=" + salt.get() + "]";
 	}
-		
+	
 }

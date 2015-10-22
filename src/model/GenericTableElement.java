@@ -15,6 +15,10 @@ public class GenericTableElement { //<T extends GenericTableElement<T>> {
 	protected IntegerProperty id;
 //	public Class<? extends GenericTableElement<T>> type;
 	
+	public GenericTableElement() {
+		
+	}
+	
 	/**
 	 * 
 	 */

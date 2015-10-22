@@ -12,7 +12,8 @@ import javafx.beans.property.StringProperty;
  */
 public class Action extends GenericTableElement {
 	private StringProperty action;
-//	private StringProperty
+
+	public Action() {}
 	
 	/**
 	 * @param action_id		the action id

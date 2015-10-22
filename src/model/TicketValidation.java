@@ -19,31 +19,35 @@ import javafx.beans.property.StringProperty;
 public class TicketValidation extends GenericTableElement {
 	private IntegerProperty tv_ticket_id;
 	private StringProperty validator_comments;
-	private IntegerProperty validated_version_id;
+	private StringProperty validated_version;
 	private ObjectProperty<Timestamp> validation_date;
-	private IntegerProperty validator_user_id;
+	private StringProperty validator;
 	private ObjectProperty<Timestamp> closure_date;
+	
+	private IntegerProperty project_id;
 	
 	/**
 	 * @param ticket_validation_id
 	 * @param tv_ticket_id
 	 * @param validator_comments
-	 * @param validated_version_id
+	 * @param validated_version
 	 * @param validation_date
-	 * @param validator_user_id
+	 * @param validator
 	 * @param closure_date
 	 */
 	public TicketValidation(int ticket_validation_id, int tv_ticket_id,
-			String validator_comments, int validated_version_id,
-			Timestamp validation_date, int validator_user_id,
-			Timestamp closure_date) {
+			String validator_comments, String validated_version,
+			Timestamp validation_date, String validator,
+			Timestamp closure_date, int project_id) {
 		super(ticket_validation_id);
 		this.tv_ticket_id = new SimpleIntegerProperty(tv_ticket_id);
 		this.validator_comments = new SimpleStringProperty(validator_comments);
-		this.validated_version_id = new SimpleIntegerProperty(validated_version_id);
+		this.validated_version = new SimpleStringProperty(validated_version);
 		this.validation_date = new SimpleObjectProperty<Timestamp>(validation_date);
-		this.validator_user_id = new SimpleIntegerProperty(validator_user_id);
+		this.validator = new SimpleStringProperty(validator);
 		this.closure_date = new SimpleObjectProperty<Timestamp>(closure_date);
+		
+		this.project_id = new SimpleIntegerProperty(project_id);
 	}
 
 	/**
@@ -53,10 +57,12 @@ public class TicketValidation extends GenericTableElement {
 		super(tv.getId());
 		this.tv_ticket_id = tv.tv_ticket_id;
 		this.validator_comments = tv.validator_comments;
-		this.validated_version_id = tv.validated_version_id;
+		this.validated_version = tv.validated_version;
 		this.validation_date = tv.validation_date;
-		this.validator_user_id = tv.validator_user_id;
+		this.validator = tv.validator;
 		this.closure_date = tv.closure_date;
+		
+		this.project_id = tv.project_id;
 	}
 
 	/**
@@ -102,24 +108,24 @@ public class TicketValidation extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the validated_version_id
+	 * @return the validated_version
 	 */
-	public int getValidatedVersion_id() {
-		return validated_version_id.get();
+	public String getValidatedVersion() {
+		return validated_version.get();
 	}
 
 	/**
-	 * @param validated_version_id the validated_version_id to set
+	 * @param validated_version the validated_version to set
 	 */
-	public void setValidatedVersion_id(int validated_version_id) {
-		this.validated_version_id.set(validated_version_id);
+	public void setValidatedVersion(String validated_version) {
+		this.validated_version.set(validated_version);
 	}
-	
+
 	/**
-	 * @return the validated_version_id
+	 * @return the validated_version
 	 */
-	public IntegerProperty validatedVersionIdProperty() {
-		return validated_version_id;
+	public StringProperty validatedVersionProperty() {
+		return validated_version;
 	}
 	
 	/**
@@ -144,24 +150,24 @@ public class TicketValidation extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the validator_user_id
+	 * @return the validator
 	 */
-	public int getValidatorUser_id() {
-		return validator_user_id.get();
+	public String getValidator() {
+		return validator.get();
 	}
 
 	/**
-	 * @param validator_user_id the validator_user_id to set
+	 * @param validator the validator to set
 	 */
-	public void setValidatorUser_id(int validator_user_id) {
-		this.validator_user_id.set(validator_user_id);
+	public void setValidator(String validator) {
+		this.validator.set(validator);
 	}
-	
+
 	/**
-	 * @return the validator_user_id
+	 * @return the validator
 	 */
-	public IntegerProperty validatorUserIdProperty() {
-		return validator_user_id;
+	public StringProperty validatorProperty() {
+		return validator;
 	}
 	
 	/**
@@ -185,23 +191,65 @@ public class TicketValidation extends GenericTableElement {
 		return closure_date;
 	}
 	
+	
+	/**
+	 * @return the project_id
+	 */
+	public int getT_Project_id() {
+		return project_id.get();
+	}
+
+	/**
+	 * @param project_id the project_id to set
+	 */
+	public void setProject_id(int project_id) {
+		this.project_id.set(project_id);
+	}
+	
+	/**
+	 * @return the t_project_id
+	 */
+	public IntegerProperty projectIdProperty() {
+		return project_id;
+	}
+	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		if (validation_date == null && closure_date == null) {
-			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version_id.get()
-					+ ",NULL , " + validator_user_id.get() + ",NULL";
-		} else if (validation_date == null) {
-			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version_id.get()
-				+ ",NULL , " + validator_user_id.get() + ", \'" + closure_date.get() + "\'";
-		} else if (closure_date == null) {
-			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version_id.get()
-					+ ", \'" + validation_date.get() + "\', " + validator_user_id.get() + ",NULL";
+		if (validation_date.get() == null && closure_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version.get()
+					+ ",NULL , " + validator.get() + ",NULL";
+		} else if (validation_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version.get()
+				+ ",NULL , " + validator.get() + ", \'" + closure_date.get() + "\'";
+		} else if (closure_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version.get()
+					+ ", \'" + validation_date.get() + "\', " + validator.get() + ",NULL";
 		}  else {
-			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version_id.get()
-					+ ", \'" + validation_date.get() + "\', " + validator_user_id.get() + ", \'" + closure_date.get() + "\'";
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', " + validated_version.get()
+					+ ", \'" + validation_date.get() + "\', " + validator.get() + ", \'" + closure_date.get() + "\'";
+		}
+	}	
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		if (validation_date.get() == null && closure_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), NULL, (select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), NULL, " + project_id.get();
+		} else if (validation_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), NULL, (select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), \'" + closure_date.get() + "\', " + project_id.get();
+		} else if (closure_date.get() == null) {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), \'" + validation_date.get() + "\', (select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), NULL, " + project_id.get();
+		}  else {
+			return tv_ticket_id.get() + ", \'" + validator_comments.get() + "\', (select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), \'" + validation_date.get() + "\', (select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), \'" + closure_date.get() + "\', " + project_id.get();
 		}
 	}
 	
@@ -209,22 +257,22 @@ public class TicketValidation extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		if (validation_date == null && closure_date == null) {
+		if (validation_date.get() == null && closure_date.get() == null) {
 			return "`tv_ticket_id`=" + tv_ticket_id.get()	+ ", `validator_comments`=\'" + validator_comments.get()
-					+ "\', `validated_ver_id`=" + validated_version_id.get() + ", `validation_date`= NULL "
-					+ ", `validator_user_id`=" + validator_user_id.get() + ", `closure_date`= NULL";
-		} else if (validation_date == null) {
+					+ "\', `validated_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `validation_date`= NULL "
+					+ ", `validator_user_id`=(select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), `closure_date`= NULL, `project_id`=" + project_id.get();
+		} else if (validation_date.get() == null) {
 			return "`tv_ticket_id`=" + tv_ticket_id.get()	+ ", `validator_comments`=\'" + validator_comments.get()
-					+ "\', `validated_ver_id`=" + validated_version_id.get() + ", `validation_date`= NULL" 
-					+ ", `validator_user_id`=" + validator_user_id.get() + ", `closure_date`=\'" + closure_date.get() + "\'";
-		} else if (closure_date == null) {
+					+ "\', `validated_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `validation_date`= NULL" 
+					+ ", `validator_user_id`=(select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), `closure_date`=\'" + closure_date.get() + "\', `project_id`=" + project_id.get();
+		} else if (closure_date.get()== null) {
 			return "`tv_ticket_id`=" + tv_ticket_id.get()	+ ", `validator_comments`=\'" + validator_comments.get()
-					+ "\', `validated_ver_id`=" + validated_version_id.get() + ", `validation_date`=\'" + validation_date.get()
-					+ "\', `validator_user_id`=" + validator_user_id.get() + ", `closure_date`= NULL";
+					+ "\', `validated_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `validation_date`=\'" + validation_date.get()
+					+ "\', `validator_user_id`=(select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), `closure_date`= NULL, `project_id`=" + project_id.get();
 		} else {
 			return "`tv_ticket_id`=" + tv_ticket_id.get()	+ ", `validator_comments`=\'" + validator_comments.get()
-					+ "\', `validated_ver_id`=" + validated_version_id.get() + ", `validation_date`=\'" + validation_date.get()
-					+ "\', `validator_user_id`=" + validator_user_id.get() + ", `closure_date`=\'" + closure_date.get() + "\'";
+					+ "\', `validated_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + validated_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `validation_date`=\'" + validation_date.get()
+					+ "\', `validator_user_id`=(select `id` from `users` where `users`.`username` = \'" + validator.get() + "\'), `closure_date`=\'" + closure_date.get() + "\', `project_id`=" + project_id.get();
 		}
 	}
 		
@@ -234,10 +282,10 @@ public class TicketValidation extends GenericTableElement {
 	public String debug() {
 		return "TicketValidation [id=" + id + "tv_ticket_id=" + tv_ticket_id.get()
 				+ ", validator_comments=" + validator_comments.get()
-				+ ", validated_version_id=" + validated_version_id.get()
+				+ ", validated_version=" + validated_version.get()
 				+ ", validation_date=" + validation_date.get()
-				+ ", validator_user_id=" + validator_user_id.get()
-				+ ", closure_date=" + closure_date.get() + "]";
+				+ ", validator=" + validator.get()
+				+ ", closure_date=" + closure_date.get() + ", project_id=" + project_id.get() + "]";
 	}
 	
 }

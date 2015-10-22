@@ -9,6 +9,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * @author dumber
@@ -16,32 +18,36 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 public class TicketSubmission extends GenericTableElement {
 	private IntegerProperty ts_ticket_id;
-	private IntegerProperty submission_version_id;
-	private IntegerProperty scheduled_version_id;
-	private IntegerProperty submitter_user_id;
+	private StringProperty submission_version;
+	private StringProperty scheduled_version;
+	private StringProperty submitter;
 	private ObjectProperty<Timestamp> submission_date;
-	private IntegerProperty detection_phase_id;
+	private StringProperty detection_phase;
+
+	private IntegerProperty project_id;
 	
 	/**
 	 * @param ticket_submission_id
 	 * @param ts_ticket_id
-	 * @param submission_version_id
-	 * @param scheduled_version_id
-	 * @param submitter_user_id
+	 * @param submission_version
+	 * @param scheduled_version
+	 * @param submitter
 	 * @param submission_date
-	 * @param detection_phase_id
+	 * @param detection_phase
 	 */
 	public TicketSubmission(int ticket_submission_id, int ts_ticket_id,
-			int submission_version_id, int scheduled_version_id,
-			int submitter_user_id, Timestamp submission_date,
-			int detection_phase_id) {
+			String submission_ver, String scheduled_ver,
+			String submitter, Timestamp submission_date,
+			String detection_phase, int project_id) {
 		super(ticket_submission_id);
 		this.ts_ticket_id = new SimpleIntegerProperty(ts_ticket_id);
-		this.submission_version_id = new SimpleIntegerProperty(submission_version_id);
-		this.scheduled_version_id = new SimpleIntegerProperty(scheduled_version_id);
-		this.submitter_user_id = new SimpleIntegerProperty(submitter_user_id);
+		this.submission_version = new SimpleStringProperty(submission_ver);
+		this.scheduled_version = new SimpleStringProperty(scheduled_ver);
+		this.submitter = new SimpleStringProperty(submitter);
 		this.submission_date = new SimpleObjectProperty<Timestamp>(submission_date);
-		this.detection_phase_id = new SimpleIntegerProperty(detection_phase_id);
+		this.detection_phase = new SimpleStringProperty(detection_phase);
+		
+		this.project_id = new SimpleIntegerProperty(project_id);
 	}
 
 	/**
@@ -50,11 +56,13 @@ public class TicketSubmission extends GenericTableElement {
 	public TicketSubmission(TicketSubmission ts) {
 		super(ts.getId());
 		this.ts_ticket_id = ts.ts_ticket_id;
-		this.submission_version_id = ts.submission_version_id;
-		this.scheduled_version_id = ts.scheduled_version_id;
-		this.submitter_user_id = ts.submitter_user_id;
+		this.submission_version = ts.submission_version;
+		this.scheduled_version = ts.scheduled_version;
+		this.submitter = ts.submitter;
 		this.submission_date = ts.submission_date;
-		this.detection_phase_id = ts.detection_phase_id;
+		this.detection_phase = ts.detection_phase;
+		
+		this.project_id = ts.project_id;
 	}
 
 	/**
@@ -79,66 +87,66 @@ public class TicketSubmission extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the submission_version_id
+	 * @return the submission_version
 	 */
-	public int getSubmissionVersion_id() {
-		return submission_version_id.get();
+	public String getSubmissionVersion() {
+		return submission_version.get();
 	}
 
 	/**
-	 * @param submission_version_id the submission_version_id to set
+	 * @param submission_version the submission_version to set
 	 */
-	public void setSubmissionVersion_id(int submission_version_id) {
-		this.submission_version_id.set(submission_version_id);
-	}
-	
-	/**
-	 * @return the submission_version_id
-	 */
-	public IntegerProperty submissionVersionIdProperty() {
-		return submission_version_id;
-	}
-	
-	/**
-	 * @return the scheduled_version_id
-	 */
-	public int getScheduledVersion_id() {
-		return scheduled_version_id.get();
-	}
-	
-	/**
-	 * @param scheduled_version_id the scheduled_version_id to set
-	 */
-	public void setScheduledVersion_id(int scheduled_version_id) {
-		this.scheduled_version_id.set(scheduled_version_id);
-	}
-	
-	/**
-	 * @return the scheduled_version_id
-	 */
-	public IntegerProperty scheduledVersionIdProperty() {
-		return scheduled_version_id;
-	}
-	
-	/**
-	 * @return the submitter_user_id
-	 */
-	public int getSubmitterUser_id() {
-		return submitter_user_id.get();
+	public void setSubmissionVersion(String submission_version) {
+		this.submission_version.set(submission_version);
 	}
 
 	/**
-	 * @param submitter_user_id the submitter_user_id to set
+	 * @return the submission_version
 	 */
-	public void setSubmitterUser_id(int submitter_user_id) {
-		this.submitter_user_id.set(submitter_user_id);
+	public StringProperty submissionVersionProperty() {
+		return submission_version;
 	}
 	
 	/**
-	 * @return the submitter_user_id
+	 * @return the scheduled_version
 	 */
-	public IntegerProperty submitterUserIdProperty() {
-		return submitter_user_id;
+	public String getScheduledVersion() {
+		return scheduled_version.get();
+	}
+
+	/**
+	 * @param scheduled_version the scheduled_version to set
+	 */
+	public void setScheduledVersion(String scheduled_version) {
+		this.scheduled_version.set(scheduled_version);
+	}
+
+	/**
+	 * @return the scheduled_version
+	 */
+	public StringProperty scheduledVersionProperty() {
+		return scheduled_version;
+	}
+	
+	/**
+	 * @return the submitter
+	 */
+	public String getSubmitter() {
+		return submitter.get();
+	}
+
+	/**
+	 * @param submitter the submitter to set
+	 */
+	public void setSubmitter(String submitter) {
+		this.submitter.set(submitter);
+	}
+
+	/**
+	 * @return the submitter
+	 */
+	public StringProperty submitterProperty() {
+		return submitter;
 	}
 	
 	/**
@@ -163,24 +171,45 @@ public class TicketSubmission extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the detection_phase_id
+	 * @return the detection_phase
 	 */
-	public int getDetectionPhase_id() {
-		return detection_phase_id.get();
+	public String getDetectionPhase() {
+		return detection_phase.get();
 	}
 
 	/**
-	 * @param detection_phase_id the detection_phase_id to set
+	 * @param detection_phase the detection_phase to set
 	 */
-	public void setDetectionPhase_id(int detection_phase_id) {
-		this.detection_phase_id.set(detection_phase_id);
+	public void setDetectionPhase(String detection_phase) {
+		this.detection_phase.set(detection_phase);
+	}
+
+	/**
+	 * @return the detection_phase
+	 */
+	public StringProperty detectionPhaseProperty() {
+		return detection_phase;
 	}
 	
 	/**
-	 * @return the detection_phase_id
+	 * @return the project_id
 	 */
-	public IntegerProperty detectionPhaseIdProperty() {
-		return detection_phase_id;
+	public int getT_Project_id() {
+		return project_id.get();
+	}
+
+	/**
+	 * @param project_id the project_id to set
+	 */
+	public void setProject_id(int project_id) {
+		this.project_id.set(project_id);
+	}
+	
+	/**
+	 * @return the t_project_id
+	 */
+	public IntegerProperty projectIdProperty() {
+		return project_id;
 	}
 	
 	/* (non-Javadoc)
@@ -188,12 +217,23 @@ public class TicketSubmission extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		if (submission_date != null) {
-			return ts_ticket_id.get()	+ ", " + submission_version_id.get() + ", " + scheduled_version_id.get()
-				+ ", " + submitter_user_id.get() + ", \'" + submission_date.get() + "\', " + detection_phase_id.get();
+		if (submission_date.get() != null) {
+			return ts_ticket_id.get()	+ ", \'" + submission_version.get() + "\', \'" + scheduled_version.get()
+				+ "\', \'" + submitter.get() + "\', \'" + submission_date.get() + "\', \'" + detection_phase.get() + "\', " + project_id.get();
 		} else {
-			return ts_ticket_id.get()	+ ", " + submission_version_id.get() + ", " + scheduled_version_id.get()
-					+ ", " + submitter_user_id.get() + ",NULL , " + detection_phase_id.get();
+			return ts_ticket_id.get()	+ ", \'" + submission_version.get() + "\', \'" + scheduled_version.get()
+					+ "\', \'" + submitter.get() + "\' ,NULL , \'" + detection_phase.get() + "\', " + project_id.get();
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		if (submission_date.get() != null) {
+			return ts_ticket_id.get()	+ ", (select `id` from `project_versions` where `project_versions`.`version` = \'" + submission_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), (select `id` from `project_versions` where `project_versions`.`version` = \'" + scheduled_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), (select `id` from `users` where `users`.`username` = \'" + submitter.get() + "\'), \'" + submission_date.get() + "\', (select `id` from `detection_phases` where `detection_phases`.`phase_name` = \'" + detection_phase.get() + "\'), " + project_id.get();
+		} else {
+			return ts_ticket_id.get()	+ ", (select `id` from `project_versions` where `project_versions`.`version` = \'" + submission_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), (select `id` from `project_versions` where `project_versions`.`version` = \'" + scheduled_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), (select `id` from `users` where `users`.`username` = \'" + submitter.get() + "\'), NULL, (select `id` from `detection_phases` where `detection_phases`.`phase_name` = \'" + detection_phase.get() + "\'), " + project_id.get();
 		}
 	}
 	
@@ -201,16 +241,16 @@ public class TicketSubmission extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		if (submission_date != null) {
-			return "`ts_ticket_id`=" + ts_ticket_id.get()	+ ", `submission_ver_id`=" + submission_version_id.get()
-				+ ", `scheduled_ver_id`=" + scheduled_version_id.get() + ", `submitter_user_id`=" 
-				+ submitter_user_id.get()	+ ", `submission_date`=\'" + submission_date.get() + "\', `detection_phase_id`="
-				+ detection_phase_id.get();
+		if (submission_date.get() != null) {
+			return "`ts_ticket_id`=" + ts_ticket_id.get()	+ ", `submission_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + submission_version.get()
+				+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), `scheduled_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + scheduled_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `submitter_user_id`=(select `id` from `users` where `users`.`username` = \'" 
+				+ submitter.get()	+ "\'), `submission_date`=\'" + submission_date.get() + "\', `detection_phase_id`=(select `id` from `detection_phases` where `detection_phases`.`phase_name` = \'"
+				+ detection_phase.get() + "\'), `project_id`=" + project_id.get();
 		} else {
-			return "`ts_ticket_id`=" + ts_ticket_id.get()	+ ", `submission_ver_id`=" + submission_version_id.get()
-					+ ", `scheduled_ver_id`=" + scheduled_version_id.get() + ", `submitter_user_id`=" 
-					+ submitter_user_id.get()	+ ", `submission_date`= NULL , `detection_phase_id`="
-					+ detection_phase_id.get();
+			return "`ts_ticket_id`=" + ts_ticket_id.get()	+ ", `submission_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + submission_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() + "), `scheduled_ver_id`=(select `id` from `project_versions` where `project_versions`.`version` = \'" + scheduled_version.get() + "\' and `project_versions`.`project_id` = " + project_id.get() + "), `submitter_user_id`=(select `id` from `users` where `users`.`username` = \'" 
+					+ submitter.get()	+ "\'), `submission_date`= NULL , `detection_phase_id`=(select `id` from `detection_phases` where `detection_phases`.`phase_name` = \'"
+					+ detection_phase.get() + "\'), `project_id`=" + project_id.get();
 		}
 	}	
 	
@@ -219,11 +259,11 @@ public class TicketSubmission extends GenericTableElement {
 	 */
 	public String debug() {
 		return "TicketSubmission [id=" + id.get()	+ ", ts_ticket_id=" + ts_ticket_id.get()
-				+ ", submission_version_id=" + submission_version_id.get()
-				+ ", scheduled_version_id=" + scheduled_version_id.get()
-				+ ", submitter_user_id=" + submitter_user_id.get()
+				+ ", submission_version=" + submission_version.get()
+				+ ", scheduled_version=" + scheduled_version.get()
+				+ ", submitter=" + submitter.get()
 				+ ", submission_date=" + submission_date.get()
-				+ ", detection_phase_id=" + detection_phase_id.get() + "]";
+				+ ", detection_phase=" + detection_phase.get() + ", " + project_id.get() +"]";
 	}	
 	
 }

@@ -3,26 +3,26 @@
  */
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * @author dumber
  *
  */
 public class ProjectUser extends GenericTableElement {
-	private IntegerProperty pu_project_id;
-	private IntegerProperty pu_user_id;
+	private StringProperty project_name;
+	private StringProperty username;
 	
 	/**
 	 * @param pu_id
-	 * @param pu_project_id
-	 * @param pu_user_id
+	 * @param project_name
+	 * @param username
 	 */
-	public ProjectUser(int pu_id, int pu_project_id, int pu_user_id) {
+	public ProjectUser(int pu_id, String project, String user) {
 		super(pu_id);
-		this.pu_project_id = new SimpleIntegerProperty(pu_project_id);
-		this.pu_user_id = new SimpleIntegerProperty(pu_user_id);
+		this.project_name = new SimpleStringProperty(project);
+		this.username = new SimpleStringProperty(user);
 	}
 
 	/**
@@ -30,50 +30,50 @@ public class ProjectUser extends GenericTableElement {
 	 */
 	public ProjectUser(ProjectUser pu) {
 		super(pu.getId());
-		this.pu_project_id = pu.pu_project_id;
-		this.pu_user_id = pu.pu_user_id;
+		this.project_name = pu.project_name;
+		this.username = pu.username;
 	}
 
 	/**
-	 * @return the pu_project_id
+	 * @return the project_name
 	 */
-	public int getPuProject_id() {
-		return pu_project_id.get();
+	public String getProject() {
+		return project_name.get();
 	}
 
 	/**
-	 * @param pu_project_id the pu_project_id to set
+	 * @param project_name the project_name to set
 	 */
-	public void setPuProject_id(int pu_project_id) {
-		this.pu_project_id.set(pu_project_id);
+	public void setProject(String project) {
+		this.project_name.set(project);
 	}
 
 	/**
-	 * @return the pu_project_id
+	 * @return the project_name
 	 */
-	public IntegerProperty puProjectIdProperty() {
-		return pu_project_id;
+	public StringProperty projectProperty() {
+		return project_name;
 	}
 	
 	/**
-	 * @return the pu_user_id
+	 * @return the username
 	 */
-	public int getPuUser_id() {
-		return pu_user_id.get();
+	public String getUsername() {
+		return username.get();
 	}
 
 	/**
-	 * @param pu_user_id the pu_user_id to set
+	 * @param username the username to set
 	 */
-	public void setPuUser_id(int pu_user_id) {
-		this.pu_user_id.set(pu_user_id);
+	public void setUsername(String user) {
+		this.username.set(user);
 	}
 
 	/**
-	 * @return the pu_user_id
+	 * @return the username
 	 */
-	public IntegerProperty puUserIdProperty() {
-		return pu_user_id;
+	public StringProperty usernameProperty() {
+		return username;
 	}
 	
 	/* (non-Javadoc)
@@ -81,14 +81,21 @@ public class ProjectUser extends GenericTableElement {
 	 */
 	@Override
 	public String toString() {
-		return pu_project_id.get() + ", " + pu_user_id.get();
+		return project_name.get() + ", " + username.get();
+	}
+	
+	/**
+	 * @return
+	 */
+	public String toInsertString() {
+		return "(select `id` from `projects` where `projects`.`project_name`=\'" + project_name.get() + "\'), (select `id` from `users` where `users`.`username` = \'" + username.get() + "\')";
 	}
 
 	/**
 	 * @return 
 	 */
 	public String toUpdateString() {	
-		return "`project_id`=" + pu_project_id.get() + ", `user_id`=" + pu_user_id.get();
+		return "`project_id`=(select `id` from `projects` where `projects`.`project_name`=\'" + project_name.get() + "\'), `user_id`=(select `id` from `users` where `users`.`username` = \'" + username.get() + "\')";
 
 	}
 	
@@ -96,8 +103,8 @@ public class ProjectUser extends GenericTableElement {
 	 * @return 
 	 */
 	public String debug() {	
-		return "ProjectUser [id=" + id.get() + ", pu_project_id=" + pu_project_id.get() + ", pu_user_id="
-				+ pu_user_id.get() + "]";
+		return "ProjectUser [id=" + id.get() + ", project_name=" + project_name.get() + ", username="
+				+ username.get() + "]";
 
 	}
 	

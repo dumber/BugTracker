@@ -19,27 +19,31 @@ import javafx.beans.property.StringProperty;
 public class TicketAnalysis extends GenericTableElement {
 	private IntegerProperty ta_ticket_id;
 	private StringProperty proposed_change;
-	private IntegerProperty impacted_version_id;
+	private StringProperty impacted_version;
 	private ObjectProperty<Timestamp> analysis_date; // yyyy-mm-dd hh:mm:ss.fffffffff
-	private IntegerProperty analyser_user_id;
+	private StringProperty analyst_user;
+	
+	private IntegerProperty project_id;
 	
 	/**
 	 * @param ticket_analysis_id
 	 * @param ta_ticket_id
 	 * @param proposed_change
-	 * @param impacted_version_id
+	 * @param impacted_version
 	 * @param analysis_date
-	 * @param analyser_user_id
+	 * @param analyst_user
 	 */
 	public TicketAnalysis(int ticket_analysis_id, int ta_ticket_id,
-			String proposed_change, int impacted_version_id,
-			Timestamp analysis_date, int analyser_user_id) {
+			String proposed_change, String impacted_version,
+			Timestamp analysis_date, String analyser_user, int project_id) {
 		super(ticket_analysis_id);
 		this.ta_ticket_id = new SimpleIntegerProperty(ta_ticket_id);
 		this.proposed_change = new SimpleStringProperty(proposed_change);
-		this.impacted_version_id = new SimpleIntegerProperty(impacted_version_id);
+		this.impacted_version = new SimpleStringProperty(impacted_version);
 		this.analysis_date = new SimpleObjectProperty<Timestamp>(analysis_date);
-		this.analyser_user_id = new SimpleIntegerProperty(analyser_user_id);
+		this.analyst_user = new SimpleStringProperty(analyser_user);
+		
+		this.project_id = new SimpleIntegerProperty(project_id);
 	}
 
 	/**
@@ -49,9 +53,11 @@ public class TicketAnalysis extends GenericTableElement {
 		super(ta.getId());
 		this.ta_ticket_id = ta.ta_ticket_id;
 		this.proposed_change = ta.proposed_change;
-		this.impacted_version_id = ta.impacted_version_id;
+		this.impacted_version = ta.impacted_version;
 		this.analysis_date = ta.analysis_date;
-		this.analyser_user_id = ta.analyser_user_id;
+		this.analyst_user = ta.analyst_user;
+		
+		this.project_id = ta.project_id;
 	}	
 	
 	/**
@@ -98,24 +104,24 @@ public class TicketAnalysis extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the impacted_version_id
+	 * @return the impacted_version
 	 */
-	public int getImpactedVersion_id() {
-		return impacted_version_id.get();
+	public String getImpactedVersion() {
+		return impacted_version.get();
 	}
 
 	/**
-	 * @param impacted_version_id the impacted_version_id to set
+	 * @param impacted_version the impacted_version to set
 	 */
-	public void setImpactedVersion_id(int impacted_version_id) {
-		this.impacted_version_id.set(impacted_version_id);
+	public void setImpactedVersion(String impacted_version) {
+		this.impacted_version.set(impacted_version);
 	}
-	
+
 	/**
-	 * @return the imapcted_version_id
+	 * @return the impacted_version
 	 */
-	public IntegerProperty impactedVersionIdProperty() {
-		return impacted_version_id;
+	public StringProperty impactedVersionProperty() {
+		return impacted_version;
 	}
 	
 	/**
@@ -140,37 +146,82 @@ public class TicketAnalysis extends GenericTableElement {
 	}
 	
 	/**
-	 * @return the analyser_user_id
+	 * @return the analyst
 	 */
-	public int getAnalyserUser_id() {
-		return analyser_user_id.get();
+	public String getAnalyst() {
+		return analyst_user.get();
 	}
 
 	/**
-	 * @param analyser_user_id the analyser_user_id to set
+	 * @param analyst the analyst to set
 	 */
-	public void setAnalyserUser_id(int analyser_user_id) {
-		this.analyser_user_id.set(analyser_user_id);
+	public void setAnalyst(String analyst) {
+		this.analyst_user.set(analyst);
+	}
+
+	/**
+	 * @return the analyst
+	 */
+	public StringProperty analystProperty() {
+		return analyst_user;
 	}
 	
 	/**
-	 * @return the analyser_user_id
+	 * @return the project_id
 	 */
-	public IntegerProperty analyserUserIdProperty() {
-		return analyser_user_id;
+	public int getT_Project_id() {
+		return project_id.get();
 	}
+
+	/**
+	 * @param project_id the project_id to set
+	 */
+	public void setProject_id(int project_id) {
+		this.project_id.set(project_id);
+	}
+	
+	/**
+	 * @return the t_project_id
+	 */
+	public IntegerProperty projectIdProperty() {
+		return project_id;
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		if (analysis_date != null) {
-			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', " + impacted_version_id.get()
-				+ ", \'" + analysis_date.get() + "\', " + analyser_user_id.get();
+		if (analysis_date.get() != null) {
+			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', " + impacted_version.get()
+				+ ", \'" + analysis_date.get() + "\', \'" + analyst_user.get() + "\', " + project_id.get() + "\'";
 		} else {
-			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', " + impacted_version_id.get()
-					+ ", NULL , " + analyser_user_id.get();
+			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', " + impacted_version.get()
+					+ ", NULL ,\' " + analyst_user.get() + "\', " + project_id.get();
+		}
+	}
+	
+	/**
+	 * @return 
+	 */
+	public String toInsertString() {
+		if (analysis_date.get() != null) {
+			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', "
+					+ "(select `id` from `project_versions` where "
+					+ "`project_versions`.`version` = \'" + impacted_version.get()
+					+ "\' and `project_versions`.`project_id` = " + project_id.get()
+					+ "), \'" + analysis_date.get() + "\', (select `id` from "
+					+ "`users` where `users`.`username` = \'" + analyst_user.get()
+					+ "\'), " + project_id.get();
+		} else {
+			return  ta_ticket_id.get() + ", \'" + proposed_change.get()	+ "\', "
+					+ "(select `id` from `project_versions` where "
+					+ "`project_versions`.`version` = \'"  + impacted_version.get() 
+					+ "\' and `project_versions`.`project_id` = " + project_id.get()
+					+ "), NULL , ( select `id` from `users` where "
+					+ "`users`.`username` = \'" + analyst_user.get() 
+					+ "\'), " + project_id.get();
 		}
 	}
 	
@@ -178,14 +229,23 @@ public class TicketAnalysis extends GenericTableElement {
 	 * @return 
 	 */
 	public String toUpdateString() {
-		if (analysis_date != null) {
+		if (analysis_date.get() != null) {
 			return "`ta_ticket_id`=" + ta_ticket_id.get()	+ ", `proposed_change`=\'" + proposed_change.get()
-					+ "\', `impacted_ver_id`=" + impacted_version_id.get() + ", `analysis_date`=\'" 
-					+ analysis_date.get() + "\', `analyser_user_id`="	+ analyser_user_id.get();
+					+ "\', `impacted_ver_id`=(select `id` from `project_versions` where "
+					+ "`project_versions`.`version` = \'" + impacted_version.get() 
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() 
+					+ "), `analysis_date`=\'" + analysis_date.get() 
+					+ "\', `analyser_user_id`= ( select `id` from `users` where "
+					+ "`users`.`username` = \'" + analyst_user.get() 
+					+ "\'), `project_id`=" + project_id.get();
 		} else {
 			return "`ta_ticket_id`=" + ta_ticket_id.get()	+ ", `proposed_change`=\'" + proposed_change.get()
-					+ "\', `impacted_ver_id`=" + impacted_version_id.get() + ", `analysis_date`= NULL" 
-					+ ", `analyser_user_id`="	+ analyser_user_id.get();
+					+ "\', `impacted_ver_id`=(select `id` from `project_versions` where "
+					+ "`project_versions`.`version` = \'" + impacted_version.get() 
+					+ "\' and `project_versions`.`project_id` = " + project_id.get() 
+					+ "), `analysis_date`= NULL, `analyser_user_id`= ( select `id` from `users`"
+					+ " where `users`.`username` = \'" + analyst_user.get() 
+					+ "\'), `project_id`=" + project_id.get();
 		}
 	}
 	
@@ -195,9 +255,9 @@ public class TicketAnalysis extends GenericTableElement {
 	public String debug() {
 		return "TicketAnalysis [id=" + id + ", ta_ticket_id=" + ta_ticket_id.get()
 				+ ", proposed_change=" + proposed_change.get()
-				+ ", impacted_version_id=" + impacted_version_id.get()
-				+ ", analysis_date=" + analysis_date.get() + ", analyser_user_id="
-				+ analyser_user_id.get() + "]";
-	}
+				+ ", impacted_version=" + impacted_version.get()
+				+ ", analysis_date=" + analysis_date.get() + ", analyst="
+				+ analyst_user.get() + ", project_id=" + project_id.get() + "]";
+	} 
 	
 }
